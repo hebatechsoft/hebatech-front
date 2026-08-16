@@ -1,0 +1,1329 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HEBA. Lo que hoy haces a mano, automatizado.</title>
+<meta name="description" content="Estudio de software en Medellín. Sistemas a medida, IA aplicada y productos propios para empresas que crecieron más rápido que sus procesos." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=EB+Garamond:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+
+<style>
+/* =====================================================================
+   HEBA. SISTEMA VISUAL
+   ---------------------------------------------------------------------
+   Tipografia: registro MANUAL en serif italica, AUTOMATICO en sans.
+   La serif aparece SOLO donde hay trabajo manual.
+
+   Materiales: vibrancy tipo macOS. APROXIMACION web con backdrop-filter,
+   canto de luz interior y sombra profunda. No es Liquid Glass de Apple.
+
+   Radios (regla unica de tres niveles):
+     superficies 18px  ·  elementos internos 10px  ·  interactivos pill
+
+   Longitud: 8 secciones. Ninguna supera una pantalla salvo el hero.
+   ===================================================================== */
+:root[data-theme="dark"] {
+  --ink:      #08090A;
+  --ink-2:    #0D0F10;
+  --ink-3:    #141618;
+  --line:     #1E2123;
+  --line-2:   #2E3235;
+
+  --bone:     #F0EDE8;
+  --bone-2:   #9A9992;
+  --bone-3:   #6A6A64;
+
+  --sage:     #8FB09A;
+  --sage-lit: #C4DCCB;
+  --sage-fg:  #08090A;
+
+  --vib-bg:   rgba(22, 25, 26, .58);
+  --vib-line: rgba(240,237,232,.09);
+  --vib-top:  rgba(240,237,232,.10);
+  --sh-1: 0 2px 6px rgba(0,0,0,.4);
+  --sh-2: 0 18px 44px -20px rgba(0,0,0,.8);
+  --sh-3: 0 40px 90px -34px rgba(0,0,0,.9);
+
+  --amb-1: rgba(143,176,154,.12);
+  --amb-2: rgba(143,176,154,.06);
+  --grain-op: .05;
+  --grain-blend: overlay;
+}
+:root[data-theme="light"] {
+  --ink:      #FCFBF8;
+  --ink-2:    #F5F3EE;
+  --ink-3:    #EDEAE3;
+  --line:     #E4E0D7;
+  --line-2:   #CFCABE;
+
+  --bone:     #14171A;
+  --bone-2:   #56564E;
+  --bone-3:   #85837B;
+
+  --sage:     #3E6B4F;
+  --sage-lit: #2C5139;
+  --sage-fg:  #FCFBF8;
+
+  --vib-bg:   rgba(252,251,248,.68);
+  --vib-line: rgba(20,23,26,.09);
+  --vib-top:  rgba(255,255,255,.9);
+  --sh-1: 0 2px 6px rgba(20,23,26,.06);
+  --sh-2: 0 18px 40px -22px rgba(20,23,26,.22);
+  --sh-3: 0 40px 80px -36px rgba(20,23,26,.3);
+
+  --amb-1: rgba(62,107,79,.08);
+  --amb-2: rgba(62,107,79,.045);
+  --grain-op: .03;
+  --grain-blend: multiply;
+}
+
+:root {
+  --sans:  "Geist", ui-sans-serif, -apple-system, "Segoe UI", system-ui, sans-serif;
+  --serif: "EB Garamond", Georgia, "Times New Roman", serif;
+  --mono:  "Geist Mono", ui-monospace, Consolas, monospace;
+
+  --r: 18px;
+  --r-sm: 10px;
+  --pill: 999px;
+  --gut: 34px;
+  --maxw: 1400px;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  --ease-out: cubic-bezier(.22, .8, .28, 1);
+  --spring: cubic-bezier(.34, 1.4, .64, 1);
+
+  /* Cromo de ventana macOS. Excepcion consciente: color de sistema. */
+  --tl-1: #C4645C; --tl-2: #C0A057; --tl-3: #71976A;
+}
+@media (max-width: 760px) { :root { --gut: 20px; } }
+
+* { box-sizing: border-box; }
+html { background: var(--ink); scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html.ss { scroll-behavior: auto; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0; background: transparent; color: var(--bone);
+  font-family: var(--sans); font-size: 16px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(56% 42% at 84% 4%,  var(--amb-1), transparent 70%),
+    radial-gradient(60% 46% at 8% 82%,  var(--amb-2), transparent 72%);
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+h1, h2, h3, h4 { margin: 0; font-weight: 400; }
+p { margin: 0; }
+::selection { background: var(--sage); color: var(--sage-fg); }
+:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; border-radius: 4px; }
+
+/* ---------------- vibrancy ---------------- */
+.vib {
+  background: var(--vib-bg);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--vib-line);
+  box-shadow: inset 0 1px 0 var(--vib-top), var(--sh-2);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .vib { background: var(--ink-3); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+
+/* ---------------- comparador de tema ---------------- */
+.theme { position: fixed; right: var(--gut); bottom: 22px; z-index: 80; display: flex; gap: 4px; padding: 5px; border-radius: var(--pill); }
+.theme__b { display: grid; place-items: center; width: 38px; height: 34px; border-radius: var(--pill); color: var(--bone-3); transition: color .25s ease, background .3s var(--ease-out); }
+.theme__b i { font-size: 17px; }
+.theme__b[aria-pressed="true"] { color: var(--sage); background: var(--ink-3); box-shadow: inset 0 1px 0 var(--vib-top); }
+.theme__b:hover { color: var(--bone); }
+@media (max-width: 620px) { .theme { right: 14px; bottom: 14px; } }
+
+/* ---------------- intro ---------------- */
+.ldr { position: fixed; inset: 0; z-index: 100; background: var(--ink); display: grid; place-items: center; transition: transform 1.05s var(--ease); will-change: transform; }
+.ldr.is-done { transform: translateY(-101%); }
+.ldr__win { border-radius: var(--r); padding: 34px 30px 28px; width: min(400px, 84vw); }
+.ldr__in { display: grid; gap: 24px; justify-items: center; }
+.ldr__mark { display: flex; align-items: center; gap: 12px; }
+.ldr__mark span { font-size: 19px; font-weight: 600; letter-spacing: -.06em; }
+.ldr__bar { width: 100%; height: 2px; border-radius: var(--pill); background: var(--line-2); overflow: hidden; }
+.ldr__bar b { display: block; height: 100%; width: 0; border-radius: var(--pill); background: var(--sage); }
+.ldr__row { display: flex; justify-content: space-between; width: 100%; font-family: var(--mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--bone-3); }
+.ldr__pct { color: var(--sage); font-variant-numeric: tabular-nums; }
+
+.grain { position: fixed; inset: -60px; z-index: 90; pointer-events: none; opacity: var(--grain-op); mix-blend-mode: var(--grain-blend);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E"); }
+@media (prefers-reduced-motion: no-preference) {
+  .grain { animation: grainShift 700ms steps(3) infinite; }
+  @keyframes grainShift { 0%{transform:translate(0,0)} 33%{transform:translate(-14px,8px)} 66%{transform:translate(9px,-11px)} 100%{transform:translate(0,0)} }
+}
+
+/* ---------------- tipografia ---------------- */
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gut); }
+.sec  { position: relative; padding: 128px 0; }
+@media (max-width: 900px) { .sec { padding: 80px 0; } }
+
+.eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--sage); }
+.eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+.dsp { font-family: var(--sans); font-weight: 500; letter-spacing: -.05em; line-height: 1.0; font-size: clamp(38px, 5.6vw, 82px); }
+.dsp--md { font-size: clamp(30px, 3.9vw, 54px); letter-spacing: -.042em; line-height: 1.05; }
+.hand { font-family: var(--serif); font-style: italic; font-weight: 500; letter-spacing: -.008em; text-transform: none; font-size: 1.1em; }
+.sage { color: var(--sage); }
+
+.lead  { font-size: clamp(16.5px, 1.4vw, 19px); line-height: 1.55; color: var(--bone-2); max-width: 52ch; }
+.body  { font-size: 15.5px; line-height: 1.68; color: var(--bone-2); max-width: 58ch; }
+.micro { font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--bone-3); }
+
+.ln { display: block; overflow: hidden; padding-bottom: .22em; margin-bottom: -.15em; }
+.ln > span { display: block; transform: translateY(112%); transition: transform 1.1s var(--ease); transition-delay: var(--d, 0ms); }
+.is-ready .hero .ln > span { transform: none; }
+.split.is-in .ln > span { transform: none; }
+.w { display: inline-block; }
+
+.rv { opacity: 0; transform: translateY(24px); transition: opacity .9s var(--ease), transform .9s var(--ease); transition-delay: var(--d, 0ms); }
+.rv.is-in { opacity: 1; transform: none; }
+
+/* ---------------- duotono ---------------- */
+.duo { position: relative; isolation: isolate; overflow: hidden; background: var(--ink); }
+.duo img { width: 100%; height: 100%; object-fit: cover; }
+.duo::after { content: ""; position: absolute; inset: 0; pointer-events: none; }
+/* Duotono aflojado. Antes iba a grayscale total: unificaba fotos de stock
+   dispares, pero dejaba la pagina entera de un solo color. Ahora tinta sin
+   vaciar, y las fotos conservan su propia temperatura. */
+[data-theme="dark"] .duo img { filter: grayscale(.5) saturate(1.1) contrast(1.08) brightness(1.06); }
+[data-theme="dark"] .duo::after { background: var(--sage); mix-blend-mode: soft-light; opacity: .34; }
+[data-theme="light"] .duo img { filter: grayscale(.55) saturate(1.05) contrast(1.02); }
+[data-theme="light"] .duo::after { background: var(--sage); mix-blend-mode: soft-light; opacity: .28; }
+
+/* El hero NO usa .duo. La foto propia va sola, sin isolation, sin ::after y
+   sin mix-blend-mode. Cuantas menos capas toquen la imagen base, menos cosas
+   pueden apagarla. El color de la pagina sale de la fotografia. */
+
+/* ---------------- botones ---------------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; height: 48px; padding: 0 26px; border-radius: var(--pill); font-size: 14.5px; font-weight: 500; letter-spacing: -.01em; white-space: nowrap; transition: transform .3s var(--spring), background .3s ease, border-color .3s ease, box-shadow .3s ease; }
+.btn:active { transform: scale(.97); }
+.btn--solid { background: var(--sage); color: var(--sage-fg); box-shadow: inset 0 1px 0 rgba(255,255,255,.22), var(--sh-1); }
+.btn--solid:hover { background: var(--sage-lit); transform: translateY(-2px); box-shadow: inset 0 1px 0 rgba(255,255,255,.22), var(--sh-2); }
+.btn--line { border: 1px solid var(--line-2); color: var(--bone); }
+.btn--line:hover { border-color: var(--bone-3); background: var(--ink-2); transform: translateY(-2px); }
+.btn--glass { color: var(--bone); background: var(--vib-bg); backdrop-filter: blur(16px) saturate(170%); -webkit-backdrop-filter: blur(16px) saturate(170%); border: 1px solid var(--vib-line); box-shadow: inset 0 1px 0 var(--vib-top); }
+.btn--glass:hover { border-color: var(--bone-3); transform: translateY(-2px); }
+@media (prefers-reduced-transparency: reduce) { .btn--glass { background: var(--ink-3); backdrop-filter: none; -webkit-backdrop-filter: none; } }
+.btn--sm { height: 40px; padding: 0 20px; font-size: 13.5px; }
+.btn--lg { height: 56px; padding: 0 32px; font-size: 15.5px; }
+.btn i { font-size: 17px; }
+
+.tlink { display: inline-flex; align-items: center; gap: 10px; font-size: 15px; color: var(--bone-2); transition: color .22s ease, gap .22s ease; }
+.tlink:hover { color: var(--bone); gap: 15px; }
+.tlink i { color: var(--sage); }
+
+/* ---------------- nav ---------------- */
+.mock { position: relative; z-index: 45; background: var(--ink-3); color: var(--bone-3); border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; text-align: center; padding: 9px 16px; }
+
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: 0 var(--gut); transition: padding .55s var(--ease-out); }
+.nav__in { display: flex; align-items: center; gap: 44px; max-width: var(--maxw); margin: 0 auto; height: 76px; padding: 0 6px 0 4px; border: 1px solid transparent; border-radius: 0; background: transparent;
+  transition: max-width .55s var(--ease-out), height .55s var(--ease-out), padding .55s var(--ease-out), border-radius .55s var(--ease-out), background .45s ease, border-color .45s ease, box-shadow .45s ease; }
+.nav.is-stuck { padding-top: 14px; }
+.nav.is-stuck .nav__in { max-width: 1080px; height: 60px; padding: 0 8px 0 22px; border-radius: var(--pill); background: var(--vib-bg); backdrop-filter: blur(24px) saturate(185%); -webkit-backdrop-filter: blur(24px) saturate(185%); border-color: var(--vib-line); box-shadow: inset 0 1px 0 var(--vib-top), var(--sh-2); }
+@media (prefers-reduced-transparency: reduce) { .nav.is-stuck .nav__in { background: var(--ink-3); backdrop-filter: none; -webkit-backdrop-filter: none; } }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand__word { font-size: 16.5px; font-weight: 600; letter-spacing: -.06em; }
+.brand svg .b1 { fill: var(--bone); }
+.brand svg .b2 { fill: var(--sage); }
+.nav__links { display: flex; gap: 32px; margin-left: auto; }
+.nav__links a { position: relative; font-size: 14px; color: var(--bone-2); transition: color .22s ease; }
+.nav__links a::after { content: ""; position: absolute; left: 0; bottom: -6px; height: 1px; width: 100%; background: var(--sage); transform: scaleX(0); transform-origin: left; transition: transform .35s var(--ease); }
+.nav__links a:hover { color: var(--bone); }
+.nav__links a:hover::after { transform: scaleX(1); }
+.burger { display: none; margin-left: auto; width: 44px; height: 44px; align-items: center; justify-content: center; border: 1px solid var(--line-2); border-radius: var(--pill); }
+.burger i { font-size: 20px; }
+@media (max-width: 1000px) { .nav__links, .nav__cta { display: none; } .burger { display: inline-flex; } }
+
+.menu { position: fixed; inset: 0; z-index: 55; background: var(--vib-bg); backdrop-filter: blur(28px) saturate(160%); -webkit-backdrop-filter: blur(28px) saturate(160%); display: flex; flex-direction: column; justify-content: center; padding: 0 var(--gut); opacity: 0; pointer-events: none; transition: opacity .4s ease; }
+.menu.is-open { opacity: 1; pointer-events: auto; }
+@media (prefers-reduced-transparency: reduce) { .menu { background: var(--ink); backdrop-filter: none; -webkit-backdrop-filter: none; } }
+.menu a { font-size: clamp(32px, 8.4vw, 52px); letter-spacing: -.05em; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.menu a:last-of-type { border-bottom: 0; }
+.menu__close { position: absolute; top: 24px; right: var(--gut); width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--line-2); border-radius: var(--pill); }
+
+/* =====================================================================
+   HERO CON SPLIT OVERLAY
+   ---------------------------------------------------------------------
+   El titular NO cambia de color: a la izquierda las letras son la foto
+   recortada a su forma, a la derecha son texto solido.
+
+   Tres capas, ninguna con modo de mezcla:
+     1. la foto
+     2. un velo opaco recortado al 47% izquierdo
+     3. una copia del titular relleno con la MISMA foto (background-clip:
+        text) y con brillo propio, encima del velo
+
+   Se probaron multiply y overlay y los dos fallaron por lo mismo: el
+   resultado dependia del brillo del pixel de abajo, asi que sobre los
+   monitores encendidos la letra se perdia. Con relleno propio, el brillo
+   de las letras es un parametro y no una consecuencia.
+
+   La copia duplica el layout completo (con eyebrow y foot ocultos) para
+   que caiga en el pixel exacto, sin numeros magicos.
+   ===================================================================== */
+/* El pie sube el bloque de contenido para que el titular caiga sobre la
+   ventana con la ciudad, que es la unica zona con textura real de la foto.
+   Sobre el escritorio el calado quedaba en 13.6/255 y practicamente plano.
+   OJO: .hero y .hero__veil tienen que llevar el MISMO padding o el calado
+   se desalinea del titular solido. */
+.hero { position: relative; min-height: 100svh; display: flex; align-items: flex-end; padding: 136px 0 clamp(96px, 21vh, 250px); overflow: hidden; isolation: isolate; }
+.hero__bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; background: var(--ink); }
+/* Sin zoom de entrada: el relleno de las letras usa la misma foto en la misma
+   escala, y cualquier transform en el fondo los desalinearia. */
+.hero__bg img { width: 100%; height: 100%; object-fit: cover; }
+[data-theme="dark"] .hero__bg img { filter: saturate(1.12) contrast(1.04); }
+[data-theme="light"] .hero__bg img { filter: saturate(1.06) brightness(1.04); }
+
+/* posicion del corte y borde izquierdo real del contenedor */
+/* --split  : donde cae el centro de la transicion (menos = mas a la izquierda)
+   --feather: cuantos px dura el cruce entre el calado y el titular solido
+   --edge   : borde izquierdo real del contenedor, lo calcula solo           */
+.hero { --split: 43vw; --edge: max(var(--gut), calc((100vw - var(--maxw)) / 2 + var(--gut))); --feather: 110px; }
+
+.hero__veil {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  display: flex; align-items: flex-end;
+  padding: 136px 0 clamp(96px, 21vh, 250px);   /* igual que .hero, obligatorio */
+  /* Mascara con degradado en vez de corte duro. El corte recto partia letras
+     por la mitad (la "a" de "haces" quedaba media metalizada y media solida)
+     y eso se leia como error de render. Ahora las dos versiones del titular
+     se funden una en la otra a lo largo de --feather. */
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(var(--split) - var(--feather)), transparent var(--split));
+          mask-image: linear-gradient(90deg, #000 calc(var(--split) - var(--feather)), transparent var(--split));
+  /* SIN modo de mezcla. Un velo opaco y previsible.
+     Los modos de mezcla dependian del brillo del pixel de abajo: sobre los
+     monitores encendidos el velo casi no oscurecia y la letra se perdia.
+     Ahora el velo tapa parejo y las letras se rellenan con la foto aparte. */
+  /* Liviano arriba a proposito: ahi esta la ciudad y se tiene que seguir
+     viendo. Baja hacia el pie, donde el texto chico necesita contraste.
+     Medido: deja las luces de la ciudad en ~59/255 y el fondo en ~29,
+     contra letras en ~98. Separacion 3.4x sin tapar la foto. */
+  background: linear-gradient(180deg, rgba(8,9,10,.30) 0%, rgba(8,9,10,.44) 52%, rgba(8,9,10,.62) 100%);
+}
+[data-theme="light"] .hero__veil {
+  background: linear-gradient(180deg, rgba(252,251,248,.38) 0%, rgba(252,251,248,.54) 52%, rgba(252,251,248,.70) 100%);
+}
+.hero__veil .wrap { width: 100%; }
+.hero__veil .hero__eyebrow, .hero__veil .hero__foot { visibility: hidden; }
+
+/* EL CALADO. Cada linea se rellena con la misma foto, recortada a la forma
+   de la letra. El JS alinea el relleno con el fondo al pixel, replicando el
+   object-fit cover. Como el relleno es un elemento propio, se le puede subir
+   el brillo SOLO a las letras: eso es lo que no permitia ningun blend. */
+/* SIN filter. Los filtros CSS actuan sobre pixeles semitransparentes, y el
+   borde de cada glifo es justo eso por el antialiasing: brightness los
+   empujaba al blanco y dejaba un fleco duro alrededor de cada letra.
+   El brillo ahora sale de una capa de fondo encima de la foto, que se mezcla
+   de forma lineal y no toca el canal alfa. Tres capas, de arriba a abajo:
+     1. tinte frio que levanta y da el aspecto metalico
+     2. la foto (la unica que el JS posiciona)
+     3. relleno solido de respaldo si la foto no carga */
+.hero__veil .ln > span {
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+}
+[data-theme="dark"] .hero__veil .ln > span {
+  background-image:
+    linear-gradient(165deg, rgba(222,240,255,.58) 0%, rgba(176,204,236,.30) 55%, rgba(214,232,252,.48) 100%),
+    url(/hero.webp),
+    linear-gradient(var(--bone), var(--bone));
+}
+[data-theme="light"] .hero__veil .ln > span {
+  background-image:
+    linear-gradient(165deg, rgba(10,14,20,.62) 0%, rgba(24,32,44,.44) 55%, rgba(12,16,24,.58) 100%),
+    url(/hero.webp),
+    linear-gradient(var(--ink), var(--ink));
+}
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .hero__veil .ln > span { background-image: none; color: var(--bone); }
+}
+
+/* VOLUMEN. Tres sombras de radio creciente que despegan el titular de la foto,
+   mas un canto de luz de 1px arriba que insinua el bisel.
+   A proposito SIN biseles marcados: un contorno definido reintroduce el borde
+   duro. El 3D acá lo hace la profundidad, no el filo.
+   Se aplica a las dos copias para que el titular se lea como una sola pieza. */
+.hero h1 .ln > span {
+  text-shadow:
+    0 1px 1px rgba(0,0,0,.40),
+    0 4px 10px rgba(0,0,0,.42),
+    0 14px 34px rgba(0,0,0,.30),
+    0 -1px 0 rgba(226,240,255,.20);
+}
+[data-theme="light"] .hero h1 .ln > span {
+  text-shadow:
+    0 1px 1px rgba(20,23,26,.18),
+    0 4px 10px rgba(20,23,26,.16),
+    0 14px 30px rgba(20,23,26,.12),
+    0 -1px 0 rgba(255,255,255,.55);
+}
+
+/* lavado suave para asentar el pie sobre el lado descubierto */
+.hero__wash { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+/* Solo asienta el pie. La foto ya trae su propia luz, no hace falta taparla. */
+[data-theme="dark"] .hero__wash { background: linear-gradient(180deg, rgba(8,9,10,.34) 0%, transparent 40%, rgba(8,9,10,.46) 100%); }
+[data-theme="light"] .hero__wash { background: linear-gradient(180deg, rgba(252,251,248,.44) 0%, transparent 40%, rgba(252,251,248,.52) 100%); }
+
+.hero__content { position: relative; z-index: 4; width: 100%; }
+.hero__eyebrow { opacity: 0; transform: translateY(14px); transition: opacity .9s var(--ease) .1s, transform .9s var(--ease) .1s; margin-bottom: 30px; }
+.is-ready .hero__eyebrow { opacity: 1; transform: none; }
+/* Bajado de 132px y de 14ch: a la medida anterior "automatizado." se salia
+   del borde derecho en pantallas de ~1350px. */
+.hero h1 { font-size: clamp(40px, 7vw, 108px); font-weight: 500; letter-spacing: -.055em; line-height: .96; max-width: 12ch; }
+.hero h1 .ln:nth-child(2) > span { padding-left: .5em; }
+/* el titular solido aparece del corte hacia la derecha, con el degradado
+   espejado para que el cruce sea continuo y no un salto */
+.hero__content h1 {
+  -webkit-mask-image: linear-gradient(90deg, transparent calc(var(--split) - var(--edge) - var(--feather)), #000 calc(var(--split) - var(--edge)));
+          mask-image: linear-gradient(90deg, transparent calc(var(--split) - var(--edge) - var(--feather)), #000 calc(var(--split) - var(--edge)));
+}
+
+.hero__foot { margin-top: clamp(28px, 4vh, 48px); display: flex; flex-direction: column; align-items: flex-start; gap: 26px; max-width: 44ch; opacity: 0; transform: translateY(20px); transition: opacity 1s var(--ease) .65s, transform 1s var(--ease) .65s; }
+.is-ready .hero__foot { opacity: 1; transform: none; }
+.hero__cta { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+/* Sin corte: pantallas angostas y navegadores sin mezcla. El velo pasa a
+   cubrir todo, el calado se apaga y el titular real se muestra entero. */
+@media (max-width: 1000px) {
+  .hero h1 .ln:nth-child(2) > span { padding-left: 0; }
+  .hero__veil { -webkit-mask-image: none; mask-image: none; }
+  .hero__veil h1 { visibility: hidden; }
+  .hero__content h1 { -webkit-mask-image: none; mask-image: none; }
+}
+/* Calado apagado: el velo desaparece entero y el titular va solido sobre la
+   foto. Comparacion limpia, y de paso sirve para ver la imagen sin capas. */
+[data-fx="off"] .hero__veil { display: none; }
+[data-fx="off"] .hero__content h1 { -webkit-mask-image: none; mask-image: none; }
+[data-theme="dark"][data-fx="off"] .hero__wash { background: linear-gradient(180deg, rgba(8,9,10,.55) 0%, rgba(8,9,10,.25) 40%, rgba(8,9,10,.72) 100%); }
+[data-theme="light"][data-fx="off"] .hero__wash { background: linear-gradient(180deg, rgba(252,251,248,.6) 0%, rgba(252,251,248,.3) 40%, rgba(252,251,248,.78) 100%); }
+
+.theme__sep { width: 1px; align-self: stretch; margin: 2px 4px; background: var(--vib-line); }
+
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sage); flex: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .dot { animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(143,176,154,.5)} 50%{opacity:.55;box-shadow:0 0 0 7px rgba(143,176,154,0)} }
+}
+
+/* =====================================================================
+   VISTA PREVIA DE PRODUCTO
+   Mini version real de la interfaz con los tokens de la pagina.
+   REEMPLAZAR por capturas reales de Heba ERP cuando esten disponibles.
+   Datos de ejemplo. Sin indicadores de actividad en vivo.
+   ===================================================================== */
+.ui { border-radius: var(--r-sm); overflow: hidden; border: 1px solid var(--vib-line); background: var(--ink-2); box-shadow: var(--sh-3); font-size: 12px; }
+.ui__bar { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-bottom: 1px solid var(--line); background: var(--ink-3); }
+.ui__tl { display: flex; gap: 6px; flex: none; }
+.ui__tl i { width: 10px; height: 10px; border-radius: 50%; display: block; }
+.ui__tl i:nth-child(1){background:var(--tl-1)} .ui__tl i:nth-child(2){background:var(--tl-2)} .ui__tl i:nth-child(3){background:var(--tl-3)}
+.ui__title { flex: 1; text-align: center; font-size: 11.5px; color: var(--bone-2); letter-spacing: -.01em; }
+.ui__key { display: flex; gap: 4px; flex: none; }
+.ui__key kbd { font-family: var(--mono); font-size: 9.5px; padding: 3px 6px; border-radius: 4px; border: 1px solid var(--line-2); color: var(--bone-3); }
+.ui__body { display: grid; grid-template-columns: 144px 1fr; min-height: 252px; }
+@media (max-width: 640px) { .ui__body { grid-template-columns: 1fr; } .ui__side { display: none; } }
+.ui__side { border-right: 1px solid var(--line); padding: 15px 11px; }
+.ui__grp { font-family: var(--mono); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--bone-3); padding: 0 8px; margin: 13px 0 7px; }
+.ui__grp:first-child { margin-top: 0; }
+.ui__nav { display: block; padding: 7px 9px; border-radius: 7px; color: var(--bone-2); font-size: 12px; }
+.ui__nav.is-on { background: var(--ink); color: var(--bone); box-shadow: inset 0 1px 0 var(--vib-top); }
+.ui__main { padding: 14px; display: flex; flex-direction: column; }
+.ui__search { border: 1px solid var(--line-2); border-radius: 8px; padding: 8px 11px; color: var(--bone-3); font-size: 11.5px; margin-bottom: 12px; background: var(--ink); }
+.ui__tbl { width: 100%; border-collapse: collapse; }
+.ui__tbl th { font-family: var(--mono); font-size: 9px; letter-spacing: .13em; text-transform: uppercase; color: var(--bone-3); font-weight: 400; text-align: left; padding: 0 8px 8px; border-bottom: 1px solid var(--line); }
+.ui__tbl td { padding: 9px 8px; border-bottom: 1px solid var(--line); color: var(--bone-2); font-size: 11.5px; }
+.ui__tbl tr:last-child td { border-bottom: 0; }
+.ui__num { font-family: var(--mono); color: var(--bone); text-align: right; font-variant-numeric: tabular-nums; }
+.ui__ref { font-family: var(--mono); color: var(--bone); }
+.ui__tag { display: inline-block; font-size: 10px; padding: 3px 8px; border-radius: 6px; border: 1px solid var(--line-2); color: var(--bone-2); }
+.ui__tag--ok { color: var(--sage); border-color: color-mix(in srgb, var(--sage) 42%, transparent); }
+.ui__tag--low { color: var(--tl-2); border-color: color-mix(in srgb, var(--tl-2) 45%, transparent); }
+.ui__foot { margin-top: auto; padding-top: 12px; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--bone-3); }
+.ui--flat .ui__body { grid-template-columns: 1fr; min-height: 224px; }
+
+/* =====================================================================
+   PRODUCTOS. Rejilla asimetrica de 2 celdas para exactamente 2 productos.
+   Titulo sobre la escena, detalle debajo. Patron de archivo.
+   ===================================================================== */
+.prods { display: grid; grid-template-columns: 1.25fr .75fr; gap: 20px; margin-top: 62px; }
+@media (max-width: 1040px) { .prods { grid-template-columns: 1fr; } }
+.prod { position: relative; border: 1px solid var(--line); border-radius: var(--r); background: var(--ink-2); overflow: hidden; display: flex; flex-direction: column; transition: border-color .45s ease, transform .55s var(--ease), box-shadow .55s ease; }
+.prod:hover { border-color: var(--line-2); transform: translateY(-5px); box-shadow: var(--sh-3); }
+.prod__stage { position: relative; padding: 62px 32px 0; background: linear-gradient(180deg, var(--ink-3), var(--ink-2)); }
+@media (max-width: 640px) { .prod__stage { padding: 58px 16px 0; } }
+.prod__stage .ui { margin-bottom: -14px; }
+.prod__state { position: absolute; z-index: 3; top: 20px; left: 20px; display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; padding: 7px 13px; border-radius: var(--pill); background: var(--vib-bg); backdrop-filter: blur(12px) saturate(170%); -webkit-backdrop-filter: blur(12px) saturate(170%); border: 1px solid var(--vib-line); box-shadow: inset 0 1px 0 var(--vib-top); color: var(--bone-2); }
+@media (prefers-reduced-transparency: reduce) { .prod__state { background: var(--ink); backdrop-filter: none; -webkit-backdrop-filter: none; } }
+.prod__state--near { color: var(--sage); }
+.prod__body { padding: 40px 34px 34px; display: flex; flex-direction: column; flex: 1; }
+.prod h3 { font-size: clamp(26px, 2.6vw, 36px); font-weight: 500; letter-spacing: -.045em; line-height: 1.02; }
+.prod__body .body { margin: 14px 0 26px; }
+.prod__specs { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 30px; padding: 0; list-style: none; }
+.prod__specs li { font-size: 12.5px; color: var(--bone-2); border: 1px solid var(--line); border-radius: var(--pill); padding: 6px 13px; }
+.prod__foot { margin-top: auto; }
+
+/* =====================================================================
+   ENFOQUE. Manifiesto y proceso en UNA seccion.
+   Imagen sangrando por izquierda, texto al centro, etapas a la derecha.
+   Reemplaza la pila sticky de 3 pantallas.
+   ===================================================================== */
+.focus { position: relative; overflow: hidden; border-top: 1px solid var(--line); }
+/* Recorte vertical de la MISMA foto del hero (public/enfoque.webp, 846x1536).
+   Arriba el diagrama de flujo de la pared, abajo el codigo en el monitor:
+   es el titular de la seccion hecho imagen. Al salir del mismo archivo, la
+   luz y la paleta calzan exactas con el inicio de la pagina. */
+.focus__img { position: absolute; left: 0; top: 0; bottom: 0; width: min(34vw, 470px); z-index: 0;
+  -webkit-mask-image: radial-gradient(122% 86% at 4% 48%, #000 34%, transparent 86%);
+          mask-image: radial-gradient(122% 86% at 4% 48%, #000 34%, transparent 86%); }
+.focus__img img { width: 100%; height: 100%; object-fit: cover; object-position: center 38%; }
+[data-theme="light"] .focus__img img { filter: brightness(1.25) saturate(.9); opacity: .55; }
+@media (max-width: 1100px) { .focus__img { display: none; } }
+.focus__in { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; padding-left: min(34vw, 460px); }
+@media (max-width: 1100px) { .focus__in { padding-left: 0; } }
+@media (max-width: 900px) { .focus__in { grid-template-columns: 1fr; gap: 44px; } }
+
+.steps { display: grid; }
+.step { position: relative; display: grid; grid-template-columns: 44px 1fr; gap: 24px; padding-bottom: 44px; }
+.step:last-child { padding-bottom: 0; }
+.step::before { content: ""; position: absolute; left: 21.5px; top: 50px; bottom: 0; width: 1px; background: var(--line); }
+.step:last-child::before { display: none; }
+.step__n { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-2); display: grid; place-items: center; font-family: var(--mono); font-size: 11px; color: var(--bone-3); background: var(--ink); }
+.step h3 { font-size: 22px; font-weight: 500; letter-spacing: -.035em; margin-bottom: 10px; }
+.step__when { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--sage); }
+
+/* ---------------- servicios ---------------- */
+.svc { margin-top: 56px; border-top: 1px solid var(--line); }
+.svc__item { position: relative; display: grid; grid-template-columns: 60px 1fr 1fr; gap: 44px; padding: 38px 0; border-bottom: 1px solid var(--line); align-items: start; }
+@media (max-width: 900px) { .svc__item { grid-template-columns: 1fr; gap: 12px; padding: 30px 0; } }
+.svc__n { font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; color: var(--bone-3); padding-top: .6em; }
+.svc__item h3 { font-size: clamp(26px, 3.6vw, 46px); font-weight: 500; letter-spacing: -.048em; line-height: 1.06; transition: color .4s ease, transform .5s var(--ease); }
+.svc__item:hover h3 { color: var(--sage); }
+@media (hover: hover) and (min-width: 901px) { .svc__item:hover h3 { transform: translateX(10px); } }
+.svc__note { display: block; margin-top: 14px; font-size: 13.5px; color: var(--bone-3); }
+
+.peek { position: fixed; z-index: 30; top: 0; left: 0; width: 300px; height: 210px; border-radius: var(--r-sm); overflow: hidden; pointer-events: none; opacity: 0; transform: translate(-50%,-50%) scale(.9); transition: opacity .35s var(--ease), transform .45s var(--ease); box-shadow: var(--sh-3); }
+.peek.is-on { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+@media (max-width: 900px), (hover: none) { .peek { display: none; } }
+
+/* ---------------- lo que escuchamos ---------------- */
+/* LO QUE ESCUCHAMOS
+   Era una marquesina automatica. Se paso a rejilla estatica por una razon
+   de uso: leer exige quietud. Texto que se mueve solo obliga a perseguirlo,
+   y si te interesa una frase, se va. La animacion no comunicaba nada que
+   justificara ese costo. Ahora el movimiento esta en la entrada escalonada,
+   que ordena la lectura en vez de estorbarla.
+   OJO con el bug que tenia: max-width en ch sobre el CONTENEDOR. La unidad
+   ch se resuelve contra la fuente del propio elemento (16px), no contra la
+   del h2, asi que 26ch daban ~210px y partian el titular en cuatro lineas. */
+.hear { padding: 118px 0; border-top: 1px solid var(--line); }
+@media (max-width: 900px) { .hear { padding: 76px 0; } }
+.hear__head { text-align: center; max-width: 760px; margin: 0 auto 56px; }
+.hear__head h2 { margin: 0 auto; }
+.hear__note { max-width: 54ch; margin: 20px auto 0; font-size: 15px; color: var(--bone-2); line-height: 1.6; }
+
+.hear__grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; }
+@media (max-width: 1000px) { .hear__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px)  { .hear__grid { grid-template-columns: 1fr; } }
+.hq { margin: 0; border-radius: var(--r); padding: 34px 32px; display: flex; align-items: center; min-height: 168px;
+      transition: transform .5s var(--ease), border-color .4s ease; }
+.hq:hover { transform: translateY(-4px); }
+.hq p { font-family: var(--serif); font-style: italic; font-size: 21px; line-height: 1.4; letter-spacing: -.01em; color: var(--bone); }
+/* 5 frases, 5 celdas, ritmo asimetrico: 4+2 arriba, 2+2+2 abajo */
+.hq:nth-child(1) { grid-column: span 4; }
+.hq:nth-child(1) p { font-size: 30px; line-height: 1.28; }
+.hq:nth-child(2) { grid-column: span 2; }
+.hq:nth-child(3), .hq:nth-child(4), .hq:nth-child(5) { grid-column: span 2; }
+@media (max-width: 1000px) {
+  .hq:nth-child(1) { grid-column: span 2; }
+  .hq:nth-child(2), .hq:nth-child(3), .hq:nth-child(4), .hq:nth-child(5) { grid-column: span 1; }
+}
+@media (max-width: 640px) { .hq { grid-column: span 1 !important; min-height: 0; padding: 28px 24px; } .hq:nth-child(1) p { font-size: 24px; } }
+
+/* ---------------- caso ---------------- */
+.case { display: grid; grid-template-columns: .8fr 1.2fr; gap: 64px; align-items: center; }
+@media (max-width: 1000px) { .case { grid-template-columns: 1fr; gap: 36px; } }
+.case__frame { position: relative; aspect-ratio: 4 / 3; border: 1px dashed var(--line-2); border-radius: var(--r); display: grid; place-items: center; }
+.case__frame span { font-family: var(--mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--bone-3); }
+.case__tag { display: inline-flex; align-items: center; gap: 10px; margin-top: 28px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--sage); }
+
+/* ---------------- contacto ---------------- */
+.ct { display: grid; grid-template-columns: .9fr 1.1fr; gap: 80px; align-items: start; }
+@media (max-width: 1000px) { .ct { grid-template-columns: 1fr; gap: 44px; } }
+.ct__direct { margin-top: 40px; display: flex; flex-direction: column; }
+.ct__direct a { display: flex; align-items: center; gap: 14px; font-size: 15px; color: var(--bone-2); padding: 16px 0; border-bottom: 1px solid var(--line); transition: color .22s ease, padding-left .3s var(--ease); }
+.ct__direct a:hover { color: var(--bone); padding-left: 8px; }
+.ct__direct i { font-size: 18px; color: var(--sage); }
+
+/* Que pasa despues. Llena el vacio de la columna izquierda con algo util:
+   baja la ansiedad de escribir a un desconocido. No es relleno decorativo. */
+.ct__next { margin-top: 46px; padding-top: 30px; border-top: 1px solid var(--line); }
+.ct__next h3 { font-family: var(--mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--bone-3); font-weight: 400; margin-bottom: 22px; }
+.ct__next ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; counter-reset: paso; }
+.ct__next li { position: relative; padding-left: 40px; font-size: 14.5px; line-height: 1.55; color: var(--bone-2); counter-increment: paso; }
+.ct__next li::before { content: counter(paso, decimal-leading-zero); position: absolute; left: 0; top: 1px; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--sage); }
+
+/* El formulario va en panel de vibrancy: sin contenedor eran cuatro
+   rectangulos negros flotando sobre el fondo. */
+.form { display: grid; gap: 20px; padding: 34px; border-radius: var(--r); }
+@media (max-width: 560px) { .form { padding: 24px 20px; } }
+.field { display: grid; gap: 7px; }
+.field label { font-size: 13px; font-weight: 550; color: var(--bone); }
+.field .help { font-size: 12.5px; color: var(--bone-3); margin-top: -3px; }
+.sel { position: relative; }
+.sel i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--bone-3); font-size: 15px; }
+.field select { appearance: none; -webkit-appearance: none; padding-right: 42px; cursor: pointer; }
+.field input, .field select, .field textarea { font: inherit; font-size: 15px; color: var(--bone); background: var(--ink); border: 1px solid var(--line-2); border-radius: var(--r-sm); padding: 13px 15px; width: 100%; transition: border-color .22s ease, box-shadow .22s ease, background .22s ease; }
+.field input:hover, .field select:hover, .field textarea:hover { border-color: var(--bone-3); }
+.field input::placeholder, .field textarea::placeholder { color: var(--bone-3); }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--sage); box-shadow: 0 0 0 3px color-mix(in srgb, var(--sage) 22%, transparent); }
+.field textarea { resize: vertical; min-height: 112px; }
+.field .err { font-size: 12.5px; color: #B3453C; display: none; }
+[data-theme="dark"] .field .err { color: #E0A29C; }
+.field.has-err .err { display: block; }
+.field.has-err input, .field.has-err textarea { border-color: #B3453C; }
+.form__status { font-size: 13.5px; color: var(--bone-3); min-height: 20px; }
+
+/* =====================================================================
+   FOOTER. Marca fantasma DETRAS del contenido, no debajo.
+   ===================================================================== */
+.ft { position: relative; border-top: 1px solid var(--line); overflow: hidden; padding: 92px 0 40px; }
+/* Resplandor del footer. Es la MISMA foto del hero, muy desenfocada: las
+   luces de la ciudad se vuelven bokeh y le dan color y profundidad al pie.
+   Al ser el mismo archivo ya esta en cache, no cuesta un pedido extra.
+   El scale evita que el blur deje bordes transparentes en los cantos. */
+.ft__glow { position: absolute; right: 0; top: 0; bottom: 0; width: min(58%, 900px); z-index: 0; pointer-events: none; overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 62%);
+          mask-image: linear-gradient(90deg, transparent 0%, #000 62%); }
+.ft__glow img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.25); }
+[data-theme="dark"] .ft__glow img { filter: blur(42px) saturate(1.7) brightness(.85); opacity: .62; }
+[data-theme="light"] .ft__glow img { filter: blur(46px) saturate(1.3) brightness(1.5); opacity: .30; }
+
+/* Cuadricula de planilla detras del logotipo. Textura del mundo del cliente:
+   el sitio entero habla de reemplazar hojas de calculo. */
+.ft__grid { position: absolute; left: 0; top: 0; bottom: 0; width: min(60%, 820px); z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: 84px 84px;
+  -webkit-mask-image: radial-gradient(90% 76% at 12% 42%, #000 0%, transparent 72%);
+          mask-image: radial-gradient(90% 76% at 12% 42%, #000 0%, transparent 72%);
+  opacity: .7; }
+
+.ft__ghost { position: absolute; left: 50%; top: 46%; transform: translate(-50%,-50%); z-index: 1; pointer-events: none; user-select: none;
+  font-size: clamp(160px, 26vw, 420px); font-weight: 600; letter-spacing: -.07em; line-height: .8; color: var(--bone); opacity: .035; white-space: nowrap; }
+.ft__in { position: relative; z-index: 2; }
+.ft__top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 48px; }
+@media (max-width: 900px) { .ft__top { grid-template-columns: 1fr 1fr; gap: 40px; } }
+@media (max-width: 540px) { .ft__top { grid-template-columns: 1fr; } }
+.ft__word { font-size: clamp(44px, 5vw, 68px); font-weight: 600; letter-spacing: -.06em; line-height: 1; }
+.ft__tag { font-family: var(--serif); font-style: italic; font-size: 21px; color: var(--sage); margin-top: 10px; }
+.ft__brand p { margin-top: 26px; font-size: 14.5px; color: var(--bone-2); max-width: 34ch; line-height: 1.6; }
+.ft__col h4 { display: inline-flex; align-items: center; gap: 9px; font-size: 13.5px; font-weight: 600; color: var(--bone); margin: 0 0 20px; }
+.ft__col h4::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--sage); }
+.ft__col a { display: block; font-size: 14.5px; color: var(--bone-2); margin-bottom: 13px; transition: color .22s ease; }
+.ft__col a:hover { color: var(--bone); }
+.ft__bot { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; margin-top: 78px; padding-top: 26px; border-top: 1px solid var(--line); font-size: 13px; color: var(--bone-3); }
+.ft__social { display: flex; gap: 26px; }
+.ft__social a { font-family: var(--mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--bone-3); transition: color .22s ease; }
+.ft__social a:hover { color: var(--bone); }
+</style>
+</head>
+<body>
+
+<div class="ldr" id="ldr">
+  <div class="ldr__win vib">
+    <div class="ldr__in">
+      <div class="ldr__mark">
+        <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <rect class="b1" x="6" y="6" width="5" height="20"/><rect class="b1" x="21" y="6" width="5" height="20"/><rect class="b2" x="11" y="13.5" width="10" height="5"/>
+        </svg>
+        <span>HEBA</span>
+      </div>
+      <div class="ldr__bar"><b id="ldrBar"></b></div>
+      <div class="ldr__row"><span>Estudio de software</span><span class="ldr__pct" id="ldrPct">00</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="peek duo" id="peek" aria-hidden="true"><img src="" alt="" /></div>
+
+<div class="theme vib" role="group" aria-label="Comparar tema">
+  <button class="theme__b" data-set="dark"  aria-pressed="true"  aria-label="Modo oscuro"><i class="ph ph-moon"></i></button>
+  <button class="theme__b" data-set="light" aria-pressed="false" aria-label="Modo claro"><i class="ph ph-sun"></i></button>
+  <span class="theme__sep"></span>
+  <button class="theme__b" id="fxBtn" aria-pressed="true" aria-label="Calado del titular"><i class="ph ph-text-aa"></i></button>
+</div>
+
+<div class="mock">Mockup de propuesta. No es el sitio en producción.</div>
+<div id="navSentinel" aria-hidden="true" style="height:1px"></div>
+
+<nav class="nav" id="nav">
+  <div class="nav__in">
+    <a href="#top" class="brand" aria-label="HEBA, inicio" style="padding-left:18px">
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect class="b1" x="6" y="6" width="5" height="20"/><rect class="b1" x="21" y="6" width="5" height="20"/><rect class="b2" x="11" y="13.5" width="10" height="5"/>
+      </svg>
+      <span class="brand__word">HEBA</span>
+    </a>
+    <div class="nav__links">
+      <a href="#productos">Productos</a>
+      <a href="#enfoque">Enfoque</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#trabajo">Trabajo</a>
+    </div>
+    <a href="#contacto" class="btn btn--solid btn--sm nav__cta">Hablemos</a>
+    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false"><i class="ph ph-list"></i></button>
+  </div>
+</nav>
+
+<div class="menu" id="menu">
+  <button class="menu__close" id="menuClose" aria-label="Cerrar menú"><i class="ph ph-x"></i></button>
+  <a href="#productos">Productos</a>
+  <a href="#enfoque">Enfoque</a>
+  <a href="#servicios">Servicios</a>
+  <a href="#trabajo">Trabajo</a>
+  <a href="#contacto" class="sage">Hablemos</a>
+</div>
+
+<!-- ============================ HERO ============================ -->
+<header class="hero" id="top">
+  <div class="hero__bg">
+    <!-- Imagen propia. Master en Downloads/imagen_1.png (1536x1024).
+         Exportada con curva gamma .70 para levantar sombras sin quemar la
+         lampara: sin eso el calado quedaba negro sobre negro. -->
+    <img src="/hero.webp"
+         srcset="/hero-sm.webp 1024w, /hero.webp 1672w"
+         sizes="100vw"
+         alt=""
+         width="1672" height="941" fetchpriority="high" />
+  </div>
+  <!-- Capa del calado. Copia exacta del layout: solo el titular es visible.
+       Va en multiply, asi el blanco deja pasar la foto y el resto oscurece. -->
+  <div class="hero__veil" aria-hidden="true">
+    <div class="wrap">
+      <div class="hero__eyebrow"><span class="eyebrow">Estudio de software</span></div>
+      <h1>
+        <span class="ln"><span style="--d:150ms">Lo que hoy haces</span></span>
+        <span class="ln"><span style="--d:300ms" class="hand">a mano,</span></span>
+        <span class="ln"><span style="--d:450ms">automatizado.</span></span>
+      </h1>
+      <div class="hero__foot">
+        <p class="lead">
+          Construimos sistemas a medida y desarrollamos productos propios para
+          empresas que crecieron más rápido que sus procesos.
+        </p>
+        <div class="hero__cta">
+          <span class="btn btn--solid btn--lg">Hablemos</span>
+          <span class="btn btn--glass btn--lg">Ver productos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero__wash"></div>
+
+  <div class="wrap hero__content">
+    <div class="hero__eyebrow"><span class="eyebrow">Estudio de software</span></div>
+    <h1>
+      <span class="ln"><span style="--d:150ms">Lo que hoy haces</span></span>
+      <span class="ln"><span style="--d:300ms" class="hand">a mano,</span></span>
+      <span class="ln"><span style="--d:450ms" class="sage">automatizado.</span></span>
+    </h1>
+    <div class="hero__foot">
+      <p class="lead" style="color:var(--bone);opacity:.88">
+        Construimos sistemas a medida y desarrollamos productos propios para
+        empresas que crecieron más rápido que sus procesos.
+      </p>
+      <div class="hero__cta">
+        <a href="#contacto" class="btn btn--solid btn--lg">Hablemos</a>
+        <a href="#productos" class="btn btn--glass btn--lg">Ver productos <i class="ph ph-arrow-down-right"></i></a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================ PRODUCTOS ============================ -->
+<section class="sec" id="productos" style="background:var(--ink-2);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="rv">
+      <div class="eyebrow" style="margin-bottom:22px">Productos propios</div>
+      <h2 class="dsp" data-split style="max-width:18ch">No solo construimos para clientes. También operamos lo nuestro.</h2>
+    </div>
+
+    <div class="prods">
+      <article class="prod rv" style="--d:80ms">
+        <div class="prod__stage">
+          <span class="prod__state prod__state--near"><span class="dot"></span>Por lanzar</span>
+          <!-- Vista previa. REEMPLAZAR por captura real de Heba ERP. -->
+          <div class="ui" aria-hidden="true">
+            <div class="ui__bar">
+              <span class="ui__tl"><i></i><i></i><i></i></span>
+              <span class="ui__title">Heba ERP · Inventario</span>
+              <span class="ui__key"><kbd>⌘</kbd><kbd>K</kbd></span>
+            </div>
+            <div class="ui__body">
+              <div class="ui__side">
+                <div class="ui__grp">Operación</div>
+                <span class="ui__nav is-on">Inventario</span>
+                <span class="ui__nav">Movimientos</span>
+                <span class="ui__nav">Pedidos</span>
+                <div class="ui__grp">Comercial</div>
+                <span class="ui__nav">Facturación</span>
+                <span class="ui__nav">Reportes</span>
+              </div>
+              <div class="ui__main">
+                <div class="ui__search">Buscar referencia</div>
+                <table class="ui__tbl">
+                  <thead><tr><th>Ref</th><th>Descripción</th><th style="text-align:right">Stock</th><th>Estado</th></tr></thead>
+                  <tbody>
+                    <tr><td class="ui__ref">8842</td><td>Bota industrial, Norte</td><td class="ui__num">328</td><td><span class="ui__tag ui__tag--ok">En rango</span></td></tr>
+                    <tr><td class="ui__ref">8817</td><td>Guante nitrilo, Norte</td><td class="ui__num">1.240</td><td><span class="ui__tag ui__tag--ok">En rango</span></td></tr>
+                    <tr><td class="ui__ref">7702</td><td>Casco dieléctrico, Sur</td><td class="ui__num">96</td><td><span class="ui__tag ui__tag--low">Bajo</span></td></tr>
+                    <tr><td class="ui__ref">6431</td><td>Botín dieléctrico, Norte</td><td class="ui__num">512</td><td><span class="ui__tag ui__tag--ok">En rango</span></td></tr>
+                  </tbody>
+                </table>
+                <div class="ui__foot"><span>4 referencias</span><span>2 bodegas</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="prod__body">
+          <h3>Heba ERP</h3>
+          <p class="body">Inventario, ventas y facturación para empresas que crecieron más rápido que sus hojas de cálculo. Por suscripción, sin instalación.</p>
+          <ul class="prod__specs">
+            <li>Stock en tiempo real</li><li>Pedidos y facturación</li>
+            <li>Trazabilidad por movimiento</li><li>Acceso web</li>
+          </ul>
+          <div class="prod__foot"><a href="#contacto" class="btn btn--line btn--sm">Súmate a la lista de espera <i class="ph ph-arrow-right"></i></a></div>
+        </div>
+      </article>
+
+      <article class="prod rv" style="--d:180ms">
+        <div class="prod__stage">
+          <span class="prod__state">En construcción</span>
+          <div class="ui ui--flat" aria-hidden="true">
+            <div class="ui__bar">
+              <span class="ui__tl"><i></i><i></i><i></i></span>
+              <span class="ui__title">Heba Barber · Hoy</span>
+              <span class="ui__key"><kbd>⌘</kbd><kbd>N</kbd></span>
+            </div>
+            <div class="ui__body">
+              <div class="ui__main">
+                <table class="ui__tbl">
+                  <thead><tr><th>Hora</th><th>Cliente</th><th style="text-align:right">Estado</th></tr></thead>
+                  <tbody>
+                    <tr><td class="ui__ref">09:00</td><td>Andrés G.</td><td style="text-align:right"><span class="ui__tag ui__tag--ok">Confirmado</span></td></tr>
+                    <tr><td class="ui__ref">09:45</td><td>Juan P.</td><td style="text-align:right"><span class="ui__tag ui__tag--ok">Confirmado</span></td></tr>
+                    <tr><td class="ui__ref">10:30</td><td>Sin reservar</td><td style="text-align:right"><span class="ui__tag">Libre</span></td></tr>
+                    <tr><td class="ui__ref">11:15</td><td>Sebastián R.</td><td style="text-align:right"><span class="ui__tag ui__tag--ok">Confirmado</span></td></tr>
+                  </tbody>
+                </table>
+                <div class="ui__foot"><span>3 turnos, 1 libre</span><span>Caja abierta</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="prod__body">
+          <h3>Heba Barber</h3>
+          <p class="body">Turnos, clientes y caja para barberías. Pensado para el mostrador y para el celular, entre corte y corte.</p>
+          <ul class="prod__specs">
+            <li>Agenda con recordatorios</li><li>Historial por cliente</li>
+            <li>Comisiones por barbero</li><li>Cierre de caja</li>
+          </ul>
+          <div class="prod__foot"><a href="#contacto" class="btn btn--line btn--sm">Quiero probarlo primero <i class="ph ph-arrow-right"></i></a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ENFOQUE ============================ -->
+<section class="sec focus" id="enfoque">
+  <div class="focus__img" aria-hidden="true">
+    <img src="/enfoque.webp" alt="" width="846" height="1536" loading="lazy" />
+  </div>
+  <div class="wrap">
+    <div class="focus__in">
+      <div class="rv">
+        <h2 class="dsp dsp--md" data-split style="max-width:15ch">El problema nunca es el software. Es <span class="hand">el proceso que nadie escribió.</span></h2>
+        <p class="body" style="margin-top:26px">
+          Casi todas las empresas con las que trabajamos ya tienen un sistema:
+          está repartido entre tres hojas de cálculo, un cuaderno y la cabeza de
+          la persona que lleva quince años ahí.
+        </p>
+        <p class="body" style="margin-top:18px">
+          Empezamos por entender ese sistema antes de reemplazarlo. Después
+          escribimos software.
+        </p>
+      </div>
+
+      <div class="steps rv" style="--d:120ms">
+        <div class="step">
+          <div class="step__n">01</div>
+          <div>
+            <h3>Diagnosticamos</h3>
+            <p class="body">Nos sentamos con quien hace el trabajo hoy y miramos el proceso real. Sales de ahí con un alcance escrito y un precio cerrado.</p>
+            <div class="step__when"><i class="ph ph-clock"></i>1 semana, sin costo</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step__n">02</div>
+          <div>
+            <h3>Construimos</h3>
+            <p class="body">Entregas cada dos semanas, funcionando y en tus manos. Nada de desaparecer tres meses y volver con una sorpresa.</p>
+            <div class="step__when"><i class="ph ph-clock"></i>Primera versión usable en 4 a 6 semanas</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step__n">03</div>
+          <div>
+            <h3>Acompañamos</h3>
+            <p class="body">Capacitamos al equipo, ajustamos lo que la realidad desmienta y seguimos disponibles después del lanzamiento.</p>
+            <div class="step__when"><i class="ph ph-clock"></i>Soporte continuo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ SERVICIOS ============================ -->
+<section class="sec" id="servicios" style="background:var(--ink-2);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="rv">
+      <h2 class="dsp dsp--md" data-split style="max-width:16ch">Cuando ningún producto resuelve lo tuyo.</h2>
+      <p class="lead" style="margin-top:22px">Tres formas de trabajar juntos. No hay una cuarta.</p>
+    </div>
+
+    <div class="svc" id="svcList">
+      <div class="svc__item rv" data-peek="https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdXB3azYxODAyMjQyLXdpa2ltZWRpYS1pbWFnZS1rcDZhZTV4Zy5qcGc.jpg">
+        <div class="svc__n">01</div>
+        <h3>Desarrollo a medida</h3>
+        <div>
+          <p class="body">Sistemas construidos alrededor de cómo trabaja tu equipo, no al revés. Empezamos entendiendo la operación real antes de escribir una línea de código.</p>
+          <span class="svc__note">Inventarios, trazabilidad, gestión comercial, integraciones con lo que ya usas.</span>
+        </div>
+      </div>
+      <div class="svc__item rv" style="--d:90ms" data-peek="https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL3B4OTQ1Nzc0LWltYWdlLWt6MmViNDEzLmpwZw.jpg">
+        <div class="svc__n">02</div>
+        <h3>IA aplicada</h3>
+        <div>
+          <p class="body">Inteligencia artificial donde resuelve algo concreto: clasificar documentos, responder consultas repetidas, extraer datos de facturas.</p>
+          <span class="svc__note">No hacemos IA para poder decir que hacemos IA.</span>
+        </div>
+      </div>
+      <div class="svc__item rv" style="--d:180ms" data-peek="https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL3B4MTQwNzU3NC1pbWFnZS1rejJlOGVuby5qcGc.jpg">
+        <div class="svc__n">03</div>
+        <h3>Automatización</h3>
+        <div>
+          <p class="body">Esa tarea que alguien de tu equipo repite todos los martes durante tres horas. La identificamos, la medimos y la convertimos en un flujo automático.</p>
+          <span class="svc__note">Empezamos por la que más tiempo te come.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ LO QUE ESCUCHAMOS ============================ -->
+<section class="hear">
+  <div class="wrap">
+    <div class="hear__head rv">
+      <h2 class="dsp dsp--md" data-split>Así arranca casi toda primera reunión.</h2>
+      <p class="hear__note">
+        No son testimonios. Son las frases que más escuchamos cuando alguien nos
+        cuenta cómo trabaja hoy.
+      </p>
+    </div>
+
+    <div class="hear__grid">
+      <figure class="hq vib rv"><p>Tengo el inventario en tres Excel y ninguno coincide.</p></figure>
+      <figure class="hq vib rv" style="--d:80ms"><p>Los pedidos entran por WhatsApp y alguno siempre se pierde.</p></figure>
+      <figure class="hq vib rv" style="--d:160ms"><p>Cierro el mes con una semana de atraso. Todos los meses.</p></figure>
+      <figure class="hq vib rv" style="--d:240ms"><p>Si falta la persona que lleva la caja, nadie sabe dónde quedó nada.</p></figure>
+      <figure class="hq vib rv" style="--d:320ms"><p>Para saber cuánto stock hay tengo que preguntarle a alguien.</p></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ TRABAJO ============================ -->
+<section class="sec wrap" id="trabajo" style="border-top:1px solid var(--line)">
+  <div class="case">
+    <div class="case__frame rv" aria-hidden="true"><span>Reservado</span></div>
+    <div class="rv" style="--d:100ms">
+      <div class="eyebrow" style="margin-bottom:22px">Trabajo</div>
+      <h2 class="dsp dsp--md" data-split>Este espacio está vacío a propósito.</h2>
+      <p class="lead" style="margin-top:22px">
+        Acá va un caso real: qué hacían antes, qué hacen ahora, cuánto tiempo
+        recuperaron. Con nombre de empresa y con permiso para publicarlo.
+        Preferimos dejarlo vacío antes que inventar un número que nadie puede verificar.
+      </p>
+      <div class="case__tag"><i class="ph ph-lock-simple"></i>Se publica con el primer caso documentado</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CONTACTO ============================ -->
+<section class="sec" id="contacto" style="background:var(--ink-2);border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="ct">
+      <div class="rv">
+        <h2 class="dsp dsp--md" data-split>Cuéntanos qué estás <span class="hand">resolviendo a mano.</span></h2>
+        <p class="lead" style="margin-top:22px">
+          Respondemos en menos de 24 horas hábiles. Hablas directo con quien va a
+          construir tu sistema, no con un vendedor.
+        </p>
+        <div class="ct__direct">
+          <a href="mailto:hola@heba.co"><i class="ph ph-envelope-simple"></i>hola@heba.co</a>
+          <a href="https://wa.me/573148126301" target="_blank" rel="noopener noreferrer"><i class="ph ph-whatsapp-logo"></i>+57 314 812 6301</a>
+          <a href="#contacto" style="cursor:default"><i class="ph ph-map-pin"></i>Medellín, Colombia</a>
+        </div>
+
+        <div class="ct__next">
+          <h3>Qué pasa después</h3>
+          <ol>
+            <li>Te respondemos en menos de 24 horas hábiles. Siempre una persona, nunca un formulario automático.</li>
+            <li>Media hora de llamada para entender qué se hace hoy a mano y cuánto tiempo cuesta.</li>
+            <li>Si podemos ayudarte, te pasamos alcance y precio cerrado. Si no, te decimos quién.</li>
+          </ol>
+        </div>
+      </div>
+
+      <form class="form vib rv" id="ctForm" style="--d:100ms" novalidate>
+        <div class="field" id="fName">
+          <label for="i-name">Nombre</label>
+          <input id="i-name" name="name" type="text" autocomplete="name" placeholder="Cómo te llamas" />
+          <span class="err">Necesitamos un nombre para responderte.</span>
+        </div>
+        <div class="field" id="fContact">
+          <label for="i-contact">Email o WhatsApp</label>
+          <span class="help">Por dónde prefieres que te escribamos.</span>
+          <input id="i-contact" name="contact" type="text" placeholder="correo@empresa.com o 300 000 0000" />
+          <span class="err">Déjanos un email o un número para contactarte.</span>
+        </div>
+        <div class="field">
+          <label for="i-topic">Qué necesitas</label>
+          <div class="sel">
+            <select id="i-topic" name="topic">
+              <option>Heba ERP, lista de espera</option>
+              <option>Heba Barber, quiero probarlo</option>
+              <option>Un sistema a medida</option>
+              <option>Automatizar un proceso</option>
+              <option>Todavía no sé, quiero conversarlo</option>
+            </select>
+            <i class="ph ph-caret-down"></i>
+          </div>
+        </div>
+        <div class="field">
+          <label for="i-msg">Cuéntanos un poco</label>
+          <span class="help">Qué se hace hoy a mano en tu empresa.</span>
+          <textarea id="i-msg" name="message" placeholder="Por ejemplo: cada semana alguien copia los pedidos del WhatsApp a un Excel."></textarea>
+        </div>
+        <button type="submit" class="btn btn--solid btn--lg" id="ctSubmit" style="justify-self:start">Enviar <i class="ph ph-arrow-right"></i></button>
+        <p class="form__status" id="ctStatus">Es un mockup. Todavía no hay backend conectado.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="ft">
+  <div class="ft__grid" aria-hidden="true"></div>
+  <div class="ft__glow" aria-hidden="true"><img src="/hero.webp" alt="" loading="lazy" /></div>
+  <div class="ft__ghost" aria-hidden="true">HEBA</div>
+  <div class="wrap ft__in">
+    <div class="ft__top">
+      <div class="ft__brand">
+        <div class="ft__word">HEBA.</div>
+        <div class="ft__tag">Software con oficio</div>
+        <p>Sistemas a medida y productos propios para empresas que crecieron más rápido que sus procesos.</p>
+      </div>
+      <div class="ft__col">
+        <h4>Productos</h4>
+        <a href="#productos">Heba ERP</a>
+        <a href="#productos">Heba Barber</a>
+      </div>
+      <div class="ft__col">
+        <h4>Estudio</h4>
+        <a href="#enfoque">Enfoque</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#trabajo">Trabajo</a>
+      </div>
+      <div class="ft__col">
+        <h4>Contacto</h4>
+        <a href="mailto:hola@heba.co">hola@heba.co</a>
+        <a href="https://wa.me/573148126301" target="_blank" rel="noopener noreferrer">+57 314 812 6301</a>
+      </div>
+    </div>
+
+    <div class="ft__bot">
+      <div>© 2026 HEBA Studio, antes HebaTech. Medellín, Colombia.</div>
+      <div class="ft__social">
+        <a href="https://www.instagram.com/hebatechsoft" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.facebook.com/profile.php?id=61587193170655" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a href="https://wa.me/573148126301" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine   = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const root   = document.documentElement;
+
+  /* 0. comparadores: tema y calado del titular */
+  document.querySelectorAll('.theme__b[data-set]').forEach(b => {
+    b.addEventListener('click', () => {
+      root.setAttribute('data-theme', b.dataset.set);
+      document.querySelectorAll('.theme__b[data-set]').forEach(o => o.setAttribute('aria-pressed', String(o === b)));
+    });
+  });
+  const fxBtn = document.getElementById('fxBtn');
+  fxBtn.addEventListener('click', () => {
+    const on = root.getAttribute('data-fx') !== 'off';
+    root.setAttribute('data-fx', on ? 'off' : 'on');
+    fxBtn.setAttribute('aria-pressed', String(!on));
+  });
+
+  /* 1. scroll con inercia. Mueve el scroll real: sticky, IO y view() siguen vivos. */
+  let smoothTo = null;
+  if (!reduce && fine) {
+    root.classList.add('ss');
+    let target = window.scrollY, cur = target, raf = null, driving = false;
+    const maxY = () => root.scrollHeight - window.innerHeight;
+    const clamp = v => Math.max(0, Math.min(v, maxY()));
+    const tick = () => {
+      cur += (target - cur) * 0.085;
+      if (Math.abs(target - cur) < 0.4) { cur = target; raf = null; driving = false; }
+      else { raf = requestAnimationFrame(tick); }
+      window.scrollTo(0, cur);
+    };
+    const kick = () => { driving = true; if (!raf) raf = requestAnimationFrame(tick); };
+    window.addEventListener('wheel', e => {
+      if (e.ctrlKey) return;
+      if (document.body.style.overflow === 'hidden') return;
+      e.preventDefault();
+      target = clamp(target + e.deltaY * (e.deltaMode === 1 ? 22 : 1));
+      kick();
+    }, { passive: false });
+    window.addEventListener('scroll', () => { if (!driving) { target = cur = window.scrollY; } }, { passive: true });
+    window.addEventListener('resize', () => { target = cur = window.scrollY; });
+    smoothTo = v => { target = clamp(v); cur = window.scrollY; kick(); };
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href').slice(1);
+      if (!id) return;
+      const el = document.getElementById(id);
+      if (!el) return;
+      e.preventDefault();
+      const y = el.getBoundingClientRect().top + window.scrollY - (id === 'top' ? 0 : 40);
+      if (smoothTo) smoothTo(y); else window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+    });
+  });
+
+  /* 1b. ALINEACION DEL CALADO
+     Replica object-fit:cover y posiciona el relleno de cada linea segun su
+     lugar real dentro del hero. Se usa offsetLeft/offsetTop porque ignoran
+     el transform del revelado: asi se mide la posicion de reposo. */
+  /* Las medidas salen de la imagen real, no de constantes: asi cambiar la
+     foto del hero no vuelve a desalinear el calado. */
+  const hero = document.querySelector('.hero');
+  const heroImg = document.querySelector('.hero__bg img');
+  const cutLines = document.querySelectorAll('.hero__veil .ln > span');
+  const offsetIn = (el, root) => {
+    let x = 0, y = 0, n = el;
+    while (n && n !== root) { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent; }
+    return { x, y };
+  };
+  const syncCut = () => {
+    if (!hero || !heroImg || !cutLines.length) return;
+    const iw = heroImg.naturalWidth, ih = heroImg.naturalHeight;
+    if (!iw || !ih) return;                      // aun no cargo: se reintenta en onload
+    const hw = hero.offsetWidth, hh = hero.offsetHeight;
+    const s = Math.max(hw / iw, hh / ih);
+    const dw = iw * s, dh = ih * s;
+    const ox = (hw - dw) / 2, oy = (hh - dh) / 2;
+    cutLines.forEach(el => {
+      const o = offsetIn(el, hero);
+      // tres capas: solo la del medio (la foto) se posiciona
+      el.style.backgroundSize = 'auto, ' + dw + 'px ' + dh + 'px, auto';
+      el.style.backgroundPosition = '0 0, ' + (ox - o.x) + 'px ' + (oy - o.y) + 'px, 0 0';
+    });
+  };
+  syncCut();
+  if (heroImg) {
+    if (heroImg.complete) syncCut(); else heroImg.addEventListener('load', syncCut, { once: true });
+    // si la foto falla, se apaga el calado y el titular queda solido y legible
+    heroImg.addEventListener('error', () => {
+      document.documentElement.setAttribute('data-fx', 'off');
+    }, { once: true });
+  }
+  document.fonts && document.fonts.ready && document.fonts.ready.then(syncCut);
+  window.addEventListener('resize', syncCut);
+
+  /* 2. revelado por linea */
+  const splitTargets = document.querySelectorAll('[data-split]');
+  splitTargets.forEach(el => { el.dataset.html = el.innerHTML; });
+  const split = el => {
+    el.innerHTML = el.dataset.html;
+    const wrapWords = node => {
+      [...node.childNodes].forEach(n => {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(tk => {
+            if (!tk) return;
+            if (/^\s+$/.test(tk)) { frag.appendChild(document.createTextNode(tk)); return; }
+            const w = document.createElement('span'); w.className = 'w'; w.textContent = tk;
+            frag.appendChild(w);
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1) {
+          wrapWords(n);
+          if (n.classList.contains('hand')) n.classList.add('w');
+        }
+      });
+    };
+    wrapWords(el);
+    const words = [...el.querySelectorAll('.w')];
+    if (!words.length) return;
+    const lines = []; let top = null;
+    words.forEach(w => {
+      const t = Math.round(w.offsetTop);
+      if (top === null || Math.abs(t - top) > 4) { lines.push([]); top = t; }
+      lines[lines.length - 1].push(w);
+    });
+    const out = document.createDocumentFragment();
+    lines.forEach((line, i) => {
+      const ln = document.createElement('span'); ln.className = 'ln';
+      const inner = document.createElement('span');
+      inner.style.setProperty('--d', (i * 110) + 'ms');
+      line.forEach((w, j) => { if (j) inner.appendChild(document.createTextNode(' ')); inner.appendChild(w); });
+      ln.appendChild(inner); out.appendChild(ln);
+    });
+    el.innerHTML = ''; el.appendChild(out); el.classList.add('split');
+  };
+  const runSplit = () => {
+    if (reduce) return;
+    splitTargets.forEach(el => {
+      const wasIn = el.classList.contains('is-in');
+      split(el); if (wasIn) el.classList.add('is-in');
+    });
+  };
+  document.fonts && document.fonts.ready ? document.fonts.ready.then(runSplit) : runSplit();
+  let rt = null;
+  window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(runSplit, 220); });
+
+  /* 3. reveal por seccion */
+  const items = document.querySelectorAll('.rv, [data-split]');
+  if (reduce) {
+    items.forEach(el => el.classList.add('is-in'));
+    document.querySelectorAll('.ln > span').forEach(el => { el.style.transition = 'none'; el.style.transform = 'none'; });
+    document.querySelectorAll('.hero__foot, .hero__eyebrow').forEach(el => { el.style.transition='none'; el.style.opacity='1'; el.style.transform='none'; });
+  } else {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (!en.isIntersecting) return; en.target.classList.add('is-in'); io.unobserve(en.target); });
+    }, { threshold: .12, rootMargin: '0px 0px -8% 0px' });
+    items.forEach(el => io.observe(el));
+  }
+
+  /* 4. nav, menu, riel */
+  const nav = document.getElementById('nav');
+  new IntersectionObserver(([e]) => nav.classList.toggle('is-stuck', !e.isIntersecting), { threshold: 1 })
+    .observe(document.getElementById('navSentinel'));
+
+  const menu = document.getElementById('menu');
+  const openMenu = on => {
+    menu.classList.toggle('is-open', on);
+    document.getElementById('burger').setAttribute('aria-expanded', String(on));
+    document.body.style.overflow = on ? 'hidden' : '';
+  };
+  document.getElementById('burger').addEventListener('click', () => openMenu(true));
+  document.getElementById('menuClose').addEventListener('click', () => openMenu(false));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => openMenu(false)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') openMenu(false); });
+
+  /* 5. vista previa que sigue al cursor */
+  const peek = document.getElementById('peek');
+  const peekImg = peek.querySelector('img');
+  const list = document.getElementById('svcList');
+  if (!reduce && window.matchMedia('(hover: hover) and (min-width: 901px)').matches) {
+    let tx=0, ty=0, x=0, y=0, on=false, raf=null;
+    const loop = () => {
+      x += (tx-x)*.14; y += (ty-y)*.14;
+      peek.style.translate = x + 'px ' + y + 'px';
+      raf = (on || Math.abs(tx-x) > .5) ? requestAnimationFrame(loop) : null;
+    };
+    list.querySelectorAll('.svc__item').forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        peekImg.src = item.dataset.peek; on = true; peek.classList.add('is-on');
+        if (!raf) raf = requestAnimationFrame(loop);
+      });
+      item.addEventListener('mouseleave', () => { on = false; peek.classList.remove('is-on'); });
+    });
+    list.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
+  }
+
+  /* 6. formulario */
+  const form = document.getElementById('ctForm');
+  const status = document.getElementById('ctStatus');
+  const submit = document.getElementById('ctSubmit');
+  const check = (fieldId, inputId) => {
+    const field = document.getElementById(fieldId);
+    const ok = document.getElementById(inputId).value.trim().length > 0;
+    field.classList.toggle('has-err', !ok);
+    return ok;
+  };
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const okName = check('fName','i-name'), okCt = check('fContact','i-contact');
+    if (!okName || !okCt) { status.textContent = 'Revisa los campos marcados.'; return; }
+    submit.textContent = 'Enviando'; submit.disabled = true; status.textContent = 'Procesando.';
+    setTimeout(() => {
+      submit.textContent = 'Enviar'; submit.disabled = false;
+      status.textContent = 'Es un mockup, no hay backend conectado. En el sitio real esto entra a tu bandeja.';
+    }, 900);
+  });
+
+  /* 7. intro */
+  const ldr = document.getElementById('ldr'), bar = document.getElementById('ldrBar'), pct = document.getElementById('ldrPct');
+  const reveal = () => {
+    ldr.classList.add('is-done'); document.body.style.overflow = '';
+    root.classList.add('is-ready'); setTimeout(() => ldr.remove(), 1200);
+  };
+  if (reduce) { ldr.remove(); root.classList.add('is-ready'); }
+  else {
+    document.body.style.overflow = 'hidden';
+    const t0 = performance.now(), dur = 1250;
+    const step = now => {
+      const p = Math.min(1, (now - t0) / dur);
+      const eased = 1 - Math.pow(1 - p, 2.2);
+      bar.style.width = (eased * 100) + '%';
+      pct.textContent = String(Math.round(eased * 100)).padStart(2, '0');
+      if (p < 1) requestAnimationFrame(step); else setTimeout(reveal, 180);
+    };
+    requestAnimationFrame(step);
+    setTimeout(() => { if (document.body.contains(ldr)) reveal(); }, 3500);
+  }
+})();
+</script>
+
+</body>
+</html>

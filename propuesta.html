@@ -1,0 +1,818 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HEBA — Propuesta de identidad y sitio</title>
+<style>
+  :root {
+    --ink:        #0C0C0D;
+    --ink-2:      #3A3A3E;
+    --ink-3:      #71717A;
+    --line:       #E4E4E7;
+    --line-soft:  #F1F1F3;
+    --paper:      #FCFCFB;
+    --paper-2:    #FFFFFF;
+    --accent:     #FF5C1A;
+    --accent-ink: #C43E00;
+    --ok:         #0F7A4A;
+    --radius:     10px;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
+    --sans: "Inter", ui-sans-serif, -apple-system, "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink:        #F4F4F5;
+      --ink-2:      #C4C4C9;
+      --ink-3:      #8A8A93;
+      --line:       #2A2A2E;
+      --line-soft:  #1C1C1F;
+      --paper:      #0B0B0C;
+      --paper-2:    #121214;
+      --accent:     #FF6B2C;
+      --accent-ink: #FF8A52;
+      --ok:         #3DD68C;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink:#F4F4F5; --ink-2:#C4C4C9; --ink-3:#8A8A93;
+    --line:#2A2A2E; --line-soft:#1C1C1F;
+    --paper:#0B0B0C; --paper-2:#121214;
+    --accent:#FF6B2C; --accent-ink:#FF8A52; --ok:#3DD68C;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 24px 140px; }
+
+  /* ---------- header ---------- */
+  header.doc { padding: 88px 0 56px; border-bottom: 1px solid var(--line); }
+  .brandline { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
+  .brandline .word {
+    font-size: 20px; font-weight: 700; letter-spacing: -0.04em;
+  }
+  h1 {
+    font-size: clamp(34px, 6vw, 52px);
+    line-height: 1.05; letter-spacing: -0.045em; font-weight: 700;
+    margin: 0 0 18px;
+  }
+  .lede { font-size: 19px; color: var(--ink-2); max-width: 60ch; margin: 0; line-height: 1.55; }
+  .meta {
+    margin-top: 32px; font-family: var(--mono); font-size: 12px;
+    color: var(--ink-3); letter-spacing: 0.02em;
+  }
+
+  /* ---------- sections ---------- */
+  section { padding: 64px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: 0; }
+  .num {
+    font-family: var(--mono); font-size: 12px; color: var(--accent-ink);
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px;
+  }
+  h2 {
+    font-size: clamp(24px, 3.6vw, 32px); letter-spacing: -0.035em;
+    line-height: 1.15; font-weight: 650; margin: 0 0 20px;
+  }
+  h3 {
+    font-size: 16px; font-weight: 640; letter-spacing: -0.015em;
+    margin: 32px 0 10px;
+  }
+  p { color: var(--ink-2); margin: 0 0 16px; max-width: 68ch; }
+  strong { color: var(--ink); font-weight: 620; }
+  ul { padding-left: 20px; margin: 0 0 16px; color: var(--ink-2); max-width: 68ch; }
+  li { margin-bottom: 8px; }
+  code {
+    font-family: var(--mono); font-size: 0.87em;
+    background: var(--line-soft); padding: 2px 6px; border-radius: 4px; color: var(--ink);
+  }
+
+  .callout {
+    border-left: 2px solid var(--accent);
+    padding: 4px 0 4px 20px; margin: 28px 0;
+  }
+  .callout p { margin: 0; color: var(--ink); font-size: 17px; }
+
+  .card {
+    border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 24px; background: var(--paper-2); margin: 20px 0;
+  }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 660px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+
+  .label {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px;
+  }
+
+  /* ---------- logo lab ---------- */
+  .logolab {
+    display: flex; align-items: flex-end; gap: 32px; flex-wrap: wrap;
+    padding: 28px 24px; border: 1px solid var(--line);
+    border-radius: var(--radius); background: var(--paper-2); margin: 18px 0;
+  }
+  .spec { text-align: center; color: var(--ink); }
+  .spec svg { display: block; margin: 0 auto 10px; color: var(--ink); }
+  .spec .px { font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+
+  .verdict {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em;
+    text-transform: uppercase; margin-top: 12px;
+  }
+  .verdict.bad { color: var(--accent-ink); }
+  .verdict.good { color: var(--ok); }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  .appicons { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
+
+  /* ---------- swatches ---------- */
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 12px; margin: 20px 0; }
+  .sw { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .sw .chip { height: 66px; }
+  .sw .info { padding: 9px 11px; font-family: var(--mono); font-size: 11px; line-height: 1.5; }
+  .sw .info b { display: block; font-weight: 500; color: var(--ink); }
+  .sw .info span { color: var(--ink-3); }
+
+  /* ---------- before / after ---------- */
+  .ba { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin: 20px 0; }
+  .ba > div { padding: 22px; }
+  .ba > div:first-child { border-right: 1px solid var(--line); background: var(--line-soft); }
+  @media (max-width: 660px) {
+    .ba { grid-template-columns: 1fr; }
+    .ba > div:first-child { border-right: 0; border-bottom: 1px solid var(--line); }
+  }
+  .ba .tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 12px; }
+  .ba .headline { font-size: 21px; line-height: 1.2; letter-spacing: -0.03em; font-weight: 660; color: var(--ink); margin-bottom: 10px; }
+  .ba .sub { font-size: 14px; color: var(--ink-2); margin: 0; }
+
+  /* ---------- wireframe ---------- */
+  .wire {
+    border: 1px solid var(--line); border-radius: var(--radius);
+    overflow: hidden; margin: 20px 0; background: var(--paper-2);
+  }
+  .wire .block { padding: 18px 22px; border-bottom: 1px dashed var(--line); }
+  .wire .block:last-child { border-bottom: 0; }
+  .wire .bname {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--accent-ink); margin-bottom: 6px;
+  }
+  .wire .bdesc { font-size: 14px; color: var(--ink-2); line-height: 1.5; }
+  .wire .bdesc em { color: var(--ink-3); font-style: normal; }
+
+  /* ---------- table ---------- */
+  .tablewrap { overflow-x: auto; margin: 20px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 480px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; }
+  td { color: var(--ink-2); }
+  td:first-child { color: var(--ink); font-weight: 560; white-space: nowrap; }
+
+  .status {
+    display: inline-block; font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 100px; border: 1px solid var(--line); color: var(--ink-3);
+  }
+  .status.live { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
+  .status.soon { color: var(--accent-ink); border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+
+  footer.doc { padding-top: 56px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="doc">
+  <div class="brandline">
+    <svg width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <rect x="6"  y="6"    width="5"  height="20" rx="0.5" fill="currentColor"/>
+      <rect x="21" y="6"    width="5"  height="20" rx="0.5" fill="currentColor"/>
+      <rect x="11" y="13.5" width="10" height="5"  fill="var(--accent)"/>
+    </svg>
+    <span class="word">HEBA</span>
+  </div>
+
+  <h1>Menos superficie,<br>más evidencia.</h1>
+  <p class="lede">
+    Propuesta de identidad y arquitectura de sitio. El objetivo no es que se vea
+    moderno: es que un desconocido entienda qué hacés en ocho segundos y tenga
+    una razón concreta para creerte.
+  </p>
+  <div class="meta">HEBATECH · PROPUESTA v1 · 2026</div>
+</header>
+
+<!-- ============ 01 ============ -->
+<section>
+  <div class="num">01 — Diagnóstico</div>
+  <h2>Qué está fallando hoy</h2>
+
+  <p>
+    No es que el sitio esté "feo". Está <strong>correcto y es invisible</strong>, que es
+    peor. Cuatro problemas concretos, en orden de gravedad:
+  </p>
+
+  <h3>1. Las cifras no están respaldadas</h3>
+  <p>
+    <code>50+ proyectos</code>, <code>98% satisfacción</code>, <code>120+ horas ahorradas</code>,
+    <code>60% reducción de errores</code>. Nadie puede verificar ninguna. Un comprador que
+    evalúa proveedores las descuenta automáticamente — y de paso descuenta todo lo demás
+    que digas.
+  </p>
+  <div class="callout">
+    <p>
+      El minimalismo no perdona. Cuando sacás los gradientes y las formas flotantes,
+      lo único que queda en pantalla son tus afirmaciones. Si son infladas, el
+      rediseño las deja desnudas.
+    </p>
+  </div>
+
+  <h3>2. Los productos no existen en el sitio</h3>
+  <p>
+    Tenés un ERP por suscripción a punto de salir y un sistema para barberías en
+    construcción. <strong>Eso es lo más valioso que tenés y no aparece por ningún lado.</strong>
+    Un producto en construcción es una prueba real; un porcentaje inventado no lo es.
+  </p>
+
+  <h3>3. Seis servicios que dicen lo mismo</h3>
+  <p>
+    Inventarios, gestión comercial, posicionamiento web, trazabilidad, automatización,
+    integraciones. Cuatro de esos seis son la misma venta con distinto nombre. Seis
+    opciones no comunican amplitud, comunican que no elegiste.
+  </p>
+
+  <h3>4. La identidad no distingue</h3>
+  <p>
+    Cinco azules corporativos, hexágono con nodos, sufijo <code>-Tech</code>. Cada
+    decisión, por separado, es defendible. Juntas dan el promedio exacto de la categoría.
+  </p>
+</section>
+
+<!-- ============ 02 ============ -->
+<section>
+  <div class="num">02 — Posicionamiento</div>
+  <h2>Un estudio que además envía productos</h2>
+
+  <p>
+    Este es el cambio estructural. Hoy el sitio dice "hacemos software a medida",
+    que es lo que dicen diez mil empresas. La verdad es más interesante:
+    <strong>construyen a medida y también lanzan productos propios.</strong>
+  </p>
+
+  <p>Eso importa porque le da al visitante dos puertas y a vos dos pruebas:</p>
+  <ul>
+    <li><strong>Productos</strong> — precio claro, entrada rápida, escala sin tu tiempo.</li>
+    <li><strong>A medida</strong> — desarrollos e IA aplicada para lo que ningún producto resuelve.</li>
+  </ul>
+
+  <p>
+    Y el argumento que ninguna agencia genérica puede usar:
+    <em>"no solo construimos para clientes — operamos nuestros propios productos en
+    producción."</em> Eso es diferenciación real, no adjetivos.
+  </p>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Iniciativa</th><th>Tipo</th><th>Estado real</th><th>Rol en el sitio</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ERP por suscripción</td>
+          <td>Producto</td>
+          <td><span class="status soon">Por lanzar</span></td>
+          <td>Protagonista. Lista de espera + demo.</td>
+        </tr>
+        <tr>
+          <td>Sistema para barberías</td>
+          <td>Producto vertical</td>
+          <td><span class="status">En construcción</span></td>
+          <td>Prueba de foco vertical. Avance público.</td>
+        </tr>
+        <tr>
+          <td>Desarrollo a medida</td>
+          <td>Servicio</td>
+          <td><span class="status live">Activo</span></td>
+          <td>Motor de ingresos hoy.</td>
+        </tr>
+        <tr>
+          <td>IA aplicada</td>
+          <td>Servicio</td>
+          <td><span class="status live">Activo</span></td>
+          <td>Diferenciador técnico.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <p>
+      Mostrar algo "en construcción" no es debilidad. Es la única forma de credibilidad
+      disponible para una empresa joven — y es más convincente que cualquier
+      testimonial que nadie va a verificar.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 03 ============ -->
+<section>
+  <div class="num">03 — Nombre</div>
+  <h2>HEBA, sin el <code>-Tech</code></h2>
+
+  <p>
+    <strong>"Heba" es un buen activo.</strong> Corto, se pronuncia solo, sin carga semántica
+    previa, sin colisión. Podés cargarlo con el significado que quieras — eso es
+    exactamente lo que querés de un nombre de marca.
+  </p>
+  <p>
+    <code>-Tech</code> es el problema. Es el sufijo por defecto de 2012–2018. Al lado de
+    NovaTech, InfoTech y SysTech no se distingue, y no agrega información: si el sitio ya
+    explica qué hacés, "Tech" solo resta memorabilidad.
+  </p>
+  <p>
+    Además rompe cuando aparecen los productos.
+    <code>HebaTech ERP</code> tropieza; <code>Heba ERP</code> y <code>Heba Barber</code>
+    respiran. Una marca madre corta que sostiene una familia de productos: eso es
+    arquitectura, no capricho estético.
+  </p>
+
+  <div class="callout">
+    <p>
+      Ya lo sabías sin saberlo: en <code>Navbar.tsx</code> escribiste
+      <code>&lt;strong&gt;HEBA&lt;/strong&gt;TECH</code>. Vos mismo marcaste cuál es la mitad
+      que importa.
+    </p>
+  </div>
+
+  <h3>Cómo migrar sin perder nada</h3>
+  <ul>
+    <li><strong>Razón social:</strong> queda HebaTech S.A.S. — no se toca nada legal.</li>
+    <li><strong>Marca visible:</strong> <code>HEBA</code> en logo, header, mails y productos.</li>
+    <li><strong>Transición:</strong> el footer puede decir "HEBA — antes HebaTech" por unos meses. Cero fricción.</li>
+    <li><strong>Dominio:</strong> conservá <code>hebatech.co</code> con redirect; el corto es el principal.</li>
+  </ul>
+</section>
+
+<!-- ============ 04 ============ -->
+<section>
+  <div class="num">04 — Marca</div>
+  <h2>Un logo que sobreviva a 16 píxeles</h2>
+
+  <p>
+    Esta no es una discusión de gusto. Es una prueba que se pasa o se falla, y el logo
+    actual la falla. Miralo vos mismo — el mismo SVG que está hoy en
+    <code>Navbar.tsx</code>, renderizado a los tamaños en que realmente se usa:
+  </p>
+
+  <div class="label">Marca actual — hexágono con nodos</div>
+  <div class="logolab">
+    <div class="spec">
+      <svg width="72" height="72" viewBox="0 0 50 50" fill="none">
+        <path d="M25 5L45 15V35L25 45L5 35V15L25 5Z" fill="currentColor"/>
+        <circle cx="25" cy="15" r="3" fill="#fff"/><circle cx="35" cy="25" r="3" fill="#fff"/>
+        <circle cx="25" cy="35" r="3" fill="#fff"/><circle cx="15" cy="25" r="3" fill="#fff"/>
+        <circle cx="25" cy="25" r="3" fill="#fff"/>
+        <line x1="25" y1="15" x2="25" y2="25" stroke="#fff" stroke-width="2"/>
+        <line x1="25" y1="25" x2="35" y2="25" stroke="#fff" stroke-width="2"/>
+        <line x1="25" y1="25" x2="25" y2="35" stroke="#fff" stroke-width="2"/>
+        <line x1="25" y1="25" x2="15" y2="25" stroke="#fff" stroke-width="2"/>
+      </svg>
+      <div class="px">72px</div>
+    </div>
+    <div class="spec">
+      <svg width="32" height="32" viewBox="0 0 50 50" fill="none">
+        <path d="M25 5L45 15V35L25 45L5 35V15L25 5Z" fill="currentColor"/>
+        <circle cx="25" cy="15" r="3" fill="#fff"/><circle cx="35" cy="25" r="3" fill="#fff"/>
+        <circle cx="25" cy="35" r="3" fill="#fff"/><circle cx="15" cy="25" r="3" fill="#fff"/>
+        <circle cx="25" cy="25" r="3" fill="#fff"/>
+        <line x1="25" y1="15" x2="25" y2="25" stroke="#fff" stroke-width="2"/>
+        <line x1="25" y1="25" x2="35" y2="25" stroke="#fff" stroke-width="2"/>
+        <line x1="25" y1="25" x2="25" y2="35" stroke="#fff" stroke-width="2"/>
+        <line x1="25" y1="25" x2="15" y2="25" stroke="#fff" stroke-width="2"/>
+      </svg>
+      <div class="px">32px · navbar</div>
+    </div>
+    <div class="spec">
+      <svg width="16" height="16" viewBox="0 0 50 50" fill="none">
+        <path d="M25 5L45 15V35L25 45L5 35V15L25 5Z" fill="currentColor"/>
+        <circle cx="25" cy="15" r="3" fill="#fff"/><circle cx="35" cy="25" r="3" fill="#fff"/>
+        <circle cx="25" cy="35" r="3" fill="#fff"/><circle cx="15" cy="25" r="3" fill="#fff"/>
+        <circle cx="25" cy="25" r="3" fill="#fff"/>
+        <line x1="25" y1="15" x2="25" y2="25" stroke="#fff" stroke-width="2"/>
+        <line x1="25" y1="25" x2="35" y2="25" stroke="#fff" stroke-width="2"/>
+        <line x1="25" y1="25" x2="25" y2="35" stroke="#fff" stroke-width="2"/>
+        <line x1="25" y1="25" x2="15" y2="25" stroke="#fff" stroke-width="2"/>
+      </svg>
+      <div class="px">16px · favicon</div>
+    </div>
+    <div>
+      <div class="verdict bad"><span class="dot"></span>Se convierte en una mancha</div>
+    </div>
+  </div>
+
+  <p>
+    A 16px los círculos de <code>r="3"</code> y las líneas de <code>stroke-width="2"</code>
+    colapsan entre sí. En la pestaña del navegador — el lugar donde tu marca aparece
+    <em>todos los días</em> — es un polígono gris sin identidad. Sumado a eso: hexágono +
+    red de nodos es el cliché visual más repetido de la década.
+  </p>
+
+  <h3>Propuesta: la H como estructura</h3>
+  <p>
+    Una H es literalmente dos soportes y un puente. Es la historia del negocio sin
+    decorarla: <strong>lo que ya tenés, lo que querés, y la conexión entre los dos.</strong>
+    Y como son tres formas gruesas y nada más, no colapsa nunca.
+  </p>
+
+  <div class="label">Marca A — H puente <em style="text-transform:none;letter-spacing:0">(recomendada)</em></div>
+  <div class="logolab">
+    <div class="spec">
+      <svg width="72" height="72" viewBox="0 0 32 32" fill="none">
+        <rect x="6" y="6" width="5" height="20" fill="currentColor"/>
+        <rect x="21" y="6" width="5" height="20" fill="currentColor"/>
+        <rect x="11" y="13.5" width="10" height="5" fill="var(--accent)"/>
+      </svg>
+      <div class="px">72px</div>
+    </div>
+    <div class="spec">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <rect x="6" y="6" width="5" height="20" fill="currentColor"/>
+        <rect x="21" y="6" width="5" height="20" fill="currentColor"/>
+        <rect x="11" y="13.5" width="10" height="5" fill="var(--accent)"/>
+      </svg>
+      <div class="px">32px · navbar</div>
+    </div>
+    <div class="spec">
+      <svg width="16" height="16" viewBox="0 0 32 32" fill="none">
+        <rect x="6" y="6" width="5" height="20" fill="currentColor"/>
+        <rect x="21" y="6" width="5" height="20" fill="currentColor"/>
+        <rect x="11" y="13.5" width="10" height="5" fill="var(--accent)"/>
+      </svg>
+      <div class="px">16px · favicon</div>
+    </div>
+    <div class="spec">
+      <svg width="11" height="11" viewBox="0 0 32 32" fill="none">
+        <rect x="6" y="6" width="5" height="20" fill="currentColor"/>
+        <rect x="21" y="6" width="5" height="20" fill="currentColor"/>
+        <rect x="11" y="13.5" width="10" height="5" fill="var(--accent)"/>
+      </svg>
+      <div class="px">11px</div>
+    </div>
+    <div>
+      <div class="verdict good"><span class="dot"></span>Legible hasta 11px</div>
+    </div>
+  </div>
+
+  <div class="label">Marca B — H escalón <em style="text-transform:none;letter-spacing:0">(alternativa con narrativa)</em></div>
+  <div class="logolab">
+    <div class="spec">
+      <svg width="72" height="72" viewBox="0 0 32 32" fill="none">
+        <rect x="6" y="12" width="5" height="14" fill="currentColor"/>
+        <rect x="21" y="6" width="5" height="20" fill="currentColor"/>
+        <rect x="11" y="14" width="10" height="5" fill="var(--accent)"/>
+      </svg>
+      <div class="px">72px</div>
+    </div>
+    <div class="spec">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <rect x="6" y="12" width="5" height="14" fill="currentColor"/>
+        <rect x="21" y="6" width="5" height="20" fill="currentColor"/>
+        <rect x="11" y="14" width="10" height="5" fill="var(--accent)"/>
+      </svg>
+      <div class="px">32px</div>
+    </div>
+    <div class="spec">
+      <svg width="16" height="16" viewBox="0 0 32 32" fill="none">
+        <rect x="6" y="12" width="5" height="14" fill="currentColor"/>
+        <rect x="21" y="6" width="5" height="20" fill="currentColor"/>
+        <rect x="11" y="14" width="10" height="5" fill="var(--accent)"/>
+      </svg>
+      <div class="px">16px</div>
+    </div>
+    <div style="max-width:26ch">
+      <div class="bdesc" style="font-size:13.5px;color:var(--ink-2)">
+        El soporte izquierdo más bajo que el derecho: de donde estás, a donde vas.
+        Cuenta más, cede un poco de neutralidad.
+      </div>
+    </div>
+  </div>
+
+  <h3>Y esto es lo que el hexágono no podía hacer</h3>
+  <p>
+    Tenés productos. Los productos necesitan íconos de app, favicons propios y avatares.
+    El mismo contenedor + un acento distinto por producto = una familia coherente,
+    reconocible al instante, construida con una sola forma:
+  </p>
+  <div class="appicons">
+    <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+      <rect width="56" height="56" rx="14" fill="var(--ink)"/>
+      <rect x="14" y="14" width="7" height="28" fill="var(--paper)"/>
+      <rect x="35" y="14" width="7" height="28" fill="var(--paper)"/>
+      <rect x="21" y="24.5" width="14" height="7" fill="var(--accent)"/>
+    </svg>
+    <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+      <rect width="56" height="56" rx="14" fill="#0F7A4A"/>
+      <rect x="14" y="14" width="7" height="28" fill="#fff"/>
+      <rect x="35" y="14" width="7" height="28" fill="#fff"/>
+      <rect x="21" y="24.5" width="14" height="7" fill="#8FE3B8"/>
+    </svg>
+    <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+      <rect width="56" height="56" rx="14" fill="#5B3DF5"/>
+      <rect x="14" y="14" width="7" height="28" fill="#fff"/>
+      <rect x="35" y="14" width="7" height="28" fill="#fff"/>
+      <rect x="21" y="24.5" width="14" height="7" fill="#C7BBFF"/>
+    </svg>
+    <div style="font-size:13.5px;color:var(--ink-2);max-width:28ch">
+      HEBA · Heba&nbsp;ERP · Heba&nbsp;Barber — misma estructura, distinto acento.
+    </div>
+  </div>
+
+  <div class="callout">
+    <p>
+      Detalle de implementación: hoy el SVG está copiado idéntico en
+      <code>Navbar.tsx</code> y <code>Footer.tsx</code>. Debe vivir en un solo
+      <code>&lt;Logo /&gt;</code>. Un logo duplicado es un logo que algún día va a estar
+      desactualizado en la mitad de los lugares.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 05 ============ -->
+<section>
+  <div class="num">05 — Color</div>
+  <h2>Neutros, y un solo acento</h2>
+
+  <p>
+    Hoy hay cinco azules y cuatro de ellos se usan como acento de tarjetas en
+    <code>Services.tsx</code>. <strong>Cuando cuatro colores casi idénticos significan
+    cuatro cosas distintas, ninguno significa nada.</strong> Eso es decoración disfrazada
+    de sistema.
+  </p>
+  <p>
+    La regla minimalista real: <strong>los neutros construyen la página, el acento marca
+    la acción.</strong> Si el acento aparece en todos lados deja de señalar. En una
+    pantalla debería aparecer una o dos veces — y siempre donde querés que el ojo caiga.
+  </p>
+
+  <div class="swatches">
+    <div class="sw"><div class="chip" style="background:#0C0C0D"></div><div class="info"><b>Ink</b><span>#0C0C0D</span></div></div>
+    <div class="sw"><div class="chip" style="background:#3A3A3E"></div><div class="info"><b>Ink 2</b><span>#3A3A3E</span></div></div>
+    <div class="sw"><div class="chip" style="background:#71717A"></div><div class="info"><b>Ink 3</b><span>#71717A</span></div></div>
+    <div class="sw"><div class="chip" style="background:#E4E4E7"></div><div class="info"><b>Line</b><span>#E4E4E7</span></div></div>
+    <div class="sw"><div class="chip" style="background:#FCFCFB;box-shadow:inset 0 0 0 1px #E4E4E7"></div><div class="info"><b>Paper</b><span>#FCFCFB</span></div></div>
+    <div class="sw"><div class="chip" style="background:#FF5C1A"></div><div class="info"><b>Accent</b><span>#FF5C1A</span></div></div>
+    <div class="sw"><div class="chip" style="background:#C43E00"></div><div class="info"><b>Accent ink</b><span>#C43E00</span></div></div>
+  </div>
+
+  <p>
+    <strong>¿Por qué naranja y no azul?</strong> Porque todo tu sector es azul. El azul
+    corporativo es la decisión que se toma cuando no se quiere decidir: es seguro y es
+    invisible. Un acento cálido sobre neutros fríos te separa de la categoría entera y
+    además suaviza la frialdad B2B — que es justo lo que necesitás si querés llegarle a
+    gente que no es técnica.
+  </p>
+  <p>
+    Nota de accesibilidad, que no es opcional: <code>#FF5C1A</code> es para
+    <em>rellenos</em> (botones, barras, el puente del logo). Para <em>texto</em> sobre
+    blanco usá <code>#C43E00</code>, que pasa AA. Un acento que no se puede leer no es un
+    acento, es un problema.
+  </p>
+</section>
+
+<!-- ============ 06 ============ -->
+<section>
+  <div class="num">06 — Tipografía</div>
+  <h2>Una sola familia, bien usada</h2>
+
+  <p>
+    Hoy cargás Outfit + Montserrat + Inter + JetBrains Mono. Eso son cuatro descargas y
+    cero identidad: nadie percibe la diferencia entre Outfit y Montserrat, pero el
+    navegador sí paga por las dos.
+  </p>
+  <p>
+    <strong>Quedate con Inter y nada más.</strong> El carácter no viene de tener muchas
+    fuentes, viene de usar una con disciplina — contraste de peso real y tracking negativo
+    en los tamaños grandes. Es gratis, ya la tenés, y carga más rápido.
+  </p>
+
+  <div class="card">
+    <div style="font-size:42px;font-weight:700;letter-spacing:-0.045em;line-height:1.05;color:var(--ink)">Display · 700 · −4.5%</div>
+    <div style="font-size:24px;font-weight:650;letter-spacing:-0.03em;line-height:1.2;margin-top:18px;color:var(--ink)">Título · 650 · −3%</div>
+    <div style="font-size:16px;font-weight:400;letter-spacing:0;line-height:1.65;margin-top:18px;color:var(--ink-2);max-width:56ch">
+      Cuerpo · 400 · tracking normal · máximo 68 caracteres por línea. El ancho de línea
+      hace más por la legibilidad que cualquier elección de fuente.
+    </div>
+    <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;margin-top:18px;color:var(--ink-3)">Etiqueta · mono · +10%</div>
+  </div>
+
+  <p>
+    Y bajá los títulos. Hoy <code>h1</code> arranca en <code>4.5rem</code> — 72px de golpe
+    en un ancho de 1280. Eso no es presencia, es grito. La jerarquía se construye con
+    <em>espacio</em>, no con tamaño.
+  </p>
+</section>
+
+<!-- ============ 07 ============ -->
+<section>
+  <div class="num">07 — Estructura</div>
+  <h2>El home nuevo, bloque por bloque</h2>
+
+  <p>
+    Cambio central: <strong>los productos van arriba, los servicios se comprimen de seis a
+    tres, y los números inventados desaparecen.</strong>
+  </p>
+
+  <div class="wire">
+    <div class="block">
+      <div class="bname">Nav</div>
+      <div class="bdesc">
+        Logo · Productos · Servicios · Nosotros · <strong>Hablemos</strong><br>
+        <em>Sin sombra, sin cambio de fondo al scrollear. Una línea de 1px alcanza.</em>
+      </div>
+    </div>
+    <div class="block">
+      <div class="bname">Hero</div>
+      <div class="bdesc">
+        Una frase. Una subfrase. Un botón primario y un link secundario.<br>
+        <em>Se eliminan: el grid de fondo, las tres formas flotantes, el badge, las tres
+        tarjetas laterales y las tres métricas inventadas. Nada de eso ayuda a decidir.</em>
+      </div>
+    </div>
+    <div class="block">
+      <div class="bname">Productos ← nuevo, y va acá arriba</div>
+      <div class="bdesc">
+        Dos tarjetas grandes: <strong>Heba ERP</strong> (por lanzar, lista de espera) y
+        <strong>Heba Barber</strong> (en construcción). Estado honesto y visible en cada una.<br>
+        <em>Este bloque es tu credibilidad. Va antes que cualquier discurso.</em>
+      </div>
+    </div>
+    <div class="block">
+      <div class="bname">Servicios — 3, no 6</div>
+      <div class="bdesc">
+        <strong>Desarrollo a medida</strong> · <strong>IA aplicada</strong> ·
+        <strong>Automatización de procesos</strong><br>
+        <em>Inventarios, trazabilidad e integraciones son ejemplos dentro de "a medida",
+        no categorías hermanas. Web/SEO baja a una línea del footer: no es tu negocio.</em>
+      </div>
+    </div>
+    <div class="block">
+      <div class="bname">Cómo trabajamos</div>
+      <div class="bdesc">
+        Tres pasos con tiempos reales: Diagnóstico → Construcción → Acompañamiento.<br>
+        <em>Decir "primera versión funcionando en X semanas" es una promesa verificable.
+        Reemplaza a las métricas fantasma con algo por lo que te pueden reclamar.</em>
+      </div>
+    </div>
+    <div class="block">
+      <div class="bname">Prueba</div>
+      <div class="bdesc">
+        Un caso real contado en concreto: qué hacían antes, qué hacen ahora.<br>
+        <em>Si todavía no hay uno publicable, este bloque no existe. Un bloque vacío es
+        mejor que un bloque inventado — y te da una razón para conseguir el primero.</em>
+      </div>
+    </div>
+    <div class="block">
+      <div class="bname">Contacto</div>
+      <div class="bdesc">
+        Formulario corto + WhatsApp directo.<br>
+        <em>Y un mail en dominio propio. <code>@outlook.com</code> le cuesta credibilidad
+        a todo lo demás — es lo más barato de arreglar en toda esta lista.</em>
+      </div>
+    </div>
+    <div class="block">
+      <div class="bname">Footer</div>
+      <div class="bdesc">
+        Logo, una línea, links, redes. <em>Sin la columna "Empresa" con cuatro conceptos
+        sueltos que no son links a ningún lado.</em>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 08 ============ -->
+<section>
+  <div class="num">08 — Copy</div>
+  <h2>Concreto le gana a impresionante</h2>
+
+  <div class="ba">
+    <div>
+      <div class="tag">Hoy</div>
+      <div class="headline">Transformamos tu empresa con tecnología que impulsa resultados</div>
+      <p class="sub">
+        Desarrollamos sistemas web personalizados que automatizan procesos, centralizan
+        información y fortalecen el control operativo de tu negocio.
+      </p>
+    </div>
+    <div>
+      <div class="tag">Propuesta</div>
+      <div class="headline">Software que hace el trabajo que hoy hacés a mano.</div>
+      <p class="sub">
+        Construimos sistemas a medida y desarrollamos nuestros propios productos.
+        Si lo que necesitás ya existe, te lo damos hecho. Si no, lo construimos.
+      </p>
+    </div>
+  </div>
+
+  <p>
+    La diferencia no es de estilo. La versión de la izquierda podrían firmarla diez mil
+    empresas y ninguna estaría mintiendo — <strong>si tu titular sirve para cualquiera, no
+    te sirve a vos.</strong> La de la derecha nombra el dolor ("lo que hoy hacés a mano") y
+    dice algo que solo vos podés decir (productos propios + a medida).
+  </p>
+
+  <h3>Tres reglas para todo el copy</h3>
+  <ul>
+    <li><strong>Sin cifras que no puedas probar.</strong> Si no tenés el caso documentado, el número no va.</li>
+    <li><strong>Verbos concretos.</strong> "Reemplazamos tu Excel de inventario" &gt; "optimizamos la gestión".</li>
+    <li><strong>La juventud, de frente.</strong> "Somos un equipo chico, por eso hablás con quien construye" convierte tu debilidad en argumento. Esconderla detrás de un 98% inventado la convierte en riesgo.</li>
+  </ul>
+</section>
+
+<!-- ============ 09 ============ -->
+<section>
+  <div class="num">09 — Ejecución</div>
+  <h2>En qué orden</h2>
+
+  <p>Ordenado por impacto sobre esfuerzo. Lo de arriba se hace hoy y ya te cambia el sitio.</p>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Paso</th><th>Qué</th><th>Por qué primero</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Sacar las cinco cifras inventadas</td>
+          <td>Cero costo técnico. Es lo único que hoy te resta credibilidad activamente.</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><code>&lt;title&gt;</code> real + favicon</td>
+          <td>Hoy dice <code>hebatech-web-app</code> y muestra el logo de Vite. Es lo primero que ve Google y la pestaña.</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Mail en dominio propio</td>
+          <td>Diez minutos. Elimina la señal más fuerte de "empresa improvisada".</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Bloque de Productos en el home</td>
+          <td>Tu mayor activo, hoy invisible. Es lo que te separa de una agencia cualquiera.</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Servicios: de 6 a 3</td>
+          <td>Borrar es la parte más difícil del minimalismo, y la que más rinde.</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Tokens nuevos en <code>global.css</code></td>
+          <td>Un solo archivo. Cambia el sitio entero sin tocar componentes.</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>Componente <code>&lt;Logo /&gt;</code> + marca nueva</td>
+          <td>Elimina el SVG duplicado y aplica la identidad de una.</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>Hero limpio</td>
+          <td>Sacar el grid, las formas flotantes y las tarjetas. Menos código, menos CSS, más foco.</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>Landings de producto</td>
+          <td>Cuando el ERP tenga fecha. <code>/erp</code> con lista de espera.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <p>
+      Los pasos 1 a 3 no son diseño y son los de mayor retorno de toda la lista.
+      El rediseño más caro del mundo no compensa un <code>@outlook.com</code> en la
+      página de contacto.
+    </p>
+  </div>
+</section>
+
+<footer class="doc">
+  Propuesta preparada sobre el código actual de <code>hebatech-front</code> —
+  <code>Hero</code>, <code>Navbar</code>, <code>Services</code>, <code>Footer</code>,
+  <code>About</code> y <code>global.css</code>. Cada crítica apunta a una línea concreta;
+  ninguna es de gusto personal.
+</footer>
+
+</div>
+</body>
+</html>
