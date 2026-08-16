@@ -1,124 +1,136 @@
+import { useEffect, useRef } from 'react';
 import './Services.css';
-import { useNavigate } from 'react-router-dom';
 
-const servicesData = [
+const SERVICES = [
   {
-    id: 1,
-    title: 'Sistemas de Gestión de Inventarios',
-    description: 'Control total mediante inventarios en tiempo real, trazabilidad de activos y seguimiento histórico completo de cada proceso.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M20 7L12 3L4 7M20 7L12 11M20 7V17L12 21M12 11L4 7M12 11V21M4 7V17L12 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-    color: '#2E5C8A',
-    path: '/servicios'
+    title: 'Desarrollo a medida',
+    body: 'Sistemas construidos alrededor de cómo trabaja tu equipo, no al revés. Empezamos entendiendo la operación real antes de escribir una línea de código.',
+    note: 'Inventarios, trazabilidad, gestión comercial, integraciones con lo que ya usas.',
+    peek: 'https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdXB3azYxODAyMjQyLXdpa2ltZWRpYS1pbWFnZS1rcDZhZTV4Zy5qcGc.jpg',
   },
   {
-    id: 2,
-    title: 'Gestión Comercial',
-    description: 'Automatización del ciclo de ventas con pedidos y facturación ágil, plataformas web con acceso remoto y paneles de decisiones basados en datos reales.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M16 8V16M12 11V16M8 14V16M6 20H18C19.1046 20 20 19.1046 20 18V6C20 4.89543 19.1046 4 18 4H6C4.89543 4 4 4.89543 4 6V18C4 19.1046 4.89543 20 6 20Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-    color: '#4A7BA7',
-    path: '/servicios'
+    title: 'IA aplicada',
+    body: 'Inteligencia artificial donde resuelve algo concreto: clasificar documentos, responder consultas repetidas, extraer datos de facturas.',
+    note: 'No hacemos IA para poder decir que hacemos IA.',
+    peek: 'https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL3B4OTQ1Nzc0LWltYWdlLWt6MmViNDEzLmpwZw.jpg',
   },
   {
-    id: 3,
-    title: 'Posicionamiento en la Web',
-    description: 'Creación de páginas web optimizadas para aumentar la presencia del negocio en internet, llegar a más personas y generar oportunidades de venta.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M21 12C21 16.9706 16.9706 21 12 21M21 12C21 7.02944 16.9706 3 12 3M21 12H3M12 21C7.02944 21 3 16.9706 3 12M12 21C13.6569 21 15 16.9706 15 12C15 7.02944 13.6569 3 12 3M12 21C10.3431 21 9 16.9706 9 12C9 7.02944 10.3431 3 12 3M3 12C3 7.02944 7.02944 3 12 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-    color: '#5B9BD5',
-    path: '/servicios'
+    title: 'Automatización',
+    body: 'Esa tarea que alguien de tu equipo repite todos los martes durante tres horas. La identificamos, la medimos y la convertimos en un flujo automático.',
+    note: 'Empezamos por la que más tiempo te come.',
+    peek: 'https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL3B4MTQwNzU3NC1pbWFnZS1rejJlOGVuby5qcGc.jpg',
   },
-  {
-    id: 4,
-    title: 'Trazabilidad de Procesos',
-    description: 'Sistema que permite registrar, controlar y dar seguimiento a cada etapa de un proceso, sabiendo qué se hizo, cuándo y por quién.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5C9 6.10457 9.89543 7 11 7H13C14.1046 7 15 6.10457 15 5M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5M12 12H15M12 16H15M9 12H9.01M9 16H9.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-    color: '#0066CC',
-    path: '/servicios'
-  },
-  {
-    id: 5,
-    title: 'Automatización de Procesos',
-    description: 'Transformamos tareas manuales repetitivas en flujos automatizados que reducen errores, ahorran tiempo y mejoran la eficiencia operativa.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M13 10V3L4 14H11V21L20 10H13Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-    color: '#2E5C8A',
-    path: '/servicios'
-  },
-  {
-    id: 6,
-    title: 'Integraciones Personalizadas',
-    description: 'Conectamos tus herramientas existentes con sistemas personalizados para centralizar información y optimizar flujos de trabajo.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M17 8L21 12M21 12L17 16M21 12H13M7 8L3 12M3 12L7 16M3 12H11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-    color: '#4A7BA7', 
-    path: '/servicios'
-  }
 ];
 
-const Services = () => {
+const FINE_POINTER = '(hover: hover) and (min-width: 901px)';
+const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 
-  const navigate = useNavigate();
+/**
+ * Servicios. Lista editorial, sin tarjetas: cuando el contenido alcanza, la
+ * caja sobra. Son tres a proposito, no seis: seis opciones no comunican
+ * amplitud, comunican que no se eligio.
+ *
+ * Al pasar el cursor por cada fila aparece una vista previa que sigue al
+ * mouse con inercia. El seguimiento corre en requestAnimationFrame y escribe
+ * directo en el estilo, sin pasar por el estado de React: un setState por
+ * frame vuelve a renderizar el arbol entero y colapsa.
+ */
+const Services = () => {
+  const listRef = useRef<HTMLDivElement>(null);
+  const peekRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const list = listRef.current;
+    const peek = peekRef.current;
+    if (!list || !peek) return;
+    if (window.matchMedia(REDUCED_MOTION).matches) return;
+    if (!window.matchMedia(FINE_POINTER).matches) return;
+
+    const img = peek.querySelector('img');
+    let targetX = 0;
+    let targetY = 0;
+    let x = 0;
+    let y = 0;
+    let active = false;
+    let raf: number | null = null;
+
+    const loop = () => {
+      x += (targetX - x) * 0.14;
+      y += (targetY - y) * 0.14;
+      peek.style.translate = `${x}px ${y}px`;
+      raf = active || Math.abs(targetX - x) > 0.5 ? requestAnimationFrame(loop) : null;
+    };
+
+    const onMove = (e: MouseEvent) => {
+      targetX = e.clientX;
+      targetY = e.clientY;
+    };
+
+    const rows = Array.from(list.querySelectorAll<HTMLElement>('.svc__item'));
+    const enter = (row: HTMLElement) => () => {
+      if (img) img.src = row.dataset.peek ?? '';
+      active = true;
+      peek.classList.add('is-on');
+      if (!raf) raf = requestAnimationFrame(loop);
+    };
+    const leave = () => {
+      active = false;
+      peek.classList.remove('is-on');
+    };
+
+    const handlers = rows.map((row) => {
+      const on = enter(row);
+      row.addEventListener('mouseenter', on);
+      row.addEventListener('mouseleave', leave);
+      return { row, on };
+    });
+    list.addEventListener('mousemove', onMove);
+
+    return () => {
+      handlers.forEach(({ row, on }) => {
+        row.removeEventListener('mouseenter', on);
+        row.removeEventListener('mouseleave', leave);
+      });
+      list.removeEventListener('mousemove', onMove);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
 
   return (
-    <section className="services section" id="servicios">
-      <div className="services__container container">
-        <div className="services__header">
-          <div className="services__tag">SERVICIOS</div>
-          <h2 className="services__title">
-            Soluciones tecnológicas que transforman tu operación
-          </h2>
-          <p className="services__subtitle">
-            Desarrollamos sistemas web, automatizamos procesos y creamos soluciones digitales 
-            que optimizan operaciones y organizan la información de tu negocio.
-          </p>
-        </div>
+    <>
+      <div className="peek" ref={peekRef} aria-hidden="true">
+        <img src="" alt="" />
+      </div>
 
-        <div className="services__grid">
-          {servicesData.map((service, index) => (
-            <div 
-              key={service.id} 
-              className="service-card"
-              style={{ animationDelay: `${index * 0.1}s` }}
-              onClick={() => navigate(`/servicios#${service.id}`)}
-            >
-              <div className="service-card__icon" style={{ backgroundColor: `${service.color}15` }}>
-                <div className="service-card__icon-inner" style={{ color: service.color }}>
-                  {service.icon}
+      <section className="sec sec--tint" id="servicios">
+        <div className="wrap">
+          <div className="rv">
+            <h2 className="dsp dsp--md svc__title" data-split>
+              Cuando ningún producto resuelve lo tuyo.
+            </h2>
+            <p className="lead svc__lead">Tres formas de trabajar juntos. No hay una cuarta.</p>
+          </div>
+
+          <div className="svc" ref={listRef}>
+            {SERVICES.map((service, i) => (
+              <div
+                key={service.title}
+                className="svc__item rv"
+                data-peek={service.peek}
+                style={{ '--d': `${i * 90}ms` } as React.CSSProperties}
+              >
+                <div className="svc__n">{String(i + 1).padStart(2, '0')}</div>
+                <h3>{service.title}</h3>
+                <div>
+                  <p className="body">{service.body}</p>
+                  <span className="svc__note">{service.note}</span>
                 </div>
               </div>
-              <h3 className="service-card__title">{service.title}</h3>
-              <p className="service-card__description">{service.description}</p>
-              <div className="service-card__arrow" style={{ color: service.color }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 

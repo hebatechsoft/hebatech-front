@@ -1,0 +1,198 @@
+.ct {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 80px;
+  align-items: start;
+}
+@media (max-width: 1000px) {
+  .ct {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+}
+
+.ct__lead {
+  margin-top: 22px;
+}
+
+.ct__direct {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+}
+.ct__direct a,
+.ct__place {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 15px;
+  color: var(--bone-2);
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  transition:
+    color 0.22s ease,
+    padding-left 0.3s var(--ease);
+}
+.ct__direct a:hover {
+  color: var(--bone);
+  padding-left: 8px;
+}
+.ct__direct svg {
+  color: var(--sage);
+  flex: none;
+}
+
+/* Que pasa despues. La gente no escribe por miedo a lo que viene despues
+   del envio: esto lo responde antes de que lo pregunten. */
+.ct__next {
+  margin-top: 46px;
+  padding-top: 30px;
+  border-top: 1px solid var(--line);
+}
+.ct__next h3 {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone-3);
+  font-weight: 400;
+  margin-bottom: 22px;
+}
+.ct__next ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 18px;
+  counter-reset: paso;
+}
+.ct__next li {
+  position: relative;
+  padding-left: 40px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--bone-2);
+  counter-increment: paso;
+}
+.ct__next li::before {
+  content: counter(paso, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 1px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--sage);
+}
+
+/* ---------------------------------------------------------------------
+   FORMULARIO. En panel de material: sin contenedor eran cuatro rectangulos
+   flotando sobre el fondo.
+   --------------------------------------------------------------------- */
+.form {
+  display: grid;
+  gap: 20px;
+  padding: 34px;
+  border-radius: var(--r);
+}
+@media (max-width: 560px) {
+  .form {
+    padding: 24px 20px;
+  }
+}
+
+.field {
+  display: grid;
+  gap: 7px;
+}
+.field label {
+  font-size: 13px;
+  font-weight: 550;
+  color: var(--bone);
+}
+.field .help {
+  font-size: 12.5px;
+  color: var(--bone-3);
+  margin-top: -3px;
+}
+
+.field input,
+.field select,
+.field textarea {
+  font: inherit;
+  font-size: 15px;
+  color: var(--bone);
+  background: var(--ink);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  padding: 13px 15px;
+  width: 100%;
+  transition:
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--bone-3);
+}
+.field input:hover,
+.field select:hover,
+.field textarea:hover {
+  border-color: var(--bone-3);
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--sage);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--sage) 22%, transparent);
+}
+.field textarea {
+  resize: vertical;
+  min-height: 112px;
+}
+
+/* select con la flecha del sistema reemplazada por el icono de la libreria */
+.sel {
+  position: relative;
+}
+.sel svg {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--bone-3);
+}
+.field select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 42px;
+  cursor: pointer;
+}
+
+.field .err {
+  font-size: 12.5px;
+  color: var(--danger);
+  display: none;
+}
+.field.has-err .err {
+  display: block;
+}
+.field.has-err input,
+.field.has-err textarea {
+  border-color: var(--danger);
+}
+
+.form__submit {
+  justify-self: start;
+}
+.form__submit:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+.form__status {
+  font-size: 13.5px;
+  color: var(--bone-3);
+  min-height: 20px;
+}

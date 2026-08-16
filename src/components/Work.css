@@ -1,0 +1,52 @@
+.work {
+  border-top: 1px solid var(--line);
+}
+
+.work__in {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 64px;
+  align-items: center;
+}
+@media (max-width: 1000px) {
+  .work__in {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}
+
+/* Marco punteado: se lee como hueco reservado, no como error de carga. */
+.work__frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border: 1px dashed var(--line-2);
+  border-radius: var(--r);
+  display: grid;
+  place-items: center;
+}
+.work__frame span {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone-3);
+}
+
+.work__eyebrow {
+  margin-bottom: 22px;
+}
+.work__lead {
+  margin-top: 22px;
+}
+
+.work__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
