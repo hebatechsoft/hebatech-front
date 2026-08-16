@@ -1,213 +1,486 @@
-/* ============================================
-   HEBATECH - GLOBAL STYLES & CSS VARIABLES
-   ============================================ */
+/* =====================================================================
+   HEBA. SISTEMA VISUAL
+   ---------------------------------------------------------------------
+   Tipografia: el registro MANUAL va en serif italica (.hand), el
+   AUTOMATICO en sans. La serif aparece SOLO donde hay trabajo manual.
+   Si marcara todo, dejaria de marcar algo.
 
-:root {
-  /* Color Palette */
-  --color-primary: #2E5C8A;
-  --color-primary-light: #4A7BA7;
-  --color-primary-dark: #1E3A5F;
-  --color-secondary: #5B9BD5;
-  --color-accent: #0066CC;
-  
-  --color-black: #000000;
-  --color-gray-900: #1A1A1A;
-  --color-gray-800: #2D2D2D;
-  --color-gray-700: #404040;
-  --color-gray-600: #6B7280;
-  --color-gray-500: #9CA3AF;
-  --color-gray-400: #D1D5DB;
-  --color-gray-300: #E5E7EB;
-  --color-gray-200: #F3F4F6;
-  --color-gray-100: #F9FAFB;
-  --color-white: #FFFFFF;
-  
-  /* Typography */
-  --font-display: 'Outfit', 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
-  
-  /* Font Sizes */
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
-  --text-5xl: 3rem;
-  --text-6xl: 3.75rem;
-  --text-7xl: 4.5rem;
-  
-  /* Spacing */
-  --space-xs: 0.5rem;
-  --space-sm: 1rem;
-  --space-md: 1.5rem;
-  --space-lg: 2rem;
-  --space-xl: 3rem;
-  --space-2xl: 4rem;
-  --space-3xl: 6rem;
-  --space-4xl: 8rem;
-  
-  /* Layout */
-  --container-max: 1280px;
-  --container-padding: 2rem;
-  --border-radius-sm: 0.375rem;
-  --border-radius-md: 0.5rem;
-  --border-radius-lg: 0.75rem;
-  --border-radius-xl: 1rem;
-  
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  
-  /* Transitions */
-  --transition-fast: 150ms ease-in-out;
-  --transition-base: 250ms ease-in-out;
-  --transition-slow: 350ms ease-in-out;
-  
-  /* Z-index */
-  --z-base: 1;
-  --z-dropdown: 100;
-  --z-sticky: 200;
-  --z-overlay: 300;
-  --z-modal: 400;
-  --z-toast: 500;
+   Materiales: vibrancy tipo macOS (.vib). Es una APROXIMACION web con
+   backdrop-filter, canto de luz interior y sombra profunda. No es el
+   material Liquid Glass de Apple, que existe solo en plataformas Apple.
+
+   Radios, regla unica de tres niveles:
+     superficies 18px  ·  elementos internos 10px  ·  interactivos pill
+
+   Temas: la marca es oscura. El bloque claro queda definido para poder
+   habilitarlo, pero el sitio arranca y se queda en oscuro.
+   Los nombres conservan su ROL: --ink = superficie, --bone = texto.
+   ===================================================================== */
+
+:root[data-theme='dark'] {
+  --ink: #08090a;
+  --ink-2: #0d0f10;
+  --ink-3: #141618;
+  --line: #1e2123;
+  --line-2: #2e3235;
+
+  --bone: #f0ede8;
+  --bone-2: #9a9992;
+  --bone-3: #6a6a64;
+
+  --sage: #8fb09a;
+  --sage-lit: #c4dccb;
+  --sage-fg: #08090a;
+
+  --vib-bg: rgba(22, 25, 26, 0.58);
+  --vib-line: rgba(240, 237, 232, 0.09);
+  --vib-top: rgba(240, 237, 232, 0.1);
+
+  --sh-1: 0 2px 6px rgba(0, 0, 0, 0.4);
+  --sh-2: 0 18px 44px -20px rgba(0, 0, 0, 0.8);
+  --sh-3: 0 40px 90px -34px rgba(0, 0, 0, 0.9);
+
+  --amb-1: rgba(143, 176, 154, 0.12);
+  --amb-2: rgba(143, 176, 154, 0.06);
+  --grain-op: 0.05;
+  --grain-blend: overlay;
+
+  --danger: #e0a29c;
 }
 
-/* ============================================
-   RESET & BASE STYLES
-   ============================================ */
+:root[data-theme='light'] {
+  --ink: #fcfbf8;
+  --ink-2: #f5f3ee;
+  --ink-3: #edeae3;
+  --line: #e4e0d7;
+  --line-2: #cfcabe;
 
-*, *::before, *::after {
-  margin: 0;
-  padding: 0;
+  --bone: #14171a;
+  --bone-2: #56564e;
+  --bone-3: #85837b;
+
+  /* oscurecido respecto del oscuro: sobre papel tiene que pasar AA */
+  --sage: #3e6b4f;
+  --sage-lit: #2c5139;
+  --sage-fg: #fcfbf8;
+
+  --vib-bg: rgba(252, 251, 248, 0.68);
+  --vib-line: rgba(20, 23, 26, 0.09);
+  --vib-top: rgba(255, 255, 255, 0.9);
+
+  --sh-1: 0 2px 6px rgba(20, 23, 26, 0.06);
+  --sh-2: 0 18px 40px -22px rgba(20, 23, 26, 0.22);
+  --sh-3: 0 40px 80px -36px rgba(20, 23, 26, 0.3);
+
+  --amb-1: rgba(62, 107, 79, 0.08);
+  --amb-2: rgba(62, 107, 79, 0.045);
+  --grain-op: 0.03;
+  --grain-blend: multiply;
+
+  --danger: #b3453c;
+}
+
+:root {
+  --sans: 'Geist', ui-sans-serif, -apple-system, 'Segoe UI', system-ui, sans-serif;
+  --serif: 'EB Garamond', Georgia, 'Times New Roman', serif;
+  --mono: 'Geist Mono', ui-monospace, Consolas, monospace;
+
+  --r: 18px;
+  --r-sm: 10px;
+  --pill: 999px;
+  --gut: 34px;
+  --maxw: 1400px;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0.22, 0.8, 0.28, 1);
+  --spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+  /* Cromo de ventana macOS en las vistas previas de producto.
+     Excepcion consciente al acento unico: son colores de sistema
+     operativo, no de marca. Desaturados a proposito. */
+  --tl-1: #c4645c;
+  --tl-2: #c0a057;
+  --tl-3: #71976a;
+
+  /* Capas. Documentadas para no repetir numeros sueltos por el CSS. */
+  --z-bg: 0;
+  --z-content: 1;
+  --z-nav: 50;
+  --z-menu: 55;
+  --z-grain: 90;
+  --z-loader: 100;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --gut: 20px;
+  }
+}
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html {
-  font-size: 16px;
+  background: var(--ink);
   scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
+  margin: 0;
+  background: transparent;
+  color: var(--bone);
+  font-family: var(--sans);
+  font-size: 16px;
   line-height: 1.6;
-  color: var(--color-gray-800);
-  background-color: var(--color-white);
-  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* clip y no hidden: hidden crea un contenedor de scroll y rompe
+     position:sticky en cualquier descendiente. */
+  overflow-x: clip;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--color-gray-900);
-  margin-bottom: var(--space-sm);
-}
-
-h1 { font-size: var(--text-6xl); }
-h2 { font-size: var(--text-5xl); }
-h3 { font-size: var(--text-4xl); }
-h4 { font-size: var(--text-3xl); }
-h5 { font-size: var(--text-2xl); }
-h6 { font-size: var(--text-xl); }
-
-p {
-  margin-bottom: var(--space-md);
-  color: var(--color-gray-600);
+/* Luz ambiente. Le da profundidad de color al negro plano. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(56% 42% at 84% 4%, var(--amb-1), transparent 70%),
+    radial-gradient(60% 46% at 8% 82%, var(--amb-2), transparent 72%);
 }
 
 a {
-  color: var(--color-primary);
+  color: inherit;
   text-decoration: none;
-  transition: color var(--transition-base);
 }
-
-a:hover {
-  color: var(--color-primary-dark);
-}
-
-ul, ol {
-  list-style: none;
-}
-
-img, svg {
-  max-width: 100%;
-  height: auto;
+img {
   display: block;
+  max-width: 100%;
 }
-
 button {
-  font-family: inherit;
+  font: inherit;
   cursor: pointer;
-  border: none;
+  border: 0;
   background: none;
+  color: inherit;
+}
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 400;
+}
+p {
+  margin: 0;
+}
+::selection {
+  background: var(--sage);
+  color: var(--sage-fg);
+}
+:focus-visible {
+  outline: 2px solid var(--sage);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
-input, textarea, select {
-  font-family: inherit;
-  font-size: inherit;
-}
-
-/* ============================================
-   UTILITY CLASSES
-   ============================================ */
-
-.container {
-  max-width: var(--container-max);
+/* ---------------------------------------------------------------------
+   LAYOUT
+   --------------------------------------------------------------------- */
+.wrap {
+  max-width: var(--maxw);
   margin: 0 auto;
-  padding: 0 var(--container-padding);
+  padding: 0 var(--gut);
 }
-
-.section {
-  padding: var(--space-4xl) 0;
+.sec {
+  position: relative;
+  padding: 128px 0;
 }
-
-.section-dark {
-  background-color: var(--color-gray-900);
-  color: var(--color-white);
-}
-
-.text-center {
-  text-align: center;
-}
-
-.text-gradient {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ============================================
-   RESPONSIVE TYPOGRAPHY
-   ============================================ */
-
-@media (max-width: 768px) {
-  :root {
-    --text-6xl: 2.5rem;
-    --text-5xl: 2rem;
-    --text-4xl: 1.75rem;
-    --space-4xl: 4rem;
-    --space-3xl: 3rem;
-  }
-  
-  .container {
-    --container-padding: 1rem;
+@media (max-width: 900px) {
+  .sec {
+    padding: 80px 0;
   }
 }
+.sec--tint {
+  background: var(--ink-2);
+  border-block: 1px solid var(--line);
+}
 
-@media (max-width: 480px) {
-  :root {
-    --text-6xl: 2rem;
-    --text-5xl: 1.75rem;
+/* ---------------------------------------------------------------------
+   TIPOGRAFIA
+   --------------------------------------------------------------------- */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
+.eyebrow::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Interlineado holgado a proposito: la serif italica lleva descendentes
+   (p, y, g) que con line-height por debajo de 1 se pisan con la linea
+   siguiente. Regla de holgura de descendentes. */
+.dsp {
+  font-family: var(--sans);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  font-size: clamp(38px, 5.6vw, 82px);
+}
+.dsp--md {
+  font-size: clamp(30px, 3.9vw, 54px);
+  letter-spacing: -0.042em;
+  line-height: 1.05;
+}
+.hand {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.008em;
+  text-transform: none;
+  /* EB Garamond tiene altura de x menor que Geist: compensacion optica */
+  font-size: 1.1em;
+}
+.sage {
+  color: var(--sage);
+}
+
+.lead {
+  font-size: clamp(16.5px, 1.4vw, 19px);
+  line-height: 1.55;
+  color: var(--bone-2);
+  max-width: 52ch;
+}
+.body {
+  font-size: 15.5px;
+  line-height: 1.68;
+  color: var(--bone-2);
+  max-width: 58ch;
+}
+.micro {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-3);
+}
+
+/* ---------------------------------------------------------------------
+   MATERIAL
+   --------------------------------------------------------------------- */
+.vib {
+  background: var(--vib-bg);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--vib-line);
+  box-shadow:
+    inset 0 1px 0 var(--vib-top),
+    var(--sh-2);
+}
+/* Obligatorio: sin transparencia el material se vuelve solido en vez de
+   quedar ilegible. */
+@media (prefers-reduced-transparency: reduce) {
+  .vib {
+    background: var(--ink-3);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   BOTONES
+   --------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 26px;
+  border-radius: var(--pill);
+  font-size: 14.5px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition:
+    transform 0.3s var(--spring),
+    background 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn--solid {
+  background: var(--sage);
+  color: var(--sage-fg);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    var(--sh-1);
+}
+.btn--solid:hover {
+  background: var(--sage-lit);
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    var(--sh-2);
+}
+.btn--line {
+  border: 1px solid var(--line-2);
+  color: var(--bone);
+}
+.btn--line:hover {
+  border-color: var(--bone-3);
+  background: var(--ink-2);
+  transform: translateY(-2px);
+}
+.btn--glass {
+  color: var(--bone);
+  background: var(--vib-bg);
+  backdrop-filter: blur(16px) saturate(170%);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  border: 1px solid var(--vib-line);
+  box-shadow: inset 0 1px 0 var(--vib-top);
+}
+.btn--glass:hover {
+  border-color: var(--bone-3);
+  transform: translateY(-2px);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .btn--glass {
+    background: var(--ink-3);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+.btn--sm {
+  height: 40px;
+  padding: 0 20px;
+  font-size: 13.5px;
+}
+.btn--lg {
+  height: 56px;
+  padding: 0 32px;
+  font-size: 15.5px;
+}
+.btn i {
+  font-size: 17px;
+}
+
+.tlink {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  color: var(--bone-2);
+  transition:
+    color 0.22s ease,
+    gap 0.22s ease;
+}
+.tlink:hover {
+  color: var(--bone);
+  gap: 15px;
+}
+.tlink i {
+  color: var(--sage);
+}
+
+/* ---------------------------------------------------------------------
+   REVELADO
+   .rv    entrada por seccion, la enciende useReveal
+   .ln    linea enmascarada del revelado por linea (useSplitLines)
+   --------------------------------------------------------------------- */
+.rv {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.9s var(--ease),
+    transform 0.9s var(--ease);
+  transition-delay: var(--d, 0ms);
+}
+.rv.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+.ln {
+  display: block;
+  overflow: hidden;
+  /* reserva para que la mascara no recorte los descendentes de la italica */
+  padding-bottom: 0.22em;
+  margin-bottom: -0.15em;
+}
+.ln > span {
+  display: block;
+  transform: translateY(112%);
+  transition: transform 1.1s var(--ease);
+  transition-delay: var(--d, 0ms);
+}
+.split.is-in .ln > span {
+  transform: none;
+}
+.w {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv,
+  .ln > span {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   GRANO. Capa fija sobre todo. Le quita el plastico a la fotografia.
+   --------------------------------------------------------------------- */
+.grain {
+  position: fixed;
+  inset: -60px;
+  z-index: var(--z-grain);
+  pointer-events: none;
+  opacity: var(--grain-op);
+  mix-blend-mode: var(--grain-blend);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@media (prefers-reduced-motion: no-preference) {
+  .grain {
+    animation: grainShift 700ms steps(3) infinite;
+  }
+  @keyframes grainShift {
+    0% {
+      transform: translate(0, 0);
+    }
+    33% {
+      transform: translate(-14px, 8px);
+    }
+    66% {
+      transform: translate(9px, -11px);
+    }
+    100% {
+      transform: translate(0, 0);
+    }
   }
 }
