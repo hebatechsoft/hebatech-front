@@ -5,7 +5,7 @@ const COLUMNS = [
   {
     title: 'Productos',
     links: [
-      { href: '#productos', label: 'Heba ERP' },
+      { href: 'https://raverp.store', label: 'Rave', external: true },
       { href: '#productos', label: 'Heba Barber' },
     ],
   },

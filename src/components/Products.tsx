@@ -5,8 +5,10 @@ import './Products.css';
 type Product = {
   name: string;
   state: string;
-  /** true cuando el lanzamiento esta cerca: pinta el estado en el acento. */
-  imminent?: boolean;
+  /** Producto ya publicado: pinta el estado en el acento y enlaza afuera. */
+  live?: boolean;
+  /** Destino del CTA. Externo si el producto ya tiene sitio propio. */
+  href: string;
   blurb: string;
   specs: string[];
   cta: string;
@@ -15,15 +17,16 @@ type Product = {
 
 const PRODUCTS: Product[] = [
   {
-    name: 'Heba ERP',
-    state: 'Por lanzar',
-    imminent: true,
+    name: 'Rave',
+    state: 'En producción',
+    live: true,
+    href: 'https://raverp.store',
     blurb:
-      'Inventario, ventas y facturación para empresas que crecieron más rápido que sus hojas de cálculo. Por suscripción, sin instalación.',
-    specs: ['Stock en tiempo real', 'Pedidos y facturación', 'Trazabilidad por movimiento', 'Acceso web'],
-    cta: 'Súmate a la lista de espera',
+      'Inventario, ventas, cotizaciones y reportes en tiempo real. Ya está en producción, con nueve módulos, desde $10.000 COP al mes y tres días de prueba.',
+    specs: ['Inventario inteligente', 'Cuentas por cobrar', 'Cotizaciones y remisiones', 'POS y CRM'],
+    cta: 'Ver Rave',
     preview: {
-      title: 'Heba ERP · Inventario',
+      title: 'Rave · Inventario',
       shortcut: ['⌘', 'K'],
       sidebar: [
         {
@@ -75,6 +78,7 @@ const PRODUCTS: Product[] = [
   {
     name: 'Heba Barber',
     state: 'En construcción',
+    href: '#contacto',
     blurb:
       'Turnos, clientes y caja para barberías. Pensado para el mostrador y para el celular, entre corte y corte.',
     specs: ['Agenda con recordatorios', 'Historial por cliente', 'Comisiones por barbero', 'Cierre de caja'],
@@ -140,8 +144,8 @@ const Products = () => (
             style={{ '--d': `${80 + i * 100}ms` } as React.CSSProperties}
           >
             <div className="prod__stage">
-              <span className={`prod__state ${product.imminent ? 'prod__state--near' : ''}`}>
-                {product.imminent && <span className="dot" />}
+              <span className={`prod__state ${product.live ? 'prod__state--near' : ''}`}>
+                {product.live && <span className="dot" />}
                 {product.state}
               </span>
               <ProductPreview data={product.preview} />
@@ -156,7 +160,11 @@ const Products = () => (
                 ))}
               </ul>
               <div className="prod__foot">
-                <a href="#contacto" className="btn btn--line btn--sm">
+                <a
+                  href={product.href}
+                  className="btn btn--line btn--sm"
+                  {...(product.live ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
                   {product.cta} <ArrowRight size={16} />
                 </a>
               </div>
