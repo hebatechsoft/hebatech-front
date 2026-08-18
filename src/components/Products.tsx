@@ -12,7 +12,10 @@ type Product = {
   blurb: string;
   specs: string[];
   cta: string;
-  preview: PreviewData;
+  /** Captura real del producto. Cuando existe, reemplaza a la vista
+   *  previa dibujada: una captura de lo que ya funciona siempre gana. */
+  shot?: { src: string; srcSet: string; width: number; height: number };
+  preview?: PreviewData;
 };
 
 const PRODUCTS: Product[] = [
@@ -25,54 +28,11 @@ const PRODUCTS: Product[] = [
       'Inventario, ventas, cotizaciones y reportes en tiempo real. Ya está en producción, con nueve módulos, desde $10.000 COP al mes y tres días de prueba.',
     specs: ['Inventario inteligente', 'Cuentas por cobrar', 'Cotizaciones y remisiones', 'POS y CRM'],
     cta: 'Ver Rave',
-    preview: {
-      title: 'Rave · Inventario',
-      shortcut: ['⌘', 'K'],
-      sidebar: [
-        {
-          group: 'Operación',
-          items: [
-            { label: 'Inventario', active: true },
-            { label: 'Movimientos' },
-            { label: 'Pedidos' },
-          ],
-        },
-        { group: 'Comercial', items: [{ label: 'Facturación' }, { label: 'Reportes' }] },
-      ],
-      search: 'Buscar referencia',
-      columns: [
-        { key: 'ref', label: 'Ref' },
-        { key: 'desc', label: 'Descripción' },
-        { key: 'stock', label: 'Stock', align: 'right' },
-        { key: 'estado', label: 'Estado' },
-      ],
-      rows: [
-        {
-          ref: { text: '8842', mono: true },
-          desc: { text: 'Bota industrial, Norte' },
-          stock: { text: '328', mono: true },
-          estado: { text: 'En rango', tone: 'ok' },
-        },
-        {
-          ref: { text: '8817', mono: true },
-          desc: { text: 'Guante nitrilo, Norte' },
-          stock: { text: '1.240', mono: true },
-          estado: { text: 'En rango', tone: 'ok' },
-        },
-        {
-          ref: { text: '7702', mono: true },
-          desc: { text: 'Casco dieléctrico, Sur' },
-          stock: { text: '96', mono: true },
-          estado: { text: 'Bajo', tone: 'low' },
-        },
-        {
-          ref: { text: '6431', mono: true },
-          desc: { text: 'Botín dieléctrico, Norte' },
-          stock: { text: '512', mono: true },
-          estado: { text: 'En rango', tone: 'ok' },
-        },
-      ],
-      footer: ['4 referencias', '2 bodegas'],
+    shot: {
+      src: '/rave.webp',
+      srcSet: '/rave-sm.webp 754w, /rave.webp 1508w',
+      width: 1508,
+      height: 980,
     },
   },
   {
@@ -148,7 +108,20 @@ const Products = () => (
                 {product.live && <span className="dot" />}
                 {product.state}
               </span>
-              <ProductPreview data={product.preview} />
+              {product.shot ? (
+                <img
+                  className="prod__shot"
+                  src={product.shot.src}
+                  srcSet={product.shot.srcSet}
+                  sizes="(max-width: 1040px) 92vw, 46vw"
+                  width={product.shot.width}
+                  height={product.shot.height}
+                  alt={`Panel de ${product.name} con ventas, inventario y clientes`}
+                  loading="lazy"
+                />
+              ) : (
+                product.preview && <ProductPreview data={product.preview} />
+              )}
             </div>
 
             <div className="prod__body">
