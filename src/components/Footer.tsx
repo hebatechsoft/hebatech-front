@@ -20,7 +20,7 @@ const COLUMNS = [
   {
     title: 'Contacto',
     links: [
-      { href: 'mailto:hola@heba.co', label: 'hola@heba.co' },
+      { href: 'mailto:contacto@hebatech.cloud', label: 'contacto@hebatech.cloud' },
       { href: 'https://wa.me/573148126301', label: '+57 314 812 6301', external: true },
     ],
   },

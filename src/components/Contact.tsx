@@ -2,12 +2,12 @@ import { useState, type FormEvent } from 'react';
 import { ArrowRight, CaretDown, EnvelopeSimple, MapPin, WhatsappLogo } from '@phosphor-icons/react';
 import './Contact.css';
 
-const EMAIL = 'hola@heba.co';
+const EMAIL = 'contacto@hebatech.cloud';
 const WHATSAPP = '+57 314 812 6301';
 const WHATSAPP_URL = 'https://wa.me/573148126301';
 
 const TOPICS = [
-  'Heba ERP, lista de espera',
+  'Rave, quiero implementarlo en mi empresa',
   'Heba Barber, quiero probarlo',
   'Un sistema a medida',
   'Automatizar un proceso',
