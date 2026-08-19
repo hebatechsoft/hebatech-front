@@ -278,13 +278,6 @@ p {
   color: var(--bone-2);
   max-width: 58ch;
 }
-.micro {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--bone-3);
-}
 
 /* ---------------------------------------------------------------------
    MATERIAL
@@ -388,23 +381,6 @@ p {
   font-size: 17px;
 }
 
-.tlink {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 15px;
-  color: var(--bone-2);
-  transition:
-    color 0.22s ease,
-    gap 0.22s ease;
-}
-.tlink:hover {
-  color: var(--bone);
-  gap: 15px;
-}
-.tlink i {
-  color: var(--sage);
-}
 
 /* ---------------------------------------------------------------------
    REVELADO
