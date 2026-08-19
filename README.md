@@ -1,3 +1,27 @@
+## Backend del formulario de contacto
+
+`/api/leads.ts` guarda cada envio en Supabase y avisa por mail con Resend.
+`/api/keepalive.ts` corre semanalmente (ver `vercel.json`) para que el
+proyecto free de Supabase no se pause por inactividad.
+
+Variables de entorno a configurar en Vercel (Project Settings > Environment
+Variables). No van en el repo:
+
+| Variable | De donde sale |
+| --- | --- |
+| `SUPABASE_URL` | Supabase > Project Settings > API |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase > Project Settings > API. Nunca al bundle del cliente, solo la usan las funciones en `/api`. |
+| `RESEND_API_KEY` | resend.com/api-keys |
+| `LEADS_NOTIFY_EMAIL` | El mail que recibe el aviso de "nuevo lead" |
+| `CRON_SECRET` | Generar con `openssl rand -base64 24`. Protege `/api/keepalive` para que solo el cron de Vercel lo pueda disparar. |
+
+Antes de tener leads reales, correr `db/schema.sql` en el SQL editor de
+Supabase para crear la tabla `leads`.
+
+Para probar el formulario completo en local (no solo el front) hace falta
+`vercel dev` en vez de `npm run dev` — `npm run dev` sirve el sitio pero no
+levanta las funciones de `/api`.
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

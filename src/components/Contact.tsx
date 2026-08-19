@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { ArrowRight, CaretDown, EnvelopeSimple, MapPin, WhatsappLogo } from '@phosphor-icons/react';
 import { WHATSAPP_DISPLAY, whatsappLink } from '../constants';
+import { validateLead, type LeadPayload } from '../lib/leadValidation';
 import './Contact.css';
 
 const EMAIL = 'contacto@hebatech.cloud';
@@ -19,7 +20,7 @@ const NEXT_STEPS = [
   'Si podemos ayudarte, te pasamos alcance y precio cerrado. Si no, te decimos quién.',
 ];
 
-type Errors = { name?: boolean; contact?: boolean };
+type Errors = { name?: boolean; contact?: boolean; message?: boolean };
 
 /**
  * Contacto.
@@ -27,36 +28,46 @@ type Errors = { name?: boolean; contact?: boolean };
  * El bloque "Que pasa despues" no es relleno: la gente no escribe por miedo
  * a lo que viene despues del envio. Es el contenido que mas convierte en un
  * formulario, y de paso llena el vacio de la columna izquierda.
- *
- * El formulario todavia no tiene backend. `submit` valida y avisa; cuando
- * exista el endpoint, se reemplaza el cuerpo de `handleSubmit`.
  */
 const Contact = () => {
   const [errors, setErrors] = useState<Errors>({});
   const [sending, setSending] = useState(false);
-  const [status, setStatus] = useState('Todavía no hay backend conectado.');
+  const [status, setStatus] = useState('');
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
-    const next: Errors = {
-      name: !String(form.get('name') ?? '').trim(),
-      contact: !String(form.get('contact') ?? '').trim(),
+    const payload: LeadPayload = {
+      name: String(form.get('name') ?? ''),
+      contact: String(form.get('contact') ?? ''),
+      topic: String(form.get('topic') ?? ''),
+      message: String(form.get('message') ?? ''),
     };
-    setErrors(next);
 
-    if (next.name || next.contact) {
+    const next = validateLead(payload);
+    setErrors(next);
+    if (next.name || next.contact || next.message) {
       setStatus('Revisa los campos marcados.');
       return;
     }
 
     setSending(true);
-    setStatus('Procesando.');
-    // TODO: conectar al endpoint real y manejar el error de red
-    window.setTimeout(() => {
+    setStatus('Enviando.');
+
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error('request_failed');
+      setStatus('Listo. Te respondemos en menos de 24 horas hábiles.');
+      e.currentTarget.reset();
+    } catch {
+      setStatus(`No pudimos enviarlo. Escríbenos directo a ${EMAIL} o por WhatsApp.`);
+    } finally {
       setSending(false);
-      setStatus('Todavía no hay backend conectado. En el sitio real esto entra a tu bandeja.');
-    }, 900);
+    }
   };
 
   return (
@@ -118,7 +129,7 @@ const Contact = () => {
                 type="text"
                 placeholder="correo@empresa.com o 300 000 0000"
               />
-              <span className="err">Déjanos un email o un número para contactarte.</span>
+              <span className="err">Déjanos un email o un número válido para contactarte.</span>
             </div>
 
             <div className="field">
@@ -133,7 +144,7 @@ const Contact = () => {
               </div>
             </div>
 
-            <div className="field">
+            <div className={`field ${errors.message ? 'has-err' : ''}`}>
               <label htmlFor="i-msg">Cuéntanos un poco</label>
               <span className="help">Qué se hace hoy a mano en tu empresa.</span>
               <textarea
@@ -141,6 +152,7 @@ const Contact = () => {
                 name="message"
                 placeholder="Por ejemplo: cada semana alguien copia los pedidos del WhatsApp a un Excel."
               />
+              <span className="err">Cuéntanos al menos un par de líneas.</span>
             </div>
 
             <button type="submit" className="btn btn--solid btn--lg form__submit" disabled={sending}>
