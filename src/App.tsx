@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 
 import '@fontsource-variable/geist';
 import '@fontsource-variable/geist-mono';
@@ -20,17 +21,39 @@ import Footer from './components/Footer';
 import { useReveal } from './hooks/useReveal';
 import { useSplitLines } from './hooks/useSplitLines';
 
-const Home = () => (
-  <>
-    <Hero />
-    <Products />
-    <Focus />
-    <Services />
-    <Voices />
-    <Work />
-    <Contact />
-  </>
-);
+/**
+ * `useSplitLines`/`useReveal` van aca, no en `App`. Si alguien entra por una
+ * ruta vieja (`/servicios`), el primer render de `App` muestra el
+ * `<Navigate>` de la ruta legacy, no `Home` todavia: si estos hooks
+ * corrieran en `App` con deps `[]`, encontrarian cero elementos `.rv` /
+ * `[data-split]` y jamas se re-ejecutarian. Al vivir en `Home`, corren
+ * siempre despues de que su propio contenido ya esta montado.
+ *
+ * El scroll al hash tampoco es gratis: `<Navigate to="/#servicios">` cambia
+ * la URL con `history.replaceState`, y eso NO hace scroll solo.
+ */
+const Home = () => {
+  useSplitLines();
+  useReveal();
+
+  const { hash } = useLocation();
+  useEffect(() => {
+    if (!hash) return;
+    document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [hash]);
+
+  return (
+    <>
+      <Hero />
+      <Products />
+      <Focus />
+      <Services />
+      <Voices />
+      <Work />
+      <Contact />
+    </>
+  );
+};
 
 /**
  * El sitio pasa a ser una sola pagina con anclas. Las rutas anteriores no se
@@ -45,9 +68,6 @@ const LEGACY_ROUTES: { from: string; to: string }[] = [
 ];
 
 function App() {
-  useSplitLines();
-  useReveal();
-
   return (
     <Router>
       <Loader />

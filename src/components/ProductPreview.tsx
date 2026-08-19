@@ -76,18 +76,18 @@ const ProductPreview = ({ data }: { data: PreviewData }) => (
               <tr key={i}>
                 {data.columns.map((col) => {
                   const cell = row[col.key];
-                  const isTag = cell.tone !== undefined;
                   return (
                     <td
                       key={col.key}
-                      className={cell.mono ? 'ui__mono' : undefined}
+                      className={cell?.mono ? 'ui__mono' : undefined}
                       style={col.align === 'right' ? { textAlign: 'right' } : undefined}
                     >
-                      {isTag ? (
-                        <span className={`ui__tag ui__tag--${cell.tone}`}>{cell.text}</span>
-                      ) : (
-                        cell.text
-                      )}
+                      {cell &&
+                        (cell.tone !== undefined ? (
+                          <span className={`ui__tag ui__tag--${cell.tone}`}>{cell.text}</span>
+                        ) : (
+                          cell.text
+                        ))}
                     </td>
                   );
                 })}

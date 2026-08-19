@@ -33,9 +33,13 @@ const Navbar = () => {
     return () => io.disconnect();
   }, []);
 
-  // el menu movil bloquea el scroll de fondo mientras esta abierto
+  // El menu movil bloquea el scroll de fondo mientras esta abierto. Si no
+  // esta abierto, este efecto no toca `overflow` para nada: el Loader
+  // tambien lo usa durante la intro, y pisarlo en cada montaje (aunque sea
+  // con '') le gana la carrera y libera el scroll antes de tiempo.
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    if (!menuOpen) return;
+    document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = '';
     };

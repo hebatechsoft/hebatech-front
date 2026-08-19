@@ -43,8 +43,10 @@ export function useSplitLines() {
           });
           (child as ChildNode).replaceWith(frag);
         } else if (child.nodeType === Node.ELEMENT_NODE) {
-          wrapWords(child);
-          // .hand y demas inline se tratan como una palabra mas
+          // .hand y demas inline se tratan como una palabra mas: NO se
+          // recorre adentro. Si se recorre, querySelectorAll('.w') mas abajo
+          // encuentra tanto el wrapper como sus hijos, y al reconstruir las
+          // lineas los hijos se desprenden del wrapper (queda vacio).
           (child as HTMLElement).classList.add('w');
         }
       });
