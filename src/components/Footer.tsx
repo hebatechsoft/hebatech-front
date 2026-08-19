@@ -1,4 +1,5 @@
 import Logo from './Logo';
+import { WHATSAPP_DISPLAY, whatsappLink } from '../constants';
 import './Footer.css';
 
 const COLUMNS = [
@@ -21,7 +22,7 @@ const COLUMNS = [
     title: 'Contacto',
     links: [
       { href: 'mailto:contacto@hebatech.cloud', label: 'contacto@hebatech.cloud' },
-      { href: 'https://wa.me/573148126301', label: '+57 314 812 6301', external: true },
+      { href: whatsappLink(), label: WHATSAPP_DISPLAY, external: true },
     ],
   },
 ];
@@ -29,7 +30,7 @@ const COLUMNS = [
 const SOCIAL = [
   { href: 'https://www.instagram.com/hebatechsoft', label: 'Instagram' },
   { href: 'https://www.facebook.com/profile.php?id=61587193170655', label: 'Facebook' },
-  { href: 'https://wa.me/573148126301', label: 'WhatsApp' },
+  { href: whatsappLink(), label: 'WhatsApp' },
 ];
 
 /**

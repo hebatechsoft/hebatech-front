@@ -1,10 +1,9 @@
 import { useState, type FormEvent } from 'react';
 import { ArrowRight, CaretDown, EnvelopeSimple, MapPin, WhatsappLogo } from '@phosphor-icons/react';
+import { WHATSAPP_DISPLAY, whatsappLink } from '../constants';
 import './Contact.css';
 
 const EMAIL = 'contacto@hebatech.cloud';
-const WHATSAPP = '+57 314 812 6301';
-const WHATSAPP_URL = 'https://wa.me/573148126301';
 
 const TOPICS = [
   'Rave, quiero implementarlo en mi empresa',
@@ -78,9 +77,9 @@ const Contact = () => {
                 <EnvelopeSimple size={18} />
                 {EMAIL}
               </a>
-              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+              <a href={whatsappLink()} target="_blank" rel="noopener noreferrer">
                 <WhatsappLogo size={18} />
-                {WHATSAPP}
+                {WHATSAPP_DISPLAY}
               </a>
               <span className="ct__place">
                 <MapPin size={18} />

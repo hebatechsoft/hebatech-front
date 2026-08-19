@@ -107,6 +107,7 @@
   --z-content: 1;
   --z-nav: 50;
   --z-menu: 55;
+  --z-fab: 60;
   --z-grain: 90;
   --z-loader: 100;
 }

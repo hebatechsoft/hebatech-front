@@ -17,6 +17,7 @@ import Voices from './components/Voices';
 import Work from './components/Work';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import WhatsAppFab from './components/WhatsAppFab';
 
 import { useReveal } from './hooks/useReveal';
 import { useSplitLines } from './hooks/useSplitLines';
@@ -83,6 +84,7 @@ function App() {
         </Routes>
       </main>
       <Footer />
+      <WhatsAppFab />
     </Router>
   );
 }
