@@ -88,7 +88,7 @@ const Footer = () => (
         <div className="ft__social">
           {SOCIAL.map((social) => (
             <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer">
-              <social.Icon size={15} weight="fill" />
+              <social.Icon size={20} weight="fill" />
               {social.label}
             </a>
           ))}
