@@ -22,3 +22,21 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Herramientas locales de agentes
+.agents/
+.claude/
+skills-lock.json
+
+# Masters de imagen. Pesan varios MB y no los consume la app:
+# lo que se sirve son los .webp ya procesados de public/
+*.psd
+imagen_*.png
+Imagen_*.png
+imagen_*.jpeg
+Imagen_*.jpeg
+Gemini_Generated_*
+
+# Versiones intermedias del mockup
+landing.backup.html
+landing (*).html
