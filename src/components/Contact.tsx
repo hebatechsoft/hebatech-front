@@ -34,7 +34,8 @@ const Contact = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = new FormData(e.currentTarget);
+    const formEl = e.currentTarget;
+    const form = new FormData(formEl);
     const payload: LeadPayload = {
       name: String(form.get('name') ?? ''),
       email: String(form.get('email') ?? ''),
@@ -61,7 +62,7 @@ const Contact = () => {
       });
       if (!res.ok) throw new Error('request_failed');
       setStatus('Listo. Te respondemos en menos de 24 horas hábiles.');
-      e.currentTarget.reset();
+      formEl.reset();
     } catch {
       setStatus(`No pudimos enviarlo. Escríbenos directo a ${CONTACT_EMAIL} o por WhatsApp.`);
     } finally {
