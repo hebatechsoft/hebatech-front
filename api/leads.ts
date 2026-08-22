@@ -34,7 +34,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const notifyTo = process.env.LEADS_NOTIFY_EMAIL;
-  if (notifyTo) {
+  if (!notifyTo) {
+    console.warn('LEADS_NOTIFY_EMAIL no esta configurada: no se intento mandar el aviso por mail');
+  } else {
     const { error: mailError } = await resend.emails.send({
       from: 'Heba <leads@hebatech.cloud>',
       to: notifyTo,
