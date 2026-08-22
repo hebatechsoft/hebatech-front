@@ -15,13 +15,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const body = (typeof req.body === 'string' ? JSON.parse(req.body) : req.body) as Partial<LeadPayload>;
   const errors = validateLead(body);
 
-  if (errors.name || errors.contact || errors.message) {
+  if (errors.name || errors.email || errors.whatsapp || errors.message) {
     return res.status(400).json({ error: 'invalid_payload', errors });
   }
 
   const lead = {
     name: body.name!.trim(),
-    contact: body.contact!.trim(),
+    email: body.email!.trim(),
+    whatsapp: body.whatsapp?.trim() || null,
     topic: body.topic?.trim() || null,
     message: body.message!.trim(),
   };
@@ -38,7 +39,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       from: 'Heba <leads@hebatech.cloud>',
       to: notifyTo,
       subject: `Nuevo contacto: ${lead.name}`,
-      text: `Nombre: ${lead.name}\nContacto: ${lead.contact}\nTema: ${lead.topic ?? '-'}\n\n${lead.message}`,
+      text: `Nombre: ${lead.name}\nEmail: ${lead.email}\nWhatsApp: ${lead.whatsapp ?? '-'}\nTema: ${lead.topic ?? '-'}\n\n${lead.message}`,
     });
     if (mailError) {
       console.error('resend send failed', mailError);

@@ -1,10 +1,8 @@
 import { useState, type FormEvent } from 'react';
 import { ArrowRight, CaretDown, EnvelopeSimple, MapPin, WhatsappLogo } from '@phosphor-icons/react';
-import { WHATSAPP_DISPLAY, whatsappLink } from '../constants';
+import { CONTACT_EMAIL, WHATSAPP_DISPLAY, whatsappLink } from '../constants';
 import { validateLead, type LeadPayload } from '../lib/leadValidation';
 import './Contact.css';
-
-const EMAIL = 'contacto@hebatech.cloud';
 
 const TOPICS = [
   'Rave, quiero implementarlo en mi empresa',
@@ -17,10 +15,10 @@ const TOPICS = [
 const NEXT_STEPS = [
   'Te respondemos en menos de 24 horas hábiles. Siempre una persona, nunca un formulario automático.',
   'Media hora de llamada para entender qué se hace hoy a mano y cuánto tiempo cuesta.',
-  'Si podemos ayudarte, te pasamos alcance y precio cerrado. Si no, te decimos quién.',
+  'Si podemos ayudarte, te pasamos alcance y precio cerrado.',
 ];
 
-type Errors = { name?: boolean; contact?: boolean; message?: boolean };
+type Errors = { name?: boolean; email?: boolean; whatsapp?: boolean; message?: boolean };
 
 /**
  * Contacto.
@@ -39,14 +37,15 @@ const Contact = () => {
     const form = new FormData(e.currentTarget);
     const payload: LeadPayload = {
       name: String(form.get('name') ?? ''),
-      contact: String(form.get('contact') ?? ''),
+      email: String(form.get('email') ?? ''),
+      whatsapp: String(form.get('whatsapp') ?? ''),
       topic: String(form.get('topic') ?? ''),
       message: String(form.get('message') ?? ''),
     };
 
     const next = validateLead(payload);
     setErrors(next);
-    if (next.name || next.contact || next.message) {
+    if (next.name || next.email || next.whatsapp || next.message) {
       setStatus('Revisa los campos marcados.');
       return;
     }
@@ -64,7 +63,7 @@ const Contact = () => {
       setStatus('Listo. Te respondemos en menos de 24 horas hábiles.');
       e.currentTarget.reset();
     } catch {
-      setStatus(`No pudimos enviarlo. Escríbenos directo a ${EMAIL} o por WhatsApp.`);
+      setStatus(`No pudimos enviarlo. Escríbenos directo a ${CONTACT_EMAIL} o por WhatsApp.`);
     } finally {
       setSending(false);
     }
@@ -84,9 +83,9 @@ const Contact = () => {
             </p>
 
             <div className="ct__direct">
-              <a href={`mailto:${EMAIL}`}>
+              <a href={`mailto:${CONTACT_EMAIL}`}>
                 <EnvelopeSimple size={18} />
-                {EMAIL}
+                {CONTACT_EMAIL}
               </a>
               <a href={whatsappLink()} target="_blank" rel="noopener noreferrer">
                 <WhatsappLogo size={18} />
@@ -120,16 +119,17 @@ const Contact = () => {
               <span className="err">Necesitamos un nombre para responderte.</span>
             </div>
 
-            <div className={`field ${errors.contact ? 'has-err' : ''}`}>
-              <label htmlFor="i-contact">Email o WhatsApp</label>
-              <span className="help">Por dónde prefieres que te escribamos.</span>
-              <input
-                id="i-contact"
-                name="contact"
-                type="text"
-                placeholder="correo@empresa.com o 300 000 0000"
-              />
-              <span className="err">Déjanos un email o un número válido para contactarte.</span>
+            <div className={`field ${errors.email ? 'has-err' : ''}`}>
+              <label htmlFor="i-email">Email</label>
+              <input id="i-email" name="email" type="email" autoComplete="email" placeholder="correo@empresa.com" />
+              <span className="err">Déjanos un email válido para contactarte.</span>
+            </div>
+
+            <div className={`field ${errors.whatsapp ? 'has-err' : ''}`}>
+              <label htmlFor="i-whatsapp">WhatsApp (opcional)</label>
+              <span className="help">Si preferís que te escribamos por ahí.</span>
+              <input id="i-whatsapp" name="whatsapp" type="text" autoComplete="tel" placeholder="300 000 0000" />
+              <span className="err">Ese número no parece válido.</span>
             </div>
 
             <div className="field">

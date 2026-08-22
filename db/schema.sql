@@ -4,7 +4,8 @@ create table public.leads (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
   name text not null,
-  contact text not null,
+  email text not null,
+  whatsapp text,
   topic text,
   message text not null
 );

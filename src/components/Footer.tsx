@@ -1,5 +1,5 @@
 import Logo from './Logo';
-import { WHATSAPP_DISPLAY, whatsappLink } from '../constants';
+import { CONTACT_EMAIL, WHATSAPP_DISPLAY, whatsappLink } from '../constants';
 import './Footer.css';
 
 const COLUMNS = [
@@ -21,7 +21,7 @@ const COLUMNS = [
   {
     title: 'Contacto',
     links: [
-      { href: 'mailto:contacto@hebatech.cloud', label: 'contacto@hebatech.cloud' },
+      { href: `mailto:${CONTACT_EMAIL}`, label: CONTACT_EMAIL },
       { href: whatsappLink(), label: WHATSAPP_DISPLAY, external: true },
     ],
   },
