@@ -2,6 +2,8 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
 import { Resend } from 'resend';
 import { validateLead, type LeadPayload } from '../src/lib/leadValidation.js';
+import { buildAutoReplyEmail } from '../src/lib/emailTemplates.js';
+import { whatsappLink } from '../src/constants.js';
 
 const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -46,6 +48,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (mailError) {
       console.error('resend send failed', mailError);
     }
+  }
+
+  const { error: replyError } = await resend.emails.send({
+    from: 'Heba <leads@hebatech.cloud>',
+    to: lead.email,
+    subject: 'Recibimos tu mensaje, te escribimos pronto',
+    html: buildAutoReplyEmail({
+      name: lead.name,
+      message: lead.message,
+      whatsappUrl: whatsappLink('Hola, te escribo sobre mi mensaje del formulario.'),
+    }),
+  });
+  if (replyError) {
+    console.error('resend auto-reply failed', replyError);
   }
 
   return res.status(200).json({ ok: true });
