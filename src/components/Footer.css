@@ -156,6 +156,9 @@
   gap: 26px;
 }
 .ft__social a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   font-family: var(--mono);
   font-size: 10.5px;
   letter-spacing: 0.16em;

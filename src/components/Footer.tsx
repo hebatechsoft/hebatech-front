@@ -1,3 +1,4 @@
+import { FacebookLogo, InstagramLogo, WhatsappLogo } from '@phosphor-icons/react';
 import Logo from './Logo';
 import { CONTACT_EMAIL, WHATSAPP_DISPLAY, whatsappLink } from '../constants';
 import './Footer.css';
@@ -28,9 +29,9 @@ const COLUMNS = [
 ];
 
 const SOCIAL = [
-  { href: 'https://www.instagram.com/hebatechsoft', label: 'Instagram' },
-  { href: 'https://www.facebook.com/profile.php?id=61587193170655', label: 'Facebook' },
-  { href: whatsappLink(), label: 'WhatsApp' },
+  { href: 'https://www.instagram.com/hebatechsoft', label: 'Instagram', Icon: InstagramLogo },
+  { href: 'https://www.facebook.com/profile.php?id=61587193170655', label: 'Facebook', Icon: FacebookLogo },
+  { href: whatsappLink(), label: 'WhatsApp', Icon: WhatsappLogo },
 ];
 
 /**
@@ -87,6 +88,7 @@ const Footer = () => (
         <div className="ft__social">
           {SOCIAL.map((social) => (
             <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer">
+              <social.Icon size={15} weight="fill" />
               {social.label}
             </a>
           ))}

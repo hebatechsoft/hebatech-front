@@ -114,6 +114,20 @@ export const buildAutoReplyEmail = ({ name, message, whatsappUrl }: AutoReplyInp
           <tr>
             <td style="padding:34px 36px 30px;">
               <div style="height:1px; background:#e4e0d7; margin-bottom:20px;"></div>
+              <table role="presentation" cellpadding="0" cellspacing="0" style="margin-bottom:14px;">
+                <tr>
+                  <td style="padding-right:14px;">
+                    <a href="https://www.instagram.com/hebatechsoft" style="display:inline-block;">
+                      <img src="https://cdn.simpleicons.org/instagram/85837B" width="16" height="16" alt="Instagram" style="display:block;">
+                    </a>
+                  </td>
+                  <td>
+                    <a href="https://www.facebook.com/profile.php?id=61587193170655" style="display:inline-block;">
+                      <img src="https://cdn.simpleicons.org/facebook/85837B" width="16" height="16" alt="Facebook" style="display:block;">
+                    </a>
+                  </td>
+                </tr>
+              </table>
               <p style="margin:0; font-size:13px; line-height:1.6; color:#85837b;">
                 - Heba ·
                 <a href="mailto:hebatechsoft@gmail.com" style="color:#85837b;">hebatechsoft@gmail.com</a>
