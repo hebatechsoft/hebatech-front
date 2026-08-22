@@ -15,7 +15,8 @@
 import { createServer } from 'node:http';
 import { readFileSync, writeFileSync, statSync } from 'node:fs';
 import { join, extname } from 'node:path';
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
+import chromium from '@sparticuz/chromium';
 
 const DIST = join(process.cwd(), 'dist');
 const PORT = 4321;
@@ -53,12 +54,26 @@ function serveStatic() {
   });
 }
 
+// El binario de @sparticuz/chromium viene compilado para el sandbox de
+// build de Vercel (Amazon Linux), no corre en Windows/Mac. Fuera de Vercel
+// el build sigue sirviendo, solo que sin el snapshot (dist/index.html
+// queda con el <div id="root"></div> vacio de siempre).
+if (!process.env.VERCEL) {
+  console.log('[prerender] fuera de Vercel: se salta el snapshot (el chromium empaquetado es solo para Linux).');
+  process.exit(0);
+}
+
 const server = serveStatic();
 await new Promise((resolve) => server.listen(PORT, resolve));
 
 let browser;
 try {
-  browser = await puppeteer.launch({ headless: true });
+  browser = await puppeteer.launch({
+    executablePath: await chromium.executablePath(),
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    headless: chromium.headless,
+  });
   const page = await browser.newPage();
   await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
   await page.goto(`http://localhost:${PORT}/`, { waitUntil: 'networkidle0', timeout: 30_000 });
