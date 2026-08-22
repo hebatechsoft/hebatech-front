@@ -15,21 +15,55 @@
   }
 }
 
-/* Marco punteado: se lee como hueco reservado, no como error de carga. */
-.work__frame {
+.work__case {
   position: relative;
   aspect-ratio: 4 / 3;
-  border: 1px dashed var(--line-2);
   border-radius: var(--r);
-  display: grid;
-  place-items: center;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
 }
-.work__frame span {
+.work__case-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
   font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.16em;
+  font-size: 11px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  color: var(--bone-2);
+}
+.work__case-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
   color: var(--bone-3);
+}
+.work__case-stat svg {
+  flex-shrink: 0;
+  color: var(--bone-3);
+}
+.work__case-before,
+.work__case-after {
+  font-family: var(--sans);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-size: clamp(26px, 4vw, 34px);
+}
+.work__case-before {
+  color: var(--bone-3);
+  text-decoration: line-through;
+  text-decoration-color: var(--line-2);
+}
+.work__case-after {
+  color: var(--sage);
+}
+.work__case-caption {
+  font-size: 13.5px;
+  color: var(--bone-2);
 }
 
 .work__eyebrow {
