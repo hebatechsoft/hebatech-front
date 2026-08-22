@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    { "source": "/nosotros", "destination": "/#enfoque", "permanent": true },
+    { "source": "/servicios", "destination": "/#servicios", "permanent": true },
+    { "source": "/contacto", "destination": "/#contacto", "permanent": true },
+    { "source": "/faq", "destination": "/#contacto", "permanent": true }
+  ],
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }],
   "crons": [
     {
       "path": "/api/keepalive",

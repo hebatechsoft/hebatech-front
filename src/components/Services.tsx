@@ -1,24 +1,30 @@
 import { useEffect, useRef } from 'react';
 import './Services.css';
 
+/**
+ * `peek`: material propio, no stock. Antes eran tres fotos hotlinkeadas
+ * desde rawpixel.com (fuera de nuestro control, sin relacion con el trabajo
+ * real). Reusan las mismas fotos que ya estan en `/public` — la del hero, la
+ * del proceso en Enfoque y una captura real de Rave.
+ */
 const SERVICES = [
   {
     title: 'Desarrollo a medida',
-    body: 'Sistemas construidos alrededor de cómo trabaja tu equipo, no al revés. Empezamos entendiendo la operación real antes de escribir una línea de código.',
+    body: 'Nos sentamos con quien hace el trabajo hoy, no con quien lo aprueba desde arriba. Ahí sale el alcance, no de una plantilla.',
     note: 'Inventarios, trazabilidad, gestión comercial, integraciones con lo que ya usas.',
-    peek: 'https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdXB3azYxODAyMjQyLXdpa2ltZWRpYS1pbWFnZS1rcDZhZTV4Zy5qcGc.jpg',
+    peek: '/hero.webp',
   },
   {
     title: 'IA aplicada',
     body: 'Inteligencia artificial donde resuelve algo concreto: clasificar documentos, responder consultas repetidas, extraer datos de facturas.',
     note: 'No hacemos IA para poder decir que hacemos IA.',
-    peek: 'https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL3B4OTQ1Nzc0LWltYWdlLWt6MmViNDEzLmpwZw.jpg',
+    peek: '/enfoque.webp',
   },
   {
     title: 'Automatización',
     body: 'Esa tarea que alguien de tu equipo repite todos los martes durante tres horas. La identificamos, la medimos y la convertimos en un flujo automático.',
     note: 'Empezamos por la que más tiempo te come.',
-    peek: 'https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9zdGF0aWMvaW1hZ2Uvd2Vic2l0ZS8yMDIyLTA0L2xyL3B4MTQwNzU3NC1pbWFnZS1rejJlOGVuby5qcGc.jpg',
+    peek: '/rave.webp',
   },
 ];
 

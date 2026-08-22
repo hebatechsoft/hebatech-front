@@ -32,10 +32,13 @@
 }
 .ldr__bar b {
   display: block;
+  width: 100%;
   height: 100%;
   border-radius: var(--pill);
   background: var(--sage);
-  transition: width 0.2s linear;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s linear;
 }
 
 .ldr__row {

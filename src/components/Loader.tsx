@@ -5,6 +5,8 @@ import './Loader.css';
 /** Tope duro: la intro nunca bloquea mas que esto, cargue lo que cargue. */
 const MAX_MS = 2200;
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
+/** Una vez por sesion: navegar entre anclas o volver atras no repite la cortina. */
+const SEEN_KEY = 'heba-loader-seen';
 
 /**
  * Cortina de entrada.
@@ -14,12 +16,21 @@ const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
  * completa. Un porcentaje inventado es la misma clase de mentira que un
  * "98% de satisfaccion".
  *
- * Con prefers-reduced-motion no se monta.
+ * Con prefers-reduced-motion no se monta. Tampoco se vuelve a montar en la
+ * misma sesion de pestaña: ya cumplio su proposito la primera vez.
  */
 const Loader = () => {
+  const alreadySeen = () => {
+    try {
+      return sessionStorage.getItem(SEEN_KEY) === '1';
+    } catch {
+      return false;
+    }
+  };
+
   const [pct, setPct] = useState(0);
   const [done, setDone] = useState(false);
-  const [gone, setGone] = useState(() => window.matchMedia(REDUCED_MOTION).matches);
+  const [gone, setGone] = useState(() => window.matchMedia(REDUCED_MOTION).matches || alreadySeen());
   const loaded = useRef(false);
 
   useEffect(() => {
@@ -51,6 +62,12 @@ const Loader = () => {
         setDone(true);
         document.body.style.overflow = '';
         document.documentElement.classList.add('is-ready');
+        try {
+          sessionStorage.setItem(SEEN_KEY, '1');
+        } catch {
+          /* Safari en modo privado tira aca: sin sessionStorage, la cortina
+             se repite en cada carga, pero el sitio sigue andando igual. */
+        }
         window.setTimeout(() => setGone(true), 1200);
         return;
       }
@@ -73,7 +90,7 @@ const Loader = () => {
         <div className="ldr__in">
           <Logo size={22} />
           <div className="ldr__bar">
-            <b style={{ width: `${pct}%` }} />
+            <b style={{ transform: `scaleX(${pct / 100})` }} />
           </div>
           <div className="ldr__row">
             <span>Estudio de software</span>

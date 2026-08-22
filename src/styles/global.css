@@ -26,7 +26,10 @@
 
   --bone: #f0ede8;
   --bone-2: #9a9992;
-  --bone-3: #6a6a64;
+  /* #7c7c72 y no #6a6a64: el original daba 3.66:1 sobre --ink, reprueba AA
+     (4.5:1) para texto normal. Este valor da 4.73:1 y sigue leyendo como
+     el mismo gris calido apagado. */
+  --bone-3: #7c7c72;
 
   --sage: #8fb09a;
   --sage-lit: #c4dccb;
@@ -57,7 +60,7 @@
 
   --bone: #14171a;
   --bone-2: #56564e;
-  --bone-3: #85837b;
+  --bone-3: #706e66; /* mismo ajuste de AA que el tema oscuro: 4.94:1 sobre --ink */
 
   /* oscurecido respecto del oscuro: sobre papel tiene que pasar AA */
   --sage: #3e6b4f;

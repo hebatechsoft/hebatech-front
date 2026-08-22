@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 
 import '@fontsource-variable/geist';
 import '@fontsource-variable/geist-mono';
@@ -23,69 +22,42 @@ import { useReveal } from './hooks/useReveal';
 import { useSplitLines } from './hooks/useSplitLines';
 
 /**
- * `useSplitLines`/`useReveal` van aca, no en `App`. Si alguien entra por una
- * ruta vieja (`/servicios`), el primer render de `App` muestra el
- * `<Navigate>` de la ruta legacy, no `Home` todavia: si estos hooks
- * corrieran en `App` con deps `[]`, encontrarian cero elementos `.rv` /
- * `[data-split]` y jamas se re-ejecutarian. Al vivir en `Home`, corren
- * siempre despues de que su propio contenido ya esta montado.
+ * El sitio es una sola pagina con anclas: no hay mas rutas reales que
+ * resolver del lado del cliente. Las rutas legacy (`/servicios`, etc.) se
+ * redirigen a nivel de edge en `vercel.json`, no aca — un 301 real en el CDN
+ * llega mas rapido, funciona sin JS y no depende de react-router-dom para
+ * una sola ruta.
  *
- * El scroll al hash tampoco es gratis: `<Navigate to="/#servicios">` cambia
- * la URL con `history.replaceState`, y eso NO hace scroll solo.
+ * El scroll al hash tampoco es gratis: cambiar la URL no hace scroll solo,
+ * hay que dispararlo a mano una vez montado el contenido.
  */
-const Home = () => {
+function App() {
   useSplitLines();
   useReveal();
 
-  const { hash } = useLocation();
   useEffect(() => {
+    const { hash } = window.location;
     if (!hash) return;
     document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, [hash]);
+  }, []);
 
   return (
     <>
-      <Hero />
-      <Products />
-      <Focus />
-      <Services />
-      <Voices />
-      <Work />
-      <Contact />
-    </>
-  );
-};
-
-/**
- * El sitio pasa a ser una sola pagina con anclas. Las rutas anteriores no se
- * eliminan: redirigen a la seccion equivalente para no romper enlaces ya
- * publicados ni lo que este indexado. Nadie llega a un 404.
- */
-const LEGACY_ROUTES: { from: string; to: string }[] = [
-  { from: '/nosotros', to: '/#enfoque' },
-  { from: '/servicios', to: '/#servicios' },
-  { from: '/contacto', to: '/#contacto' },
-  { from: '/faq', to: '/#contacto' },
-];
-
-function App() {
-  return (
-    <Router>
       <Loader />
       <div className="grain" aria-hidden="true" />
       <Navbar />
       <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          {LEGACY_ROUTES.map((route) => (
-            <Route key={route.from} path={route.from} element={<Navigate to={route.to} replace />} />
-          ))}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <Hero />
+        <Products />
+        <Focus />
+        <Services />
+        <Voices />
+        <Work />
+        <Contact />
       </main>
       <Footer />
       <WhatsAppFab />
-    </Router>
+    </>
   );
 }
 
