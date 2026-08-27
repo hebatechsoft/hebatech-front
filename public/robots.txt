@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hebatech.cloud/sitemap.xml
+Sitemap: https://www.hebatech.cloud/sitemap.xml
