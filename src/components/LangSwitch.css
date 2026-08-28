@@ -1,0 +1,44 @@
+/* Segmentado discreto, en mono como el resto de las etiquetas del sitio.
+   No es un menu desplegable: con dos idiomas, un desplegable es un clic de
+   mas para ver una sola opcion. */
+.lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--pill);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  color: var(--bone-3);
+  transition:
+    border-color 0.22s ease,
+    background 0.22s ease;
+}
+.lang:hover {
+  border-color: var(--bone-3);
+  background: var(--ink-2);
+}
+
+.lang span {
+  transition: color 0.22s ease;
+}
+.lang span.is-on {
+  color: var(--bone);
+}
+
+.lang__sep {
+  width: 1px;
+  height: 10px;
+  background: var(--line-2);
+}
+
+/* En el menu movil el selector va suelto y mas grande: ahi no compite con
+   nada y el dedo necesita area. */
+.lang--menu {
+  align-self: flex-start;
+  margin-top: 28px;
+  padding: 11px 18px;
+  font-size: 12px;
+}

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowDownRight } from '@phosphor-icons/react';
 import { useSplitFill } from '../hooks/useSplitFill';
+import { useT } from '../i18n';
 import './Hero.css';
 
 const HERO_IMG = '/hero.webp';
@@ -18,19 +19,21 @@ const HERO_IMG = '/hero.webp';
  * En la copia calada el eyebrow y el pie van con visibility:hidden: ocupan
  * su lugar para reservar el espacio, pero no se ven ni se leen.
  */
-const HeroCopy = ({ variant }: { variant: 'cut' | 'solid' }) => (
+const HeroCopy = ({ variant }: { variant: 'cut' | 'solid' }) => {
+  const t = useT();
+  return (
   <div className="wrap hero__copy">
     <div className="hero__eyebrow">
-      <span className="eyebrow">Estudio de software</span>
+      <span className="eyebrow">{t.hero.eyebrow}</span>
     </div>
 
     <h1 className={variant === 'cut' ? 'hero__cut' : undefined}>
       <span className="ln">
-        <span style={{ '--d': '150ms' } as React.CSSProperties}>Lo que hoy haces</span>
+        <span style={{ '--d': '150ms' } as React.CSSProperties}>{t.hero.line1}</span>
       </span>
       <span className="ln">
         <span className="hand" style={{ '--d': '300ms' } as React.CSSProperties}>
-          a mano,
+          {t.hero.line2}
         </span>
       </span>
       <span className="ln">
@@ -38,36 +41,34 @@ const HeroCopy = ({ variant }: { variant: 'cut' | 'solid' }) => (
           className={variant === 'solid' ? 'sage' : undefined}
           style={{ '--d': '450ms' } as React.CSSProperties}
         >
-          automatizado.
+          {t.hero.line3}
         </span>
       </span>
     </h1>
 
     <div className="hero__foot">
-      <p className="lead hero__lead">
-        Construimos sistemas a medida y desarrollamos productos propios para empresas que crecieron
-        más rápido que sus procesos.
-      </p>
+      <p className="lead hero__lead">{t.hero.lead}</p>
       <div className="hero__cta">
         {variant === 'solid' ? (
           <>
             <a href="#contacto" className="btn btn--solid btn--lg">
-              Hablemos
+              {t.hero.ctaPrimary}
             </a>
             <a href="#productos" className="btn btn--glass btn--lg">
-              Ver productos <ArrowDownRight size={17} />
+              {t.hero.ctaSecondary} <ArrowDownRight size={17} />
             </a>
           </>
         ) : (
           <>
-            <span className="btn btn--solid btn--lg">Hablemos</span>
-            <span className="btn btn--glass btn--lg">Ver productos</span>
+            <span className="btn btn--solid btn--lg">{t.hero.ctaPrimary}</span>
+            <span className="btn btn--glass btn--lg">{t.hero.ctaSecondary}</span>
           </>
         )}
       </div>
     </div>
   </div>
-);
+  );
+};
 
 /**
  * Hero con split overlay.

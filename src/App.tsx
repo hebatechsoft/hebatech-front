@@ -18,6 +18,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import WhatsAppFab from './components/WhatsAppFab';
 
+import { LangProvider } from './i18n/LangProvider';
 import { useReveal } from './hooks/useReveal';
 import { useSplitLines } from './hooks/useSplitLines';
 
@@ -42,7 +43,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <LangProvider>
       <Loader />
       <div className="grain" aria-hidden="true" />
       <Navbar />
@@ -57,7 +58,7 @@ function App() {
       </main>
       <Footer />
       <WhatsAppFab />
-    </>
+    </LangProvider>
   );
 }
 

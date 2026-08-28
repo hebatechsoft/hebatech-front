@@ -13,13 +13,21 @@
 // opacity:0 previo a las animaciones de entrada.
 
 import { createServer } from 'node:http';
-import { readFileSync, writeFileSync, statSync } from 'node:fs';
-import { join, extname } from 'node:path';
+import { readFileSync, writeFileSync, statSync, mkdirSync } from 'node:fs';
+import { join, extname, dirname } from 'node:path';
 import puppeteer from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
 
 const DIST = join(process.cwd(), 'dist');
 const PORT = 4321;
+
+// Una entrada por idioma. `/` es español y `/en` inglés; el servidor
+// estatico de abajo cae al index.html de siempre para cualquier ruta que no
+// exista como archivo, igual que hace Vercel.
+const ROUTES = [
+  { route: '/', out: 'index.html' },
+  { route: '/en', out: 'en/index.html' },
+];
 
 const MIME = {
   '.html': 'text/html',
@@ -76,13 +84,21 @@ try {
   });
   const page = await browser.newPage();
   await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
-  await page.goto(`http://localhost:${PORT}/`, { waitUntil: 'networkidle0', timeout: 30_000 });
-  await page.waitForSelector('footer', { timeout: 10_000 });
 
-  const html = await page.evaluate(() => '<!doctype html>\n' + document.documentElement.outerHTML);
-  writeFileSync(join(DIST, 'index.html'), html);
+  // Un snapshot POR IDIOMA. El idioma sale de la ruta y el <head> lo
+  // sincroniza React al montar, asi que cada captura queda con su propio
+  // lang, title, description y canonical ya resueltos. Un solo snapshot
+  // dejaria /en sirviendo el HTML en espanol a los rastreadores.
+  for (const { route, out } of ROUTES) {
+    await page.goto(`http://localhost:${PORT}${route}`, { waitUntil: 'networkidle0', timeout: 30_000 });
+    await page.waitForSelector('footer', { timeout: 10_000 });
 
-  console.log('[prerender] dist/index.html reescrito con el contenido real (antes: <div id="root"></div> vacio).');
+    const html = await page.evaluate(() => '<!doctype html>\n' + document.documentElement.outerHTML);
+    const target = join(DIST, out);
+    mkdirSync(dirname(target), { recursive: true });
+    writeFileSync(target, html);
+    console.log(`[prerender] ${out} <- ${route}`);
+  }
 } finally {
   await browser?.close();
   server.close();

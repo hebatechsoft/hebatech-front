@@ -1,17 +1,16 @@
 import { ArrowRight } from '@phosphor-icons/react';
 import ProductPreview, { type PreviewData } from './ProductPreview';
+import { useT } from '../i18n';
 import './Products.css';
 
 type Product = {
   name: string;
-  state: string;
+  /** Clave en el diccionario: t.products[copyKey] */
+  copyKey: 'rave' | 'barber';
   /** Producto ya publicado: pinta el estado en el acento y enlaza afuera. */
   live?: boolean;
   /** Destino del CTA. Externo si el producto ya tiene sitio propio. */
   href: string;
-  blurb: string;
-  specs: string[];
-  cta: string;
   /** Captura real del producto. Cuando existe, reemplaza a la vista
    *  previa dibujada: una captura de lo que ya funciona siempre gana. */
   shot?: { src: string; srcSet: string; width: number; height: number };
@@ -21,13 +20,9 @@ type Product = {
 const PRODUCTS: Product[] = [
   {
     name: 'Rave',
-    state: 'En producción',
+    copyKey: 'rave',
     live: true,
     href: 'https://raverp.store',
-    blurb:
-      'Inventario, ventas, cotizaciones y reportes en tiempo real. Ya está en producción, con nueve módulos, desde $10.000 COP al mes y tres días de prueba.',
-    specs: ['Inventario inteligente', 'Cuentas por cobrar', 'Cotizaciones y remisiones', 'POS y CRM'],
-    cta: 'Ver Rave',
     shot: {
       src: '/rave.webp',
       srcSet: '/rave-sm.webp 754w, /rave.webp 1508w',
@@ -37,12 +32,8 @@ const PRODUCTS: Product[] = [
   },
   {
     name: 'Heba Barber',
-    state: 'En construcción',
+    copyKey: 'barber',
     href: '#contacto',
-    blurb:
-      'Turnos, clientes y caja para barberías. Pensado para el mostrador y para el celular, entre corte y corte.',
-    specs: ['Agenda con recordatorios', 'Historial por cliente', 'Comisiones por barbero', 'Cierre de caja'],
-    cta: 'Quiero probarlo primero',
     preview: {
       title: 'Heba Barber · Hoy',
       shortcut: ['⌘', 'N'],
@@ -86,18 +77,22 @@ const PRODUCTS: Product[] = [
  * Rejilla asimetrica de exactamente 2 celdas para exactamente 2 productos.
  * Cuando aparezca el tercero, la rejilla crece sola.
  */
-const Products = () => (
+const Products = () => {
+  const t = useT();
+  return (
   <section className="sec sec--tint" id="productos">
     <div className="wrap">
       <div className="rv">
-        <div className="eyebrow prods__eyebrow">Productos propios</div>
+        <div className="eyebrow prods__eyebrow">{t.products.eyebrow}</div>
         <h2 className="dsp prods__title" data-split>
-          No solo construimos para clientes. También operamos lo nuestro.
+          {t.products.title}
         </h2>
       </div>
 
       <div className="prods">
-        {PRODUCTS.map((product, i) => (
+        {PRODUCTS.map((product, i) => {
+          const copy = t.products[product.copyKey];
+          return (
           <article
             key={product.name}
             className="prod rv"
@@ -106,7 +101,7 @@ const Products = () => (
             <div className="prod__stage">
               <span className={`prod__state ${product.live ? 'prod__state--near' : ''}`}>
                 {product.live && <span className="dot" />}
-                {product.state}
+                {copy.state}
               </span>
               {product.shot ? (
                 <img
@@ -126,9 +121,9 @@ const Products = () => (
 
             <div className="prod__body">
               <h3>{product.name}</h3>
-              <p className="body prod__blurb">{product.blurb}</p>
+              <p className="body prod__blurb">{copy.blurb}</p>
               <ul className="prod__specs">
-                {product.specs.map((spec) => (
+                {copy.specs.map((spec) => (
                   <li key={spec}>{spec}</li>
                 ))}
               </ul>
@@ -138,15 +133,17 @@ const Products = () => (
                   className="btn btn--line btn--sm"
                   {...(product.live ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 >
-                  {product.cta} <ArrowRight size={16} />
+                  {copy.cta} <ArrowRight size={16} />
                 </a>
               </div>
             </div>
           </article>
-        ))}
+          );
+        })}
       </div>
     </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default Products;

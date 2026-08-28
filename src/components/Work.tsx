@@ -1,4 +1,5 @@
 import { ArrowRight, CheckCircle, MapPin } from '@phosphor-icons/react';
+import { useT } from '../i18n';
 import './Work.css';
 
 /**
@@ -8,40 +9,38 @@ import './Work.css';
  * puede verificar) sigue vigente aca: los numeros son los que dio el
  * cliente, no una redondeada "mas rapido" generica.
  */
-const Work = () => (
+const Work = () => {
+  const t = useT();
+  return (
   <section className="sec wrap work" id="trabajo">
     <div className="work__in">
       <div className="work__case rv vib">
         <div className="work__case-tag">
           <MapPin size={12} />
-          Medellín · Enero 2026
+          {t.work.caseTag}
         </div>
         <div className="work__case-stat">
-          <span className="work__case-before">4 días</span>
+          <span className="work__case-before">{t.work.before}</span>
           <ArrowRight size={18} />
-          <span className="work__case-after">Minutos</span>
+          <span className="work__case-after">{t.work.after}</span>
         </div>
-        <p className="work__case-caption">Cierre de mes, antes y después.</p>
+        <p className="work__case-caption">{t.work.caption}</p>
       </div>
 
       <div className="rv" style={{ '--d': '100ms' } as React.CSSProperties}>
-        <div className="eyebrow work__eyebrow">Trabajo</div>
+        <div className="eyebrow work__eyebrow">{t.work.eyebrow}</div>
         <h2 className="dsp dsp--md" data-split>
-          De cuatro días a minutos.
+          {t.work.title}
         </h2>
-        <p className="lead work__lead">
-          Acabados y Estilos en Madera, de Medellín, llevaba ventas, inventario, clientes y pagos
-          pendientes a mano, todo en Excel. Les construimos un sistema a medida para manejarlo
-          desde un solo lugar, entregado en el tiempo estimado. Se implementó en enero de 2026: el
-          cierre de mes que antes tomaba casi cuatro días ahora se hace en minutos, todo a un clic.
-        </p>
+        <p className="lead work__lead">{t.work.lead}</p>
         <div className="work__tag">
           <CheckCircle size={14} />
-          Caso real, publicado con permiso del cliente
+          {t.work.tag}
         </div>
       </div>
     </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default Work;

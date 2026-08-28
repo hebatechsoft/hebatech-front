@@ -1,32 +1,8 @@
 import { FacebookLogo, InstagramLogo, WhatsappLogo } from '@phosphor-icons/react';
 import Logo from './Logo';
 import { CONTACT_EMAIL, WHATSAPP_DISPLAY, whatsappLink } from '../constants';
+import { useT } from '../i18n';
 import './Footer.css';
-
-const COLUMNS = [
-  {
-    title: 'Productos',
-    links: [
-      { href: 'https://raverp.store', label: 'Rave', external: true },
-      { href: '#productos', label: 'Heba Barber' },
-    ],
-  },
-  {
-    title: 'Estudio',
-    links: [
-      { href: '#enfoque', label: 'Enfoque' },
-      { href: '#servicios', label: 'Servicios' },
-      { href: '#trabajo', label: 'Trabajo' },
-    ],
-  },
-  {
-    title: 'Contacto',
-    links: [
-      { href: `mailto:${CONTACT_EMAIL}`, label: CONTACT_EMAIL },
-      { href: whatsappLink(), label: WHATSAPP_DISPLAY, external: true },
-    ],
-  },
-];
 
 const SOCIAL = [
   { href: 'https://www.instagram.com/hebatechsoft', label: 'Instagram', Icon: InstagramLogo },
@@ -44,7 +20,34 @@ const SOCIAL = [
  *                el mismo archivo ya esta en cache: no cuesta un pedido mas.
  *   fantasma     el logotipo gigante, DETRAS del contenido y no debajo.
  */
-const Footer = () => (
+const Footer = () => {
+  const t = useT();
+  const COLUMNS = [
+    {
+      title: t.footer.columns.products,
+      links: [
+        { href: 'https://raverp.store', label: 'Rave', external: true },
+        { href: '#productos', label: 'Heba Barber' },
+      ],
+    },
+    {
+      title: t.footer.columns.studio,
+      links: [
+        { href: '#enfoque', label: t.footer.links.focus },
+        { href: '#servicios', label: t.footer.links.services },
+        { href: '#trabajo', label: t.footer.links.work },
+      ],
+    },
+    {
+      title: t.footer.columns.contact,
+      links: [
+        { href: `mailto:${CONTACT_EMAIL}`, label: CONTACT_EMAIL },
+        { href: whatsappLink(), label: WHATSAPP_DISPLAY, external: true },
+      ],
+    },
+  ];
+
+  return (
   <footer className="ft">
     <div className="ft__grid" aria-hidden="true" />
     <div className="ft__glow" aria-hidden="true">
@@ -58,11 +61,8 @@ const Footer = () => (
       <div className="ft__top">
         <div className="ft__brand">
           <div className="ft__word">HEBA.</div>
-          <div className="ft__tag">Software con oficio</div>
-          <p>
-            Sistemas a medida y productos propios para empresas que crecieron más rápido que sus
-            procesos.
-          </p>
+          <div className="ft__tag">{t.footer.tagline}</div>
+          <p>{t.footer.blurb}</p>
         </div>
 
         {COLUMNS.map((column) => (
@@ -84,7 +84,7 @@ const Footer = () => (
       </div>
 
       <div className="ft__bot">
-        <div>© {new Date().getFullYear()} HEBA Studio, antes HebaTech. Medellín, Colombia.</div>
+        <div>© {new Date().getFullYear()} {t.footer.rights}</div>
         <div className="ft__social">
           {SOCIAL.map((social) => (
             <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer">
@@ -99,7 +99,8 @@ const Footer = () => (
     <div className="ft__mark" aria-hidden="true">
       <Logo markOnly size={18} />
     </div>
-  </footer>
-);
+    </footer>
+  );
+};
 
 export default Footer;

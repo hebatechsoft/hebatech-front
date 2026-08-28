@@ -2,21 +2,8 @@ import { useState, type FormEvent } from 'react';
 import { ArrowRight, CaretDown, EnvelopeSimple, MapPin, WhatsappLogo } from '@phosphor-icons/react';
 import { CONTACT_EMAIL, WHATSAPP_DISPLAY, whatsappLink } from '../constants';
 import { validateLead, type LeadPayload } from '../lib/leadValidation';
+import { useT } from '../i18n';
 import './Contact.css';
-
-const TOPICS = [
-  'Rave, quiero implementarlo en mi empresa',
-  'Heba Barber, quiero probarlo',
-  'Un sistema a medida',
-  'Automatizar un proceso',
-  'Todavía no sé, quiero conversarlo',
-];
-
-const NEXT_STEPS = [
-  'Te respondemos en menos de 24 horas hábiles. Siempre una persona, nunca un formulario automático.',
-  'Media hora de llamada para entender qué se hace hoy a mano y cuánto tiempo cuesta.',
-  'Si podemos ayudarte, te pasamos alcance y precio cerrado.',
-];
 
 type Errors = { name?: boolean; email?: boolean; whatsapp?: boolean; message?: boolean };
 
@@ -28,6 +15,7 @@ type Errors = { name?: boolean; email?: boolean; whatsapp?: boolean; message?: b
  * formulario, y de paso llena el vacio de la columna izquierda.
  */
 const Contact = () => {
+  const t = useT();
   const [errors, setErrors] = useState<Errors>({});
   const [sending, setSending] = useState(false);
   const [status, setStatus] = useState('');
@@ -47,12 +35,12 @@ const Contact = () => {
     const next = validateLead(payload);
     setErrors(next);
     if (next.name || next.email || next.whatsapp || next.message) {
-      setStatus('Revisa los campos marcados.');
+      setStatus(t.contact.form.checkFields);
       return;
     }
 
     setSending(true);
-    setStatus('Enviando.');
+    setStatus(t.contact.form.sendingStatus);
 
     try {
       const res = await fetch('/api/leads', {
@@ -61,10 +49,10 @@ const Contact = () => {
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error('request_failed');
-      setStatus('Listo. Te respondemos en menos de 24 horas hábiles.');
+      setStatus(t.contact.form.ok);
       formEl.reset();
     } catch {
-      setStatus(`No pudimos enviarlo. Escríbenos directo a ${CONTACT_EMAIL} o por WhatsApp.`);
+      setStatus(t.contact.form.fail.replace('{email}', CONTACT_EMAIL));
     } finally {
       setSending(false);
     }
@@ -76,12 +64,10 @@ const Contact = () => {
         <div className="ct">
           <div className="rv">
             <h2 className="dsp dsp--md" data-split>
-              Cuéntanos qué estás <span className="hand">resolviendo a mano.</span>
+              {t.contact.title.pre}
+              <span className="hand">{t.contact.title.hand}</span>
             </h2>
-            <p className="lead ct__lead">
-              Respondemos en menos de 24 horas hábiles. Hablas directo con quien va a construir tu
-              sistema, no con un vendedor.
-            </p>
+            <p className="lead ct__lead">{t.contact.lead}</p>
 
             <div className="ct__direct">
               <a href={`mailto:${CONTACT_EMAIL}`}>
@@ -94,14 +80,14 @@ const Contact = () => {
               </a>
               <span className="ct__place">
                 <MapPin size={18} />
-                Medellín, Colombia
+                {t.contact.place}
               </span>
             </div>
 
             <div className="ct__next">
-              <h3>Qué pasa después</h3>
+              <h3>{t.contact.nextTitle}</h3>
               <ol>
-                {NEXT_STEPS.map((step) => (
+                {t.contact.nextSteps.map((step) => (
                   <li key={step}>{step}</li>
                 ))}
               </ol>
@@ -115,29 +101,29 @@ const Contact = () => {
             style={{ '--d': '100ms' } as React.CSSProperties}
           >
             <div className={`field ${errors.name ? 'has-err' : ''}`}>
-              <label htmlFor="i-name">Nombre</label>
-              <input id="i-name" name="name" type="text" autoComplete="name" placeholder="Cómo te llamas" />
-              <span className="err">Necesitamos un nombre para responderte.</span>
+              <label htmlFor="i-name">{t.contact.form.name}</label>
+              <input id="i-name" name="name" type="text" autoComplete="name" placeholder={t.contact.form.namePlaceholder} />
+              <span className="err">{t.contact.form.nameError}</span>
             </div>
 
             <div className={`field ${errors.email ? 'has-err' : ''}`}>
-              <label htmlFor="i-email">Email</label>
-              <input id="i-email" name="email" type="email" autoComplete="email" placeholder="correo@empresa.com" />
-              <span className="err">Déjanos un email válido para contactarte.</span>
+              <label htmlFor="i-email">{t.contact.form.email}</label>
+              <input id="i-email" name="email" type="email" autoComplete="email" placeholder={t.contact.form.emailPlaceholder} />
+              <span className="err">{t.contact.form.emailError}</span>
             </div>
 
             <div className={`field ${errors.whatsapp ? 'has-err' : ''}`}>
-              <label htmlFor="i-whatsapp">WhatsApp (opcional)</label>
-              <span className="help">Si preferís que te escribamos por ahí.</span>
+              <label htmlFor="i-whatsapp">{t.contact.form.whatsapp}</label>
+              <span className="help">{t.contact.form.whatsappHelp}</span>
               <input id="i-whatsapp" name="whatsapp" type="text" autoComplete="tel" placeholder="300 000 0000" />
-              <span className="err">Ese número no parece válido.</span>
+              <span className="err">{t.contact.form.whatsappError}</span>
             </div>
 
             <div className="field">
-              <label htmlFor="i-topic">Qué necesitas</label>
+              <label htmlFor="i-topic">{t.contact.form.topic}</label>
               <div className="sel">
                 <select id="i-topic" name="topic">
-                  {TOPICS.map((topic) => (
+                  {t.contact.topics.map((topic) => (
                     <option key={topic}>{topic}</option>
                   ))}
                 </select>
@@ -146,18 +132,18 @@ const Contact = () => {
             </div>
 
             <div className={`field ${errors.message ? 'has-err' : ''}`}>
-              <label htmlFor="i-msg">Cuéntanos un poco</label>
-              <span className="help">Qué se hace hoy a mano en tu empresa.</span>
+              <label htmlFor="i-msg">{t.contact.form.message}</label>
+              <span className="help">{t.contact.form.messageHelp}</span>
               <textarea
                 id="i-msg"
                 name="message"
-                placeholder="Por ejemplo: cada semana alguien copia los pedidos del WhatsApp a un Excel."
+                placeholder={t.contact.form.messagePlaceholder}
               />
-              <span className="err">Cuéntanos al menos un par de líneas.</span>
+              <span className="err">{t.contact.form.messageError}</span>
             </div>
 
             <button type="submit" className="btn btn--solid btn--lg form__submit" disabled={sending}>
-              {sending ? 'Enviando' : 'Enviar'}
+              {sending ? t.contact.form.sending : t.contact.form.submit}
               {!sending && <ArrowRight size={17} />}
             </button>
             <p className="form__status" role="status">

@@ -1,14 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { List, X } from '@phosphor-icons/react';
 import Logo from './Logo';
+import LangSwitch from './LangSwitch';
+import { useT } from '../i18n';
 import './Navbar.css';
-
-const LINKS = [
-  { href: '#productos', label: 'Productos' },
-  { href: '#enfoque', label: 'Enfoque' },
-  { href: '#servicios', label: 'Servicios' },
-  { href: '#trabajo', label: 'Trabajo' },
-];
 
 /**
  * Barra superior. Al despegarse del tope se condensa en una capsula
@@ -19,6 +14,7 @@ const LINKS = [
  * no con un listener de scroll.
  */
 const Navbar = () => {
+  const t = useT();
   const [stuck, setStuck] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const sentinel = useRef<HTMLDivElement>(null);
@@ -57,26 +53,28 @@ const Navbar = () => {
 
       <nav className={`nav ${stuck ? 'is-stuck' : ''}`}>
         <div className="nav__in">
-          <a href="#top" className="nav__brand" aria-label="HEBA, inicio">
+          <a href="#top" className="nav__brand" aria-label={t.nav.home}>
             <Logo />
           </a>
 
           <div className="nav__links">
-            {LINKS.map((link) => (
+            {t.nav.links.map((link) => (
               <a key={link.href} href={link.href}>
                 {link.label}
               </a>
             ))}
           </div>
 
+          <LangSwitch className="nav__lang" />
+
           <a href="#contacto" className="btn btn--solid btn--sm nav__cta">
-            Hablemos
+            {t.nav.cta}
           </a>
 
           <button
             className="nav__burger"
             onClick={() => setMenuOpen(true)}
-            aria-label="Abrir menú"
+            aria-label={t.nav.openMenu}
             aria-expanded={menuOpen}
           >
             <List size={20} />
@@ -85,17 +83,18 @@ const Navbar = () => {
       </nav>
 
       <div className={`menu ${menuOpen ? 'is-open' : ''}`}>
-        <button className="menu__close" onClick={() => setMenuOpen(false)} aria-label="Cerrar menú">
+        <button className="menu__close" onClick={() => setMenuOpen(false)} aria-label={t.nav.closeMenu}>
           <X size={20} />
         </button>
-        {LINKS.map((link) => (
+        {t.nav.links.map((link) => (
           <a key={link.href} href={link.href} onClick={() => setMenuOpen(false)}>
             {link.label}
           </a>
         ))}
         <a href="#contacto" className="sage" onClick={() => setMenuOpen(false)}>
-          Hablemos
+          {t.nav.cta}
         </a>
+        <LangSwitch className="lang--menu" />
       </div>
     </>
   );

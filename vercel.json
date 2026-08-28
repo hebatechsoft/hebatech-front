@@ -1,11 +1,40 @@
 {
   "redirects": [
-    { "source": "/nosotros", "destination": "/#enfoque", "permanent": true },
-    { "source": "/servicios", "destination": "/#servicios", "permanent": true },
-    { "source": "/contacto", "destination": "/#contacto", "permanent": true },
-    { "source": "/faq", "destination": "/#contacto", "permanent": true }
+    {
+      "source": "/nosotros",
+      "destination": "/#enfoque",
+      "permanent": true
+    },
+    {
+      "source": "/servicios",
+      "destination": "/#servicios",
+      "permanent": true
+    },
+    {
+      "source": "/contacto",
+      "destination": "/#contacto",
+      "permanent": true
+    },
+    {
+      "source": "/faq",
+      "destination": "/#contacto",
+      "permanent": true
+    }
   ],
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }],
+  "rewrites": [
+    {
+      "source": "/en",
+      "destination": "/en/index.html"
+    },
+    {
+      "source": "/en/(.*)",
+      "destination": "/en/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ],
   "crons": [
     {
       "path": "/api/keepalive",

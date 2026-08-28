@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Logo from './Logo';
+import { useT } from '../i18n';
 import './Loader.css';
 
 /** Tope duro: la intro nunca bloquea mas que esto, cargue lo que cargue. */
@@ -28,6 +29,7 @@ const Loader = () => {
     }
   };
 
+  const t = useT();
   const [pct, setPct] = useState(0);
   const [done, setDone] = useState(false);
   const [gone, setGone] = useState(() => window.matchMedia(REDUCED_MOTION).matches || alreadySeen());
@@ -93,7 +95,7 @@ const Loader = () => {
             <b style={{ transform: `scaleX(${pct / 100})` }} />
           </div>
           <div className="ldr__row">
-            <span>Estudio de software</span>
+            <span>{t.loader.label}</span>
             <span className="ldr__pct">{String(pct).padStart(2, '0')}</span>
           </div>
         </div>

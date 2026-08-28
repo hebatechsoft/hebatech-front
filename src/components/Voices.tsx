@@ -1,3 +1,4 @@
+import { useT } from '../i18n';
 import './Voices.css';
 
 /**
@@ -10,25 +11,16 @@ import './Voices.css';
  * Cuando existan clientes que autoricen citarlos con nombre, esta seccion
  * se reemplaza por testimonios reales.
  */
-const PHRASES = [
-  'Tengo el inventario en tres Excel y ninguno coincide.',
-  'Los pedidos entran por WhatsApp y alguno siempre se pierde.',
-  'Cierro el mes con una semana de atraso. Todos los meses.',
-  'Si falta la persona que lleva la caja, nadie sabe dónde quedó nada.',
-  'Para saber cuánto stock hay tengo que preguntarle a alguien.',
-];
-
-const Voices = () => (
+const Voices = () => {
+  const t = useT();
+  return (
   <section className="voices">
     <div className="wrap">
       <div className="voices__head rv">
         <h2 className="dsp dsp--md" data-split>
-          Así arranca casi toda primera reunión.
+          {t.voices.title}
         </h2>
-        <p className="voices__note">
-          No son testimonios. Son las frases que más escuchamos cuando alguien nos cuenta cómo
-          trabaja hoy.
-        </p>
+        <p className="voices__note">{t.voices.note}</p>
       </div>
 
       {/* Rejilla y no marquesina: leer exige quietud. Texto que se desplaza
@@ -36,7 +28,7 @@ const Voices = () => (
           El movimiento vive en la entrada escalonada, que ordena la lectura
           en vez de estorbarla. */}
       <div className="voices__grid">
-        {PHRASES.map((phrase, i) => (
+        {t.voices.phrases.map((phrase, i) => (
           <figure
             key={phrase}
             className="voice vib rv"
@@ -47,7 +39,8 @@ const Voices = () => (
         ))}
       </div>
     </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default Voices;

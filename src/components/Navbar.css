@@ -163,3 +163,14 @@
   border: 1px solid var(--line-2);
   border-radius: var(--pill);
 }
+
+/* El selector de idioma se oculta junto con los enlaces al pasar a movil:
+   ahi vive dentro del menu desplegable, con mas area de toque. */
+.nav__lang {
+  margin-left: 4px;
+}
+@media (max-width: 1000px) {
+  .nav__lang {
+    display: none;
+  }
+}

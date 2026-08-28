@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useT } from '../i18n';
 import './Services.css';
 
 /**
@@ -7,26 +8,8 @@ import './Services.css';
  * real). Reusan las mismas fotos que ya estan en `/public` — la del hero, la
  * del proceso en Enfoque y una captura real de Rave.
  */
-const SERVICES = [
-  {
-    title: 'Desarrollo a medida',
-    body: 'Nos sentamos con quien hace el trabajo hoy, no con quien lo aprueba desde arriba. Ahí sale el alcance, no de una plantilla.',
-    note: 'Inventarios, trazabilidad, gestión comercial, integraciones con lo que ya usas.',
-    peek: '/hero.webp',
-  },
-  {
-    title: 'IA aplicada',
-    body: 'Inteligencia artificial donde resuelve algo concreto: clasificar documentos, responder consultas repetidas, extraer datos de facturas.',
-    note: 'No hacemos IA para poder decir que hacemos IA.',
-    peek: '/enfoque.webp',
-  },
-  {
-    title: 'Automatización',
-    body: 'Esa tarea que alguien de tu equipo repite todos los martes durante tres horas. La identificamos, la medimos y la convertimos en un flujo automático.',
-    note: 'Empezamos por la que más tiempo te come.',
-    peek: '/rave.webp',
-  },
-];
+/** Solo las imagenes: el texto vive en el diccionario de idioma. */
+const PEEKS = ['/hero.webp', '/rave.webp', '/enfoque.webp'];
 
 const FINE_POINTER = '(hover: hover) and (min-width: 901px)';
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
@@ -42,6 +25,7 @@ const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
  * frame vuelve a renderizar el arbol entero y colapsa.
  */
 const Services = () => {
+  const t = useT();
   const listRef = useRef<HTMLDivElement>(null);
   const peekRef = useRef<HTMLDivElement>(null);
 
@@ -112,17 +96,17 @@ const Services = () => {
         <div className="wrap">
           <div className="rv">
             <h2 className="dsp dsp--md svc__title" data-split>
-              Cuando ningún producto resuelve lo tuyo.
+              {t.services.title}
             </h2>
-            <p className="lead svc__lead">Tres formas de trabajar juntos. No hay una cuarta.</p>
+            <p className="lead svc__lead">{t.services.lead}</p>
           </div>
 
           <div className="svc" ref={listRef}>
-            {SERVICES.map((service, i) => (
+            {t.services.items.map((service, i) => (
               <div
                 key={service.title}
                 className="svc__item rv"
-                data-peek={service.peek}
+                data-peek={PEEKS[i]}
                 style={{ '--d': `${i * 90}ms` } as React.CSSProperties}
               >
                 <div className="svc__n">{String(i + 1).padStart(2, '0')}</div>
