@@ -134,11 +134,11 @@ export const es = {
   work: {
     eyebrow: 'Trabajo',
     title: 'De cuatro días a minutos.',
-    caseTag: 'Medellín · Enero 2026',
+    caseTag: 'Colombia · Enero 2026',
     before: '4 días',
     after: 'Minutos',
     caption: 'Cierre de mes, antes y después.',
-    lead: 'Acabados y Estilos en Madera, de Medellín, llevaba ventas, inventario, clientes y pagos pendientes a mano, todo en Excel. Les construimos un sistema a medida para manejarlo desde un solo lugar, entregado en el tiempo estimado. Se implementó en enero de 2026: el cierre de mes que antes tomaba casi cuatro días ahora se hace en minutos, todo a un clic.',
+    lead: 'Acabados y Estilos en Madera llevaba ventas, inventario, clientes y pagos pendientes a mano, todo en Excel. Les construimos un sistema a medida para manejarlo desde un solo lugar, entregado en el tiempo estimado. Se implementó en enero de 2026: el cierre de mes que antes tomaba casi cuatro días ahora se hace en minutos, todo a un clic.',
     tag: 'Caso real, publicado con permiso del cliente',
   },
 
@@ -148,7 +148,7 @@ export const es = {
       hand: 'resolviendo a mano.',
     } as Split,
     lead: 'Respondemos en menos de 24 horas hábiles. Hablas directo con quien va a construir tu sistema, no con un vendedor.',
-    place: 'Medellín, Colombia',
+    place: 'Colombia',
     nextTitle: 'Qué pasa después',
     nextSteps: [
       'Te respondemos en menos de 24 horas hábiles. Siempre una persona, nunca un formulario automático.',
@@ -200,7 +200,7 @@ export const es = {
       services: 'Servicios',
       work: 'Trabajo',
     },
-    rights: 'HEBA Studio, antes HebaTech. Medellín, Colombia.',
+    rights: 'HEBA Studio, antes HebaTech. Colombia.',
   },
 
   loader: {

@@ -131,11 +131,11 @@ export const en: Dictionary = {
   work: {
     eyebrow: 'Work',
     title: 'From four days to minutes.',
-    caseTag: 'Medellín · January 2026',
+    caseTag: 'Colombia · January 2026',
     before: '4 days',
     after: 'Minutes',
     caption: 'Month-end close, before and after.',
-    lead: 'Acabados y Estilos en Madera, in Medellín, was tracking sales, inventory, clients and outstanding payments by hand, all in Excel. We built them a custom system to run it from one place, delivered on the estimated timeline. It went live in January 2026: the month-end close that used to take almost four days now takes minutes, all in one click.',
+    lead: 'Acabados y Estilos en Madera was tracking sales, inventory, clients and outstanding payments by hand, all in Excel. We built them a custom system to run it from one place, delivered on the estimated timeline. It went live in January 2026: the month-end close that used to take almost four days now takes minutes, all in one click.',
     tag: 'Real case, published with the client’s permission',
   },
 
@@ -145,7 +145,7 @@ export const en: Dictionary = {
       hand: 'still doing by hand.',
     } as Split,
     lead: 'We answer within one business day. You talk straight to whoever is going to build your system, not to a salesperson.',
-    place: 'Medellín, Colombia',
+    place: 'Colombia',
     nextTitle: 'What happens next',
     nextSteps: [
       'We answer within one business day. Always a person, never an autoresponder.',
@@ -196,7 +196,7 @@ export const en: Dictionary = {
       services: 'Services',
       work: 'Work',
     },
-    rights: 'HEBA Studio, formerly HebaTech. Medellín, Colombia.',
+    rights: 'HEBA Studio, formerly HebaTech. Colombia.',
   },
 
   loader: {
