@@ -1,13 +1,14 @@
 import { FacebookLogo, InstagramLogo, WhatsappLogo } from '@phosphor-icons/react';
 import Logo from './Logo';
 import { CONTACT_EMAIL, WHATSAPP_DISPLAY, whatsappLink } from '../constants';
+import { onContactClick } from '../lib/pixel';
 import { useT } from '../i18n';
 import './Footer.css';
 
 const SOCIAL = [
   { href: 'https://www.instagram.com/hebatechsoft', label: 'Instagram', Icon: InstagramLogo },
   { href: 'https://www.facebook.com/profile.php?id=61587193170655', label: 'Facebook', Icon: FacebookLogo },
-  { href: whatsappLink(), label: 'WhatsApp', Icon: WhatsappLogo },
+  { href: whatsappLink(), label: 'WhatsApp', Icon: WhatsappLogo, contact: 'whatsapp' as const },
 ];
 
 /**
@@ -41,8 +42,8 @@ const Footer = () => {
     {
       title: t.footer.columns.contact,
       links: [
-        { href: `mailto:${CONTACT_EMAIL}`, label: CONTACT_EMAIL },
-        { href: whatsappLink(), label: WHATSAPP_DISPLAY, external: true },
+        { href: `mailto:${CONTACT_EMAIL}`, label: CONTACT_EMAIL, contact: 'email' as const },
+        { href: whatsappLink(), label: WHATSAPP_DISPLAY, external: true, contact: 'whatsapp' as const },
       ],
     },
   ];
@@ -75,6 +76,7 @@ const Footer = () => {
                 {...('external' in link && link.external
                   ? { target: '_blank', rel: 'noopener noreferrer' }
                   : {})}
+                onClick={'contact' in link ? onContactClick(link.contact) : undefined}
               >
                 {link.label}
               </a>
@@ -87,7 +89,13 @@ const Footer = () => {
         <div>© {new Date().getFullYear()} {t.footer.rights}</div>
         <div className="ft__social">
           {SOCIAL.map((social) => (
-            <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer">
+            <a
+              key={social.label}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={onContactClick(social.contact)}
+            >
               <social.Icon size={20} weight="fill" />
               {social.label}
             </a>

@@ -22,6 +22,35 @@ Para probar el formulario completo en local (no solo el front) hace falta
 `vercel dev` en vez de `npm run dev` — `npm run dev` sirve el sitio pero no
 levanta las funciones de `/api`.
 
+## Meta Pixel
+
+El pixel vive en `src/lib/pixel.ts` y arranca desde `src/main.tsx`. No esta
+inline en `index.html` a proposito: el snapshot de `scripts/prerender.mjs`
+corre un Chromium real en cada build, asi que el snippet en el HTML mandaria
+un PageView falso por deploy y ademas dejaria a `networkidle0` esperando a
+connect.facebook.net. Lo unico que quedo en el HTML es el `<noscript>`, que
+solo pide un navegador sin JS.
+
+Por la misma razon solo reporta desde los dominios de produccion listados en
+`TRACKED_HOSTS` (`hebatech.cloud` y `www.hebatech.cloud`): en `npm run dev` y
+en los preview deploys de Vercel el pixel no carga y `track()` es un no-op.
+**Si cambia el dominio hay que actualizar esa lista o la medicion se apaga en
+silencio.**
+
+Eventos que se envian:
+
+| Evento | Cuando |
+| --- | --- |
+| `PageView` | Al cargar cualquiera de las dos versiones del sitio (`/` y `/en`). |
+| `Lead` | Cuando `/api/leads` confirma el envio del formulario. Incluye `content_name` con el tema elegido. |
+| `Contact` | Click en WhatsApp o en el correo (boton flotante, seccion de contacto y footer). Incluye `method`. |
+
+Variable de entorno opcional:
+
+| Variable | De donde sale |
+| --- | --- |
+| `VITE_META_PIXEL_ID` | Meta Events Manager > Origenes de datos. Solo hace falta para usar otro pixel: sin ella se usa el ID de produccion que ya trae el codigo. Ojo, el `<noscript>` de `index.html` tiene el ID escrito a mano. |
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
