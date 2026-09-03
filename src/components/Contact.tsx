@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { ArrowRight, CaretDown, EnvelopeSimple, MapPin, WhatsappLogo } from '@phosphor-icons/react';
 import { CONTACT_EMAIL, WHATSAPP_DISPLAY, whatsappLink } from '../constants';
 import { validateLead, type LeadPayload } from '../lib/leadValidation';
+import { track, trackContact } from '../lib/pixel';
 import { useT } from '../i18n';
 import './Contact.css';
 
@@ -49,6 +50,10 @@ const Contact = () => {
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error('request_failed');
+      // El Lead se reporta solo cuando el backend confirmo el envio: un fallo
+      // no es un lead, y contarlo desalinearia el pixel con los correos que
+      // realmente llegan.
+      track('Lead', { content_name: payload.topic });
       setStatus(t.contact.form.ok);
       formEl.reset();
     } catch {
@@ -70,11 +75,16 @@ const Contact = () => {
             <p className="lead ct__lead">{t.contact.lead}</p>
 
             <div className="ct__direct">
-              <a href={`mailto:${CONTACT_EMAIL}`}>
+              <a href={`mailto:${CONTACT_EMAIL}`} onClick={() => trackContact('email')}>
                 <EnvelopeSimple size={18} />
                 {CONTACT_EMAIL}
               </a>
-              <a href={whatsappLink()} target="_blank" rel="noopener noreferrer">
+              <a
+                href={whatsappLink()}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackContact('whatsapp')}
+              >
                 <WhatsappLogo size={18} />
                 {WHATSAPP_DISPLAY}
               </a>
