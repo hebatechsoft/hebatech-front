@@ -137,6 +137,24 @@ export const en: Dictionary = {
     caption: 'Month-end close, before and after.',
     lead: 'Acabados y Estilos en Madera was tracking sales, inventory, clients and outstanding payments by hand, all in Excel. We built them a custom system to run it from one place, delivered on the estimated timeline. It went live in January 2026: the month-end close that used to take almost four days now takes minutes, all in one click.',
     tag: 'Real case, published with the client’s permission',
+    sites: {
+      title: 'Sites already taking orders and quote requests.',
+      lead: 'We also design and ship websites. Each one built around its own brand, so whoever lands on it ends up getting in touch, not just browsing.',
+      state: 'Live',
+      cta: 'Visit site',
+      acabados: {
+        blurb:
+          'Same client as the case above: after the internal system, their storefront online. One site for both sides of the brand, custom design and fabrication, and a hardware store to buy from directly.',
+        specs: ['Portfolio by category', 'Hardware store with cart', 'Online quote requests', 'Workshop visit booking'],
+        alt: 'Home page of the Acabados y Estilos en Madera website',
+      },
+      goldenHair: {
+        blurb:
+          'Store for a hair mask made in Colombia. Everything on one page: benefits, a step-by-step routine, FAQ and bundle pricing, with every order confirmed over WhatsApp.',
+        specs: ['Cart and bundles', 'Step-by-step routine', 'FAQ', 'Orders over WhatsApp'],
+        alt: 'Home page of the Golden Hair website, with the hair mask jar',
+      },
+    },
   },
 
   contact: {

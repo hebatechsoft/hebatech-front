@@ -116,7 +116,8 @@
   flex-direction: column;
   flex: 1;
 }
-.prod h3 {
+.prod h3,
+.prod h4 {
   font-size: clamp(26px, 2.6vw, 36px);
   font-weight: 500;
   letter-spacing: -0.045em;

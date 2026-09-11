@@ -140,6 +140,24 @@ export const es = {
     caption: 'Cierre de mes, antes y después.',
     lead: 'Acabados y Estilos en Madera llevaba ventas, inventario, clientes y pagos pendientes a mano, todo en Excel. Les construimos un sistema a medida para manejarlo desde un solo lugar, entregado en el tiempo estimado. Se implementó en enero de 2026: el cierre de mes que antes tomaba casi cuatro días ahora se hace en minutos, todo a un clic.',
     tag: 'Caso real, publicado con permiso del cliente',
+    sites: {
+      title: 'Sitios que ya reciben pedidos y cotizaciones.',
+      lead: 'También diseñamos y publicamos sitios web. Cada uno con la identidad de su marca y pensado para que quien entra termine escribiendo, no solo mirando.',
+      state: 'En línea',
+      cta: 'Ver sitio',
+      acabados: {
+        blurb:
+          'El mismo cliente del caso de arriba: después del sistema interno, su vitrina en internet. Un solo sitio para los dos negocios de la marca, diseño y fabricación a medida y una ferretería para comprar directo.',
+        specs: ['Portafolio por categoría', 'Ferretería con carrito', 'Cotización en línea', 'Agenda de visitas'],
+        alt: 'Inicio del sitio de Acabados y Estilos en Madera',
+      },
+      goldenHair: {
+        blurb:
+          'Tienda de una mascarilla capilar hecha en Colombia. Todo en una página: beneficios, modo de uso paso a paso, preguntas frecuentes y combos por cantidad, con cada pedido confirmado por WhatsApp.',
+        specs: ['Carrito y combos', 'Modo de uso paso a paso', 'Preguntas frecuentes', 'Pedidos por WhatsApp'],
+        alt: 'Inicio del sitio de Golden Hair, con el frasco de mascarilla capilar',
+      },
+    },
   },
 
   contact: {

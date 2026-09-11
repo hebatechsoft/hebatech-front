@@ -1,5 +1,8 @@
 .work {
   border-top: 1px solid var(--line);
+  /* La seccion es .sec y .wrap a la vez: el `padding: 128px 0` de .sec pisa
+     el margen lateral de .wrap y el contenido quedaba pegado al borde. */
+  padding-inline: var(--gut);
 }
 
 .work__in {
@@ -83,4 +86,54 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--sage);
+}
+
+/* Sitios publicados. Dos tarjetas iguales: a diferencia de Productos, aca
+   ningun trabajo pesa mas que otro. */
+.work__sites-head {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 64px;
+  align-items: end;
+  margin-top: 112px;
+  padding-top: 56px;
+  border-top: 1px solid var(--line);
+}
+@media (max-width: 1000px) {
+  .work__sites-head {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 72px;
+    padding-top: 40px;
+  }
+}
+.work__sites-title {
+  font-size: clamp(24px, 2.4vw, 32px);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  max-width: 20ch;
+}
+
+.work__sites {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 48px;
+}
+@media (max-width: 1040px) {
+  .work__sites {
+    grid-template-columns: 1fr;
+  }
+}
+
+.work__site-host {
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--bone-3);
+}
+.work__sites .prod__blurb {
+  margin-top: 16px;
 }
